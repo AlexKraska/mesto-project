@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Alexander Kraskovskii">
+    <title>Mesto</title>
+    <link rel="stylesheet" href="./pages/index.css">
+</head>
+
+<body class="body">
+    <header class="header">
+        <img class="header__logo" src="./images/logo.svg" alt="logo mesto">
+        <hr class="header__line">
+    </header>
+    <main class="page">
+        <div class="profile">
+            <img class="profile__image" src="./images/Zhak.svg" alt="Zhak-Iv-Kusto">
+            <div class="profile__block">
+                <div class="profile__info">
+                    <div class="profile__info-up">
+                        <h1 class="profile__title">Жак-Ив-Кусто</h1>
+                        <img class="profile__button" src="./images/Edit-Button.svg" alt="кнопка">
+                    </div>
+                    <h2 class="profile__subtitle">Исследователь океана</h2>
+                </div>
+                <img class="profile__button-plus" 
+                    srcset="./images/min-w-button.png 512w,
+                            ./images/max-w-button.png 512w" 
+                    sizes="(max-width: 700px) 282px,
+                        (min-width: 701px) 150px"
+                src="./images/min-w-button.png"
+                alt="кнопка">
+            </div>
+        </div>
+        <div class="elements">
+            <article class="elements__element">
+                <div class="elements__texts">
+                    <h2 class="elements__text">Карачаевск</h2>
+                    <button class="elements__heart" type="button" aria-label="Лайк"></button>
+                </div>
+            </article>
+            <article class="elements__element">                
+                <div class="elements__texts">
+                    <h2 class="elements__text">Гора Эльбрус</h2>
+                    <button class="elements__heart elements__heart_active" type="button" aria-label="Лайк"></button>
+                </div>
+            </article>
+            <article class="elements__element">               
+                <div class="elements__texts">
+                    <h2 class="elements__text">Домбай</h2>
+                    <button class="elements__heart" type="button" aria-label="Лайк"></button>
+                </div>
+            </article>
+            <article class="elements__element">               
+                <div class="elements__texts">
+                    <h2 class="elements__text">Гора Эльбрус</h2>
+                    <button class="elements__heart elements__heart_active" type="button" aria-label="Лайк"></button>
+                </div>
+            </article>
+            <article class="elements__element">                
+                <div class="elements__texts">
+                    <h2 class="elements__text">Домбай</h2>
+                    <button class="elements__heart" type="button" aria-label="Лайк"></button>
+                </div>
+            </article>
+            <article class="elements__element">               
+                <div class="elements__texts">
+                    <h2 class="elements__text">Карачаево-Черкессия</h2>
+                    <button class="elements__heart elements__heart_active" type="button" aria-label="Лайк"></button>
+                </div>
+            </article>
+        </div>
+        <footer class="footer">
+            <span class="footer__author">&copy; 2020 Mesto Russia</span>
+        </footer>
+        <section class="popup">
+            <form class="popup__container popup_opened">
+                <a><svg class="popup__krestik" viewBox="0 0 32 32" fill="black"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M32 28.8L19.2 16L32 3.2L28.8 0L16 12.8L3.2 0L0 3.2L12.8 16L0 28.8L3.2 32L16 19.2L28.8 32L32 28.8Z"
+                            fill="white" />
+                    </svg>
+                </a>
+                <h2 class="popup__heading">Редактировать профиль</h2>
+                <fieldset class="popup__form">
+                    <input type="text" class="popup__text" placeholder="Жак-Ив Кусто" required>
+                    <input type="text" class="popup__text" placeholder="Исследователь океана" required>
+                    <button class="popup__button" href="#">
+                        <p class="popup__button-text">Сохранить</p>
+                    </button>
+                </fieldset>
+            </form>
+        </section>
+    </main>
+</body>
+
+</html>

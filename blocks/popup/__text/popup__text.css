@@ -1,0 +1,26 @@
+.popup__text {
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+    font-style: normal;
+    font-weight: 400;
+    margin: 54px 36px 0;
+    width: calc(100% - 36px * 2);
+    border: none;
+    border-bottom: 1px solid #000;
+    position: relative;
+    padding: 0 0 13px 0;
+    outline: none;
+}
+
+.popup__text:nth-of-type(2) {
+    margin-top: 30px;
+}
+
+@media screen and (max-width: 465px) {
+    .popup__text {
+        margin: 75px 22px 0;
+        width: 238px;
+    }
+}

@@ -1,0 +1,20 @@
+.profile__title {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 42px;
+    line-height: 1.14;
+    color: #FFFFFF;
+    margin: 0;
+}
+
+.profile__title:hover {
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 700px) {
+    .profile__title {
+        font-size: 27px;
+        line-height: 33px;
+    }
+}

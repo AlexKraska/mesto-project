@@ -1,0 +1,24 @@
+.popup__krestik {
+    position: absolute;
+    top: 155px;
+    left: 863px;
+    z-index: 1;
+    width: 32px;
+    height: 32px;
+}
+
+.popup__krestik:hover {
+    opacity: 0.7;
+    transition: all 0.5s ease;
+    transform: scale(110%);
+    cursor: pointer;
+}
+
+@media screen and (max-width: 320px){
+    .popup__krestik {
+        top: 87px;
+        left: 281px;
+        width: 20px;
+        height: 20px;
+    }
+}

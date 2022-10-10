@@ -1,0 +1,10 @@
+.elements__texts {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 307px 15px 31px 21px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}

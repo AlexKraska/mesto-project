@@ -1,0 +1,21 @@
+.header__logo {
+    padding-top: 45px;
+    padding-left: 15.625%;
+    width: 142px;
+    display: flex;
+}
+
+.header__logo:hover {
+    opacity: 0.6;
+    cursor: alias;
+    transition: all 0.5s ease;
+    transform: scale(110%);
+}
+
+@media screen and (max-width: 525px) {
+    .header__logo {
+        width: 103.74px;
+        height: 24.4px;
+        padding: 28px 0 0 27px;
+    }
+}
