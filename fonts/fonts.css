@@ -23,6 +23,6 @@
     font-weight: 500;
     font-display: swap;
     src: url("../fonts/Inter-fonts/Inter-Medium.woff2") format("woff2"),
-      url("../Fonts/Inter-fonts/Inter-Medium.woff") format("woff");
+      url("../fonts/Inter-fonts/Inter-Medium.woff") format("woff");
   }
 }

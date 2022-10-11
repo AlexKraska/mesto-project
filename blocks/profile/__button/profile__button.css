@@ -2,9 +2,8 @@
 
 .profile__button:hover {
     opacity: 0.6;
-    cursor: grab;
+    cursor: pointer;
     transition: all 0.5s ease;
-    transform: scale(110%);
 }
 
 @media screen and (max-width: 500px){

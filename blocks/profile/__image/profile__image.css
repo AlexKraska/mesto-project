@@ -6,23 +6,8 @@
     max-height: 120px;
 }
 
-.profile__image:hover {
-    opacity: 0.6;
-    cursor: alias;
-    animation: rotation 1s linear infinite;
-}
-
-@keyframes rotation {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-
 @media screen and (max-width: 700px) {
     .profile__image {
-        margin: 0 99px 0 101px;
+        margin: 0 auto;
     }
 }

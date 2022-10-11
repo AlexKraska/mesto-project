@@ -9,8 +9,3 @@
     white-space: nowrap;
     overflow: hidden;
 }
-
-.elements__text:hover {
-    cursor: pointer;
-    opacity: 0.7;
-}

@@ -2,10 +2,9 @@
     min-width: 320px;
     max-width: 1280px;
     width: 100%;
-    font-family: 'Inter', Arial, sans-serif;
-    background-color: #000000;
+    font-family: 'Inter', sans-serif;
     position: relative;
-    margin: 0;
+    margin: 0 auto;
     padding-top: 67px;
     padding-bottom: 60px;
 }

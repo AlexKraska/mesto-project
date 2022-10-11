@@ -5,13 +5,6 @@
     display: flex;
 }
 
-.header__logo:hover {
-    opacity: 0.6;
-    cursor: alias;
-    transition: all 0.5s ease;
-    transform: scale(110%);
-}
-
 @media screen and (max-width: 525px) {
     .header__logo {
         width: 103.74px;
