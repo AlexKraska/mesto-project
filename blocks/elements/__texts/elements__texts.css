@@ -3,8 +3,13 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin: 307px 15px 31px 21px;
+    margin: 0;
+    padding: 25px 21px 31px;
+    z-index: 100;
+    background-color: #fff;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    border-bottom-right-radius: 10%;
+    border-bottom-left-radius: 10%;
 }

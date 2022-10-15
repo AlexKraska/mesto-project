@@ -1,7 +1,7 @@
 .popup__cross {
     position: absolute;
-    top: 155px;
-    left: 863px;
+    top: -40px;
+    right: -40px;
     z-index: 1;
     width: 32px;
     height: 32px;
@@ -15,8 +15,8 @@
 
 @media screen and (max-width: 320px){
     .popup__cross {
-        top: 87px;
-        left: 281px;
+        top: -36px;
+        right: 0;
         width: 20px;
         height: 20px;
     }

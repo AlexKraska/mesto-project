@@ -6,7 +6,7 @@
     max-height: 120px;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 835px) {
     .profile__image {
         margin: 0 auto;
     }

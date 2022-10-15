@@ -4,7 +4,7 @@
     align-self: center;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 835px) {
     .profile__plus-s {
         width: 16px;
         height: 16px;

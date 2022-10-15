@@ -1,8 +1,8 @@
 .header__logo {
     padding-top: 45px;
-    padding-left: 15.625%;
     width: 142px;
     display: flex;
+    padding-bottom: 41px;
 }
 
 @media screen and (max-width: 525px) {
@@ -10,5 +10,6 @@
         width: 103.74px;
         height: 24.4px;
         padding: 28px 0 0 27px;
+        padding-bottom: 31.6px;
     }
 }

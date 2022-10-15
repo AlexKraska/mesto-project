@@ -3,9 +3,12 @@
     flex-direction: column;
     justify-content: center;
     gap: 16px;
+    text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
-@media screen and (max-width:700px) {
+@media screen and (max-width: 835px) {
     .profile__info {
         margin: 22.25px 0 0;
         gap: 14px;

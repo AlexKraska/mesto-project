@@ -5,4 +5,18 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    border-bottom: 1px solid #545454;
+    max-width: 880px;
+}
+
+@media screen and (max-width: 985px){
+    .header {
+        max-width: 90%;
+    }
+}
+
+@media screen and (max-width: 525px){
+    .header {
+        max-width: 100%;
+    }
 }

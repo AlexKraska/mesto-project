@@ -1,43 +1,8 @@
 .elements__element {
-    background-color: #fff;
-    border-radius: 10px;
+   background-color: #fff; 
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     width: 282px;
-    height: 361px;
-    margin: 0 auto;
-}
-
-.elements__element:nth-of-type(1) {
-    background-image: url(../../../images/elements/Dombai.jpg);
-    z-index: 100;
-    background-repeat: no-repeat;
-}
-
-.elements__element:nth-of-type(2) {
-    background-image: url(../../../images/elements/Elbrus.jpg);
-    z-index: 100;
-    background-repeat: no-repeat;
-}
-
-.elements__element:nth-of-type(3) {
-    background-image: url(../../../images/elements/karachaevsk.jpg);
-    z-index: 100;
-    background-repeat: no-repeat;
-}
-
-.elements__element:nth-of-type(4) {
-    background-image: url(../../../images/elements/Dombai.jpg);
-    z-index: 100;
-    background-repeat: no-repeat;
-}
-
-.elements__element:nth-of-type(5) {
-    background-image: url(../../../images/elements/Elbrus.jpg);
-    z-index: 100;
-    background-repeat: no-repeat;
-}
-
-.elements__element:nth-of-type(6) {
-    background-image: url(../../../images/elements/karachaevsk.jpg);
-    z-index: 100;
-    background-repeat: no-repeat;
+    height: 282px;
+    z-index: 101;
 }
