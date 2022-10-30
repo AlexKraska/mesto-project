@@ -1,5 +1,4 @@
 .elements__card {
     margin: 0 auto;
-    width: 282px;
-    height: 361px;
+    display: inline-grid;
 }

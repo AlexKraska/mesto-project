@@ -20,14 +20,8 @@
             <div class="profile__block">
                 <div class="profile__info">
                     <div class="profile__info-up">
-                        <h1 class="profile__title">Жак-Ив-Кусто</h1>
-                        <button class="profile__button" type="button"><svg width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect x="0.5" y="0.5" width="23" height="23" stroke="white" />
-                                <path
-                                    d="M17 8.32827L9.60377 15.7666L8.28302 14.4194L15.6604 7L17 8.32827ZM7 17L8.96226 16.4118L7.58491 15.0835L7 17Z"
-                                    fill="white" />
-                            </svg>
+                        <h1 class="profile__title">Жак-Ив Кусто</h1>
+                        <button class="profile__button" type="button">
                         </button>
                     </div>
                     <h2 class="profile__subtitle">Исследователь океана</h2>
@@ -40,47 +34,63 @@
         </section>
         <section class="elements">
 
-            <div class="elements__card">
-                <img src="./images/elements/Dombai.jpg" class="elements__element" alt="Домбай">
-                <div class="elements__texts">
-                    <h2 class="elements__text">Карачаевск</h2>
-                    <button class="elements__heart" type="button" aria-label="Лайк"></button>
+            <div class="elements__wrapper">
+                <div class="elements__card">
+                    <img src="./images/elements/Dombai.jpg" class="elements__element" alt="Домбай">
+                    <div class="elements__texts">
+                        <h2 class="elements__text">Карачаевск</h2>
+                        <button class="elements__heart" type="button" aria-label="Лайк"></button>
+                    </div>
                 </div>
             </div>
 
-            <div class="elements__card">
-                <img src="./images/elements/Elbrus.jpg" class="elements__element" alt="Эльбрус">
-                <div class="elements__texts">
-                    <h2 class="elements__text">Гора Эльбрус</h2>
-                    <button class="elements__heart elements__heart_active" type="button" aria-label="Лайк"></button>
+            <div class="elements__wrapper">
+                <div class="elements__card">
+                    <img src="./images/elements/Elbrus.jpg" class="elements__element" alt="Эльбрус">
+                    <div class="elements__texts">
+                        <h2 class="elements__text">Гора Эльбрус</h2>
+                        <button class="elements__heart elements__heart_active" type="button" aria-label="Лайк"></button>
+                    </div>
                 </div>
             </div>
-            <div class="elements__card">
-                <img src="./images/elements/Dombai.jpg" class="elements__element" alt="Домбай">
-                <div class="elements__texts">
-                    <h2 class="elements__text">Домбай</h2>
-                    <button class="elements__heart" type="button" aria-label="Лайк"></button>
+
+            <div class="elements__wrapper">
+                <div class="elements__card">
+                    <img src="./images/elements/Dombai.jpg" class="elements__element" alt="Домбай">
+                    <div class="elements__texts">
+                        <h2 class="elements__text">Домбай</h2>
+                        <button class="elements__heart" type="button" aria-label="Лайк"></button>
+                    </div>
                 </div>
             </div>
-            <div class="elements__card">
-                <img src="./images/elements/Elbrus.jpg" class="elements__element" alt="Эльбрус">
-                <div class="elements__texts">
-                    <h2 class="elements__text">Гора Эльбрус</h2>
-                    <button class="elements__heart elements__heart_active" type="button" aria-label="Лайк"></button>
+
+            <div class="elements__wrapper">
+                <div class="elements__card">
+                    <img src="./images/elements/Elbrus.jpg" class="elements__element" alt="Эльбрус">
+                    <div class="elements__texts">
+                        <h2 class="elements__text">Гора Эльбрус</h2>
+                        <button class="elements__heart elements__heart_active" type="button" aria-label="Лайк"></button>
+                    </div>
                 </div>
             </div>
-            <div class="elements__card">
-                <img src="./images/elements/Dombai.jpg" class="elements__element" alt="Домбай">
-                <div class="elements__texts">
-                    <h2 class="elements__text">Домбай</h2>
-                    <button class="elements__heart" type="button" aria-label="Лайк"></button>
+
+            <div class="elements__wrapper">
+                <div class="elements__card">
+                    <img src="./images/elements/Dombai.jpg" class="elements__element" alt="Домбай">
+                    <div class="elements__texts">
+                        <h2 class="elements__text">Домбай</h2>
+                        <button class="elements__heart" type="button" aria-label="Лайк"></button>
+                    </div>
                 </div>
             </div>
-            <div class="elements__card">
-                <img src="./images/elements/karachaevsk.jpg" class="elements__element" alt="Карачаево-Черкессия">
-                <div class="elements__texts">
-                    <h2 class="elements__text">Карачаево-Черкессия</h2>
-                    <button class="elements__heart elements__heart_active" type="button" aria-label="Лайк"></button>
+
+            <div class="elements__wrapper">
+                <div class="elements__card">
+                    <img src="./images/elements/karachaevsk.jpg" class="elements__element" alt="Карачаево-Черкессия">
+                    <div class="elements__texts">
+                        <h2 class="elements__text">Карачаево-Черкессия</h2>
+                        <button class="elements__heart elements__heart_active" type="button" aria-label="Лайк"></button>
+                    </div>
                 </div>
             </div>
 
@@ -89,22 +99,20 @@
     <footer class="footer">
         <span class="footer__author">&copy; 2020 Mesto Russia</span>
     </footer>
-    <section class="popup">
-        <form class="popup__container">
-            <svg class="popup__cross" viewBox="0 0 32 32" fill="black" xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M32 28.8L19.2 16L32 3.2L28.8 0L16 12.8L3.2 0L0 3.2L12.8 16L0 28.8L3.2 32L16 19.2L28.8 32L32 28.8Z"
-                    fill="white" />
-            </svg>
+    <section class="popup popup_opened">
+        <div class="popup__inside">
+            <button class="popup__cross" type="reset" id="closeButton"></button>
             <h2 class="popup__heading">Редактировать профиль</h2>
-            <fieldset class="popup__form">
-                <input type="text" class="popup__text" placeholder="Ваше имя" required>
-                <input type="text" class="popup__text" placeholder="Ваш род занятий" required>
-                <button class="popup__button" type="button">
-                    <span class="popup__buttontext">Сохранить</span>
-                </button>
-            </fieldset>
-        </form>
+            <form class="popup__container">
+                <fieldset class="popup__form">
+                    <input type="text" class="popup__text" placeholder="Ваше имя" required>
+                    <input type="text" class="popup__text" placeholder="Ваш род занятий" required>
+                    <button class="popup__button" type="submit" id="submitButton">
+                        <span class="popup__button-text">Сохранить</span>
+                    </button>
+                </fieldset>
+            </form>
+        </div>
     </section>
 </body>
 

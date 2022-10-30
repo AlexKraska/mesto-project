@@ -5,6 +5,9 @@
     z-index: 1;
     width: 32px;
     height: 32px;
+    border: none;
+    background: url(../../../images/krestik.svg);
+    padding: 0;
 }
 
 .popup__cross:hover {
@@ -13,10 +16,11 @@
     cursor: pointer;
 }
 
-@media screen and (max-width: 320px){
+@media screen and (max-width: 530px){
     .popup__cross {
         top: -36px;
         right: 0;
+        background: url(../../../images/krestik-small.svg);
         width: 20px;
         height: 20px;
     }

@@ -1,15 +1,13 @@
 .popup__text {
-    font-family: inherit;
     font-size: 14px;
-    line-height: 17px;
-    color: #000000;
+    color: #000;
     font-style: normal;
     font-weight: 400;
+    line-height: 100%;
     margin: 54px 36px 0;
     width: calc(100% - 36px * 2);
     border: none;
-    border-bottom: 1px solid #000000;
-    opacity: 0.2;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     position: relative;
     padding: 0 0 13px 0;
     outline: none;
@@ -22,7 +20,7 @@
     margin-top: 30px;
 }
 
-@media screen and (max-width: 465px) {
+@media screen and (max-width: 530px) {
     .popup__text {
         margin: 75px 22px 0;
         width: 238px;

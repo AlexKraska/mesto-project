@@ -1,4 +1,4 @@
-.popup__buttontext {
+.popup__button-text {
     font-family: inherit;
     margin: 0;
     padding: 0;
@@ -6,7 +6,7 @@
     color: #fff;
 }
 
-.popup__buttontext:hover {
+.popup__button-text:hover {
     opacity: 0.8;
     transition: linear 0.5s ease;
 }

@@ -2,7 +2,9 @@
     margin: 0;
     padding: 0;
     border: none;
-    background-color: transparent;
+    background: url(../../../images/Edit-Button.svg);
+    width: 24px;
+    height: 24px;
 }
 
 .profile__button:hover {
@@ -13,6 +15,7 @@
 
 @media screen and (max-width: 835px){
     .profile__button {
+        background: url(../../../images/Edit-Button-small.svg);
         width: 18px;
         height: 18px;
         margin-top: 6px;

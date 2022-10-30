@@ -10,6 +10,4 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    border-bottom-right-radius: 10%;
-    border-bottom-left-radius: 10%;
 }

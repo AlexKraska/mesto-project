@@ -1,0 +1,11 @@
+.popup__inside {
+    position: relative;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 1);
+}
+
+@media screen and (max-width: 530px) {
+    .popup__inside {
+        top: -27px;
+    }
+}
