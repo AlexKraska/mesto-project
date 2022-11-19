@@ -1,0 +1,17 @@
+.elements__bin {
+    width: 18px;
+    height: 19px;
+    background: url(../../../images/rubish-bin.svg);
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 0;
+    z-index: 102;
+    border: none;
+}
+
+.elements__bin:hover {
+    opacity: 0.6;
+    cursor: pointer;
+    transition: all 0.3s ease-in;
+}

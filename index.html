@@ -16,7 +16,7 @@
     </header>
     <main class="page">
         <section class="profile">
-            <img class="profile__image" src="./images/Zhak.svg" alt="Жак-Ив-Кусто">
+            <img class="profile__image" src="./images/Zhak.svg" alt="Жак-Ив Кусто">
             <div class="profile__block">
                 <div class="profile__info">
                     <div class="profile__info-up">
@@ -34,79 +34,34 @@
         </section>
         <section class="elements">
 
-            <div class="elements__wrapper">
-                <div class="elements__card">
-                    <img src="./images/elements/Dombai.jpg" class="elements__element" alt="Домбай">
-                    <div class="elements__texts">
-                        <h2 class="elements__text">Карачаевск</h2>
-                        <button class="elements__heart" type="button" aria-label="Лайк"></button>
+            <template id="cardShablon">
+                <div class="elements__wrapper">
+                    <div class="elements__card">
+                        <img src="" class="elements__element" alt="">
+                        <button class="elements__bin" type="button"></button>
+                        <div class="elements__texts">
+                            <h2 class="elements__text"></h2>
+                            <button class="elements__heart" type="button" aria-label="Лайк"></button>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="elements__wrapper">
-                <div class="elements__card">
-                    <img src="./images/elements/Elbrus.jpg" class="elements__element" alt="Эльбрус">
-                    <div class="elements__texts">
-                        <h2 class="elements__text">Гора Эльбрус</h2>
-                        <button class="elements__heart elements__heart_active" type="button" aria-label="Лайк"></button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="elements__wrapper">
-                <div class="elements__card">
-                    <img src="./images/elements/Dombai.jpg" class="elements__element" alt="Домбай">
-                    <div class="elements__texts">
-                        <h2 class="elements__text">Домбай</h2>
-                        <button class="elements__heart" type="button" aria-label="Лайк"></button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="elements__wrapper">
-                <div class="elements__card">
-                    <img src="./images/elements/Elbrus.jpg" class="elements__element" alt="Эльбрус">
-                    <div class="elements__texts">
-                        <h2 class="elements__text">Гора Эльбрус</h2>
-                        <button class="elements__heart elements__heart_active" type="button" aria-label="Лайк"></button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="elements__wrapper">
-                <div class="elements__card">
-                    <img src="./images/elements/Dombai.jpg" class="elements__element" alt="Домбай">
-                    <div class="elements__texts">
-                        <h2 class="elements__text">Домбай</h2>
-                        <button class="elements__heart" type="button" aria-label="Лайк"></button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="elements__wrapper">
-                <div class="elements__card">
-                    <img src="./images/elements/karachaevsk.jpg" class="elements__element" alt="Карачаево-Черкессия">
-                    <div class="elements__texts">
-                        <h2 class="elements__text">Карачаево-Черкессия</h2>
-                        <button class="elements__heart elements__heart_active" type="button" aria-label="Лайк"></button>
-                    </div>
-                </div>
-            </div>
-
+            </template>
         </section>
     </main>
+
     <footer class="footer">
         <span class="footer__author">&copy; 2020 Mesto Russia</span>
     </footer>
-    <section class="popup popup_opened">
+    <section class="popup">
         <div class="popup__inside">
-            <button class="popup__cross" type="button" id="closeButton"></button>
+            <button class="popup__cross" type="button"></button>
             <h2 class="popup__heading">Редактировать профиль</h2>
-            <form class="popup__container">
+            <form class="popup__container popup__form_type_edit">
                 <fieldset class="popup__form">
-                    <input type="text" class="popup__text" placeholder="Ваше имя" required>
-                    <input type="text" class="popup__text" placeholder="Ваш род занятий" required>
+                    <input type="text" class="popup__text popup__text_type_name" placeholder="Ваше имя"
+                        value="Жак-Ив Кусто" required>
+                    <input type="text" class="popup__text popup__text_type_job" placeholder="Ваш род занятий"
+                        value="Исследователь океана" required>
                     <button class="popup__button" type="submit" id="submitButton">
                         <span class="popup__button-text">Сохранить</span>
                     </button>
@@ -114,6 +69,37 @@
             </form>
         </div>
     </section>
+
+    <section class="popup" id="popup">
+        <div class="popup__inside">
+            <button class="popup__cross" type="button" id="closeButton"></button>
+            <h2 class="popup__heading">Новое место</h2>
+            <form class="popup__container popup__form_type_add">
+                <fieldset class="popup__form">
+                    <input type="text" class="popup__text popup__text_type_place" placeholder="Название" required>
+                    <input type="text" class="popup__text popup__text_type_link" placeholder="Ссылка на картинку"
+                        required>
+                    <button class="popup__button" type="submit" id="addButton">
+                        <span class="popup__button-text">Создать</span>
+                    </button>
+                </fieldset>
+            </form>
+        </div>
+    </section>
+
+    
+        <section class="overview">
+            <div class="overview__inside">
+                <button class="overview__cross" type="button" id="overviewCloseButton"></button>
+                <img src="" class="overview__image" alt="">
+                <h2 class="overview__heading"></h2>
+            </div>
+        </section>
+
+    <script src="./scripts/script.js"></script>
+    <script src="./scripts/massive.js"></script>
+    <script src="./scripts/openClosePopup.js"></script>
+
 </body>
 
 </html>

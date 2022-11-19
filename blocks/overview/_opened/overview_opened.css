@@ -1,4 +1,4 @@
-.popup_opened {
+.overview_opened {
     display: flex;
     flex-direction: column;
     visibility: visible;

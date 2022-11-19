@@ -1,0 +1,27 @@
+.overview__cross {
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    z-index: 1;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: url(../../../images/krestik.svg);
+    padding: 0;
+}
+
+.overview__cross:hover {
+    opacity: 0.6;
+    transition: all 0.5s ease;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 530px){
+    .overview__cross {
+        top: -36px;
+        right: 0;
+        background: url(../../../images/krestik-small.svg);
+        width: 20px;
+        height: 20px;
+    }
+}

@@ -28,6 +28,7 @@
 @import url(../blocks/elements/__texts/elements__texts.css);
 @import url(../blocks/elements/__card/elements__card.css);
 @import url(../blocks/elements/__wrapper/elements__wrapper.css);
+@import url(../blocks/elements/__bin/elements__bin.css);
 
 
 
@@ -46,3 +47,16 @@
 @import url(../blocks/popup/__button-text/popup__button-text.css);
 @import url(../blocks/popup/__cross/popup__cross.css);
 @import url(../blocks/popup/__inside/popup__inside.css);
+@import url(../blocks/popup/__form/popup__form_type_edit.css);
+@import url(../blocks/popup/__form/popup__form_type_add.css);
+@import url(../blocks/popup/__text/popup__text_type_name.css);
+@import url(../blocks/popup/__text/popup__text_type_job.css);
+@import url(../blocks/popup/__text/popup__text_type_link.css);
+@import url(../blocks/popup/__text/popup__text_type_place.css);
+
+@import url(../blocks/overview/overview.css);
+@import url(../blocks/overview/_opened/overview_opened.css);
+@import url(../blocks/overview/__inside/overview__inside.css);
+@import url(../blocks/overview/__heading/overview__heading.css);
+@import url(../blocks/overview/__cross/overview__cross.css);
+@import url(../blocks/overview/__image/overview__image.css);

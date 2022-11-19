@@ -1,0 +1,11 @@
+.overview__heading {
+    font-size: 12px;
+    line-height: 15px;
+    color: #fff;
+    font-style: normal;
+    font-weight: 400;
+    margin: 10px 0 0;
+    padding: 0;
+    position: absolute;
+    z-index: 10000;
+}

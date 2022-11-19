@@ -1,4 +1,5 @@
 .elements__card {
     margin: 0 auto;
     display: inline-grid;
+    position: relative;
 }
