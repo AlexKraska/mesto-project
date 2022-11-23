@@ -5,11 +5,11 @@ const popupAddCard = document.querySelector('.popup__add-card'); //попап д
 const popupImage = document.querySelector('.popup__image'); //popupImage (просмотра)
 const buttonCloseEditProfile = document.querySelector('.popup__cross'); //кнпока закрытия попапа редактирования
 const buttonCloseAddCard = document.querySelector('#closeButton'); //кнпока закрытия попапа добавления карточки
-const cardElements = document.querySelector('.elements'); //выбрали секцию с карточками
+const SectionCardElements = document.querySelector('.elements'); //выбрали секцию с карточками
 
-const formElement = document.querySelector('.popup__form_type_edit'); // форма редактирования профиля
-let nameInput = formElement.querySelector('.popup__text_type_name'); //поле формы
-let jobInput = formElement.querySelector('.popup__text_type_job');//еще одно
+const formEditElement = document.querySelector('.popup__form_type_edit'); // форма редактирования профиля
+let nameInput = formEditElement.querySelector('.popup__text_type_name'); //поле формы
+let jobInput = formEditElement.querySelector('.popup__text_type_job');//еще одно
 let profileTitle = document.querySelector('.profile__title'); //куда вставляем имя
 let profileSubtitle = document.querySelector('.profile__subtitle'); //куда вставляем профессию
 
@@ -44,7 +44,7 @@ function handleFormSubmit(evt) {
   profileSubtitle.textContent = jobInput.value;
   closePopup(popupEditProfile);
 };
-formElement.addEventListener('submit', handleFormSubmit); //обработчик формы
+formEditElement.addEventListener('submit', handleFormSubmit); //обработчик формы
 
 const initialCards = [ //изначальный массив с карточками
   {
@@ -87,7 +87,7 @@ function createCard(el) {
   let selectedPhotoText = cardToCreate.querySelector('.elements__text');
   selectedPhoto.src = el.link;
   selectedPhotoText.alt = el.alt;
-  selectedPhotoText.textContent = el.name
+  selectedPhotoText.textContent = el.name;
 
   selectedPhoto.addEventListener('click', function() {
     openPopup(popupImage);
@@ -113,7 +113,7 @@ function createCard(el) {
   heart.addEventListener('click', function () {
     likeToggle();
   });
-  cardElements.prepend(cardToCreate);
+  SectionCardElements.prepend(cardToCreate);
 };
 
 //загржуаем карточки на страницу 
