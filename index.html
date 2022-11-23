@@ -52,7 +52,7 @@
     <footer class="footer">
         <span class="footer__author">&copy; 2020 Mesto Russia</span>
     </footer>
-    <section class="popup">
+    <section class="popup popup__edit-profile">
         <div class="popup__inside">
             <button class="popup__cross" type="button"></button>
             <h2 class="popup__heading">Редактировать профиль</h2>
@@ -70,15 +70,16 @@
         </div>
     </section>
 
-    <section class="popup" id="popup">
+    <section class="popup popup__add-card" id="popup">
         <div class="popup__inside">
             <button class="popup__cross" type="button" id="closeButton"></button>
             <h2 class="popup__heading">Новое место</h2>
             <form class="popup__container popup__form_type_add">
                 <fieldset class="popup__form">
-                    <input type="text" class="popup__text popup__text_type_place" placeholder="Название" required>
-                    <input type="text" class="popup__text popup__text_type_link" placeholder="Ссылка на картинку"
+                    <input type="text" class="popup__text popup__text_type_place" placeholder="Название" value=""
                         required>
+                    <input type="text" class="popup__text popup__text_type_link" placeholder="Ссылка на картинку"
+                        value="" required>
                     <button class="popup__button" type="submit" id="addButton">
                         <span class="popup__button-text">Создать</span>
                     </button>
@@ -87,18 +88,15 @@
         </div>
     </section>
 
-    
-        <section class="overview">
-            <div class="overview__inside">
-                <button class="overview__cross" type="button" id="overviewCloseButton"></button>
-                <img src="" class="overview__image" alt="">
-                <h2 class="overview__heading"></h2>
-            </div>
-        </section>
+    <section class="popup popup__image">
+        <div class="popup__image-inside">
+            <button class="popup__image-cross" type="button" id="popupImageCloseButton"></button>
+            <img src="" class="popup__image-image" alt="">
+            <h2 class="popup__image-heading"></h2>
+        </div>
+    </section>
 
     <script src="./scripts/script.js"></script>
-    <script src="./scripts/massive.js"></script>
-    <script src="./scripts/openClosePopup.js"></script>
 
 </body>
 

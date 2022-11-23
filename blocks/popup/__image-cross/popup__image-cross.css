@@ -1,4 +1,4 @@
-.overview__cross {
+.popup__image-cross {
     position: absolute;
     top: -40px;
     right: -40px;
@@ -10,14 +10,14 @@
     padding: 0;
 }
 
-.overview__cross:hover {
+.popup__image-cross:hover {
     opacity: 0.6;
     transition: all 0.5s ease;
     cursor: pointer;
 }
 
-@media screen and (max-width: 530px){
-    .overview__cross {
+@media screen and (max-width: 530px) {
+    .popup__image-cross {
         top: -36px;
         right: 0;
         background: url(../../../images/krestik-small.svg);

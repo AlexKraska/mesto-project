@@ -1,7 +1,6 @@
-.overview__inside {
-    margin: 0;
+.popup__image-image {
     max-width: 75vw;
     max-height: 75vh;
-    z-index: 10000;
     position: relative;
+    background-repeat: no-repeat;
 }

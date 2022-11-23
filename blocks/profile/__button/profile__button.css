@@ -6,6 +6,7 @@
     width: 24px;
     height: 24px;
     z-index: 1000;
+    margin-top: 13px;
 }
 
 .profile__button:hover {
