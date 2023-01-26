@@ -49,8 +49,17 @@
 @import url(../blocks/popup/__text/popup__text_type_job.css);
 @import url(../blocks/popup/__text/popup__text_type_link.css);
 @import url(../blocks/popup/__text/popup__text_type_place.css);
+@import url(../blocks/popup/__text/popup__text_type_error.css);
+@import url(../blocks/popup/__text/popup__text_type_place.css);
+
 @import url(../blocks/popup/__add-card/popup__add-card.css);
 @import url(../blocks/popup/__edit-profile/profile__edit-profile.css);
+
+@import url(../blocks/popup/__place-input/popup__place-input-error.css);
+@import url(../blocks/popup/__name-input/popup__name-input-error.css);
+@import url(../blocks/popup/__link-input/popup__link-input-error.css);
+@import url(../blocks/popup/__job-input/popup__job-input-error.css);
+@import url(../blocks/popup/__place-input/popup__place-input-error_active.css);
 
 @import url(../blocks/popup/__image/popup__image.css);
 @import url(../blocks/popup/__image-cross/popup__image-cross.css);
