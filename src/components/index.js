@@ -1,17 +1,13 @@
 import '../pages/index.css';
 import { initialCards } from './constants.js';
-import { popupImage, openPopup, closePopup, addCard } from './utils.js';
-import { submitAddCardForm, formAddCard, popupAddCard } from './card.js';
+import { openPopup, closePopup, submitEditProfileForm, popupEditProfile, formEditElement, popups } from './utils.js';
+import { popupImage, addCard, submitAddCardForm, formAddCard, popupAddCard } from './card.js';
 import { editPopupButton, addPopupButton, buttonCloseAddCard, buttonCloseEditProfile } from './modal.js';
-import { submitEditProfileForm, formEditElement, popupEditProfile } from './validate.js';
-
 
 const popupImageCloseButton = popupImage.querySelector('.popup__image-cross');
 
 //загржуаем карточки на страницу (инициализация)
-initialCards.reverse().forEach(function (el) {
-  addCard(el);
-});
+initialCards.reverse().forEach(addCard);
 
 //открытие и закрытие модалок(попапов)
 editPopupButton.addEventListener('click', function joulyy() {
@@ -35,17 +31,11 @@ formEditElement.addEventListener('submit', submitEditProfileForm); //обраб�
 formAddCard.addEventListener('submit', submitAddCardForm); //обработчик формы добавления карточки
 
 //закрытие попапов кликом на оверлей
-popupAddCard.addEventListener('click', function (event) {
-  if (event.target === popupAddCard)
-    closePopup(popupAddCard);
-});
-popupEditProfile.addEventListener('click', function (event) {
-  if (event.target === popupEditProfile)
-    closePopup(popupEditProfile);
-});
-popupImage.addEventListener('click', function (event) {
-  if (event.target === popupImage)
-    closePopup(popupImage);
+popups.forEach((modal) => {
+  modal.addEventListener('click', function (event) {
+    if (event.target === modal)
+      closePopup(modal);
+  });
 });
 
 
