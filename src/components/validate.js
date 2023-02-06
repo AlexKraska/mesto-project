@@ -1,13 +1,10 @@
-const enableValidationObj = {
+export const enableValidationObj = {
   formSelector: '.popup__form', // сам попап
   inputSelector: '.popup__text', // поле ввода
   submitButtonSelector: '.popup__button', //кнопка
   inputErrorClass: 'popup__text_type_error', // нижняя красная рамка
   errorClass: 'popup__place-input-error_active', // оформление стиля текста кастомной ошибки
 };
-
-export const profileTitle = document.querySelector('.profile__title'); //куда вставляем имя
-export const profileSubtitle = document.querySelector('.profile__subtitle'); //куда вставляем профессию
 
 // добавляет класс с ошибкой
 const showInputError = (formElement, inputElement, errorMessage, valObj) => {
@@ -86,6 +83,8 @@ const enableValidation = (valObj) => {
         setEventListeners(formElement, valObj);
     });
 };
-enableValidation(enableValidationObj);
+//enableValidation(enableValidationObj);
+
+//console.log(hasInvalidInput(inputList));
 
 export { showInputError, hideInputError, isValid, toggleButtonState, hasInvalidInput, setEventListeners, enableValidation };

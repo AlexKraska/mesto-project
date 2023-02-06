@@ -1,3 +1,5 @@
+import { checkResponse } from "./utils";
+
 export const config = {
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-19',
   headers: {
@@ -9,144 +11,82 @@ export const config = {
 //Загрузка информации о пользователе с сервера
 export const getUserInfo = () => {
   return fetch(`${config.baseUrl}/users/me`, {
-    headers: {
-      authorization: '38e35aea-5cfc-4e58-bba6-375b97d69ebd'
-    }
+    headers: config.headers
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json(); //вернутся данные о пользователе
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    .then(checkResponse)
 };
 
 
 // Загрузка карточек с сервера
 export const getCardFromServer = () => { // поучаем карточку из массива
   return fetch(`${config.baseUrl}/cards`, {
-    headers: {
-      authorization: '38e35aea-5cfc-4e58-bba6-375b97d69ebd'
-    }
+    headers: config.headers
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json(); //вернули массив с карточками
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    .then(checkResponse)
 
 };
 
 // отправит данные при редактироании профиля
-export function sendUserDataToServer(nameInput, jobInput) { 
+export function sendUserDataToServer(name, about) {
   return fetch(`${config.baseUrl}/users/me`, {
     method: 'PATCH',
-    headers: {
-      authorization: '38e35aea-5cfc-4e58-bba6-375b97d69ebd',
-      'Content-Type': 'application/json'
-    },
+    headers: config.headers,
     body: JSON.stringify({
-      name: nameInput.value,
-      about: jobInput.value
+      name,
+      about,
     })
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
-}
+    .then(checkResponse)
+};
 
 // Добавление новой карточки на сервер
-export function addNewCardToServer(placeInput, linkInput) {
+export function addNewCardToServer(name, link) {
   return fetch(`${config.baseUrl}/cards`, {
     method: 'POST',
-    headers: {
-      authorization: '38e35aea-5cfc-4e58-bba6-375b97d69ebd',
-      'Content-Type': 'application/json'
-    },
+    headers: config.headers,
     body: JSON.stringify({
-      name: placeInput.value,
-      link: linkInput.value
+      name,
+      link,
     })
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    .then(checkResponse)
 };
 
 // удалим карточку с сервера
 export function deleteCardFromServer(cardId) {
   return fetch(`${config.baseUrl}/cards/${cardId}`, {
     method: 'DELETE',
-    headers: {
-      authorization: '38e35aea-5cfc-4e58-bba6-375b97d69ebd',
-      'Content-Type': 'application/json'
-    }
+    headers: config.headers
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    .then(checkResponse)
 };
 
 // логика добавления лайка
 export function addLike(cardId) {
   return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: 'PUT',
-    headers: {
-      authorization: '38e35aea-5cfc-4e58-bba6-375b97d69ebd',
-      'Content-Type': 'application/json'
-    }
+    headers: config.headers
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  })
+  .then(checkResponse)
 };
 
 // логика удаления лайка
 export function deleteLike(cardId) {
   return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
     method: 'DELETE',
-    headers: {
-      authorization: '38e35aea-5cfc-4e58-bba6-375b97d69ebd',
-      'Content-Type': 'application/json'
-    }
+    headers: config.headers
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  })
+  .then(checkResponse)
 };
 
 // Обновление аватара пользователя на сервере
-export function sendNewAvatarToServer(avatarInput) {
+export function sendNewAvatarToServer(avatar) {
   return fetch(`${config.baseUrl}/users/me/avatar`, {
     method: 'PATCH',
-    headers: {
-      authorization: '38e35aea-5cfc-4e58-bba6-375b97d69ebd',
-      'Content-Type': 'application/json'
-    },
+    headers: config.headers,
     body: JSON.stringify({
-      avatar: avatarInput.value
+      avatar
     })
   })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    .then(checkResponse)
 };
