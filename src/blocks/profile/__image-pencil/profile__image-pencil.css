@@ -1,0 +1,11 @@
+.profile__image-pencil {
+    background: url(../../../images/pencil-avatar.svg);
+    width: 26px;
+    height: 26px;
+    position: absolute;
+    top: 85px;
+    left: 50px;
+    visibility: hidden;
+    display: none;
+}
+

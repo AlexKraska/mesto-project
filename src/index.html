@@ -15,7 +15,8 @@
     </header>
     <main class="page">
         <section class="profile">
-            <img class="profile__image" src="<%=require('./images/Zhak.svg')%>" alt="Жак-Ив Кусто">
+            <img class="profile__image" src="<%=require('./images/Zhak.svg')%>" alt="Аватарка">
+            <div class="profile__image-pencil"></div>
             <div class="profile__block">
                 <div class="profile__info">
                     <div class="profile__info-up">
@@ -40,7 +41,7 @@
                         <button class="elements__bin" type="button"></button>
                         <div class="elements__texts">
                             <h2 class="elements__text"></h2>
-                            <button class="elements__heart" type="button" aria-label="Лайк"></button>
+                            <button class="elements__heart" type="button" aria-label="Лайк"><span class="elements__likes-counter"></span></button>
                         </div>
                     </div>
                 </div>
@@ -103,6 +104,27 @@
             <button class="popup__image-cross" type="button" id="popupImageCloseButton"></button>
             <img src="" class="popup__image-image" alt="">
             <h2 class="popup__image-heading"></h2>
+        </div>
+    </section>
+
+    <section class="popup popup__avatar " id="popup-avatar">
+        <div class="popup__inside">
+            <button class="popup__cross" type="button" id="closeAvatarButton"></button>
+            <h2 class="popup__heading">Обновить аватар</h2>
+
+            <form class="popup__container popup__form_type_avatar" novalidate>
+                <fieldset class="popup__form">
+                    
+                    <input type="url" class="popup__text popup__text_type_avatar" placeholder="Ссылка на аватар"
+                        value="" required id="avatar-input" data-error-message="Введите корректную ссылку для обновления аватара">
+                        <span class="popup__avatar-input-error">Введите cсылку на новый аватар</span>
+
+                    <button class="popup__button" type="submit" id="addAvatarButton">
+                        <span class="popup__button-text">Сохранить</span>
+                    </button>
+                </fieldset>
+            </form>
+
         </div>
     </section>
 </body>

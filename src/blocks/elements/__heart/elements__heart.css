@@ -9,6 +9,7 @@
     cursor: pointer;
     background-color: unset;
     border: none;
+    position: relative;
 }
 
 .elements__heart:hover {
