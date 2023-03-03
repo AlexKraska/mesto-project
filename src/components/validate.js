@@ -1,3 +1,5 @@
+import { formAddCard } from './card.js';
+
 export const enableValidationObj = {
   formSelector: '.popup__form', // сам попап
   inputSelector: '.popup__text', // поле ввода
@@ -6,85 +8,101 @@ export const enableValidationObj = {
   errorClass: 'popup__place-input-error_active', // оформление стиля текста кастомной ошибки
 };
 
-// добавляет класс с ошибкой
-const showInputError = (formElement, inputElement, errorMessage, valObj) => {
+export class FormValidator {
 
-    // Находим элемент ошибки внутри самой функции
-    const errorElement = formElement.querySelector(`.popup__${inputElement.id}-error`);
- 
-    inputElement.classList.add(valObj.inputErrorClass);//добавили красный бордер снизу
-    errorElement.textContent = errorMessage;
-
-    errorElement.classList.add(valObj.errorClass); //стилизаия текста ошибки
-};
-
-// удаляет класс с ошибкой
-const hideInputError = (formElement, inputElement, valObj) => {
-
-    const errorElement = formElement.querySelector(`.popup__${inputElement.id}-error`);
-
-    inputElement.classList.remove(valObj.inputErrorClass);
-    errorElement.classList.remove(valObj.errorClass);
-    // Очистим ошибку
-    errorElement.textContent = '';
-};
-
-// проверяет валидность поля
-const isValid = (formElement, inputElement) => {
-    if (inputElement.validity.patternMismatch) {
-        inputElement.setCustomValidity(inputElement.dataset.errorMessage);
-    } else {
-        inputElement.setCustomValidity('');
+    constructor({ formSelector, inputSelector, submitButtonSelector,
+      inputErrorClass, errorClass }, formElementToValidate) {
+  
+      this.formSelector = formSelector;
+      this.inputSelector = inputSelector;
+      this.submitButtonSelector = submitButtonSelector;
+      this.inputErrorClass = inputErrorClass;
+      this.errorClass = errorClass;
+  
+      this.formElementToValidate = formElementToValidate;
     }
-    if (!inputElement.validity.valid) {
-        // второй арг - сообщение об ошибке
-        showInputError(formElement, inputElement, inputElement.validationMessage, enableValidationObj);
-    } else {
-        // Если проходит, скроем
-        hideInputError(formElement, inputElement, enableValidationObj);
-    }
-};
+  
+    // метод активации ошибки валидации
+    _showError() { 
+      const inputToCheck = this.formElementToValidate
+      .querySelector(this.inputSelector);
 
-// принимает массив полей ввода
-// и элемент кнопки, состояние которой нужно менять
-const toggleButtonState = (inputList, buttonElement) => {
-    if (hasInvalidInput(inputList)) {
-        buttonElement.disabled = true; // сделай кнопку неактивной
-    } else {
-        buttonElement.disabled = false; // иначе сделай кнопку активной
-    }
-};
+      // найдем уникальный id элемента валидируемой формы                  
+      const errorElement = this.formElementToValidate.querySelector(`.popup__${inputToCheck.id}-error`); 
+      inputToCheck.classList.add(this.inputErrorClass); //добавили красный бордер снизу
+      errorElement.classList.add(this.errorClass); //стилизаия текста ошибки
+    };
+  
+    // метод деактивации ошибки валидации 
+    _hideError() {
+        const inputToCheck = this.formElementToValidate
+        .querySelector(this.inputSelector);
+      const errorElement = this.formElementToValidate.querySelector(`.popup__${inputToCheck.id}-error`);
+      inputToCheck.classList.remove(this.inputErrorClass);
 
-const hasInvalidInput = (inputList) => { //проверим все поля, настроим статус кнпоки
-    return inputList.some((inputElement) => {
-        // Если поле не валидно, колбэк вернёт true
-        return !inputElement.validity.valid;
-    })
-};
+      errorElement.classList.remove(this.errorClass);
+      errorElement.textContent = '';
+    };
+  
+    // проверка вадлидности формы
+    _checkInputValidity() {
+  
+    const inputToCheck = this.formElementToValidate
+        .querySelector(this.inputSelector);
 
-const setEventListeners = (formElement, valObj) => { //добавит обработчики сразу всем полям формы
-
-    const inputList = Array.from(formElement.querySelectorAll(valObj.inputSelector)); // Находим все поля внутри формы
-    const buttonElement = formElement.querySelector(valObj.submitButtonSelector);//кнопка отправки в текущей форме
-    toggleButtonState(inputList, buttonElement); // чтобы не ждать ввода данных в поля
-
-    inputList.forEach((inputElement) => {
-        inputElement.addEventListener('input', () => {
-            isValid(formElement, inputElement); // передадим ей форму и проверяемый элемент
-            toggleButtonState(inputList, buttonElement); // передадим ей массив полей и кнопку
+      if (inputToCheck.validity.patternMismatch) {
+        inputToCheck.setCustomValidity(this.inputSelector.dataset.errorMessage);
+      } else {
+        inputToCheck.setCustomValidity("");
+      }
+  
+      if (!inputToCheck.validity.valid) {
+        this._showError();
+      } else {
+        this._hideError();
+      }
+    };
+  
+    // метод валидации всех полей формы 
+    _hasInvalidInput( inputList ) {
+      return inputList.some((inputSelector) => {
+        return !inputSelector.validity.valid;
+      })
+    };
+  
+    // изменяет состояние кнопки сабмита
+    _toggleButtonState( inputList ) {
+        const buttonToDisable = this.formElementToValidate
+          .querySelector(this.submitButtonSelector);
+      if (this._hasInvalidInput( inputList )) {
+        buttonToDisable.disabled = true;
+      } else {
+        buttonToDisable.disabled = false;
+       // this.submitButtonSelector.classList.remove(this.inactiveButtonClass);
+      }
+    };
+  
+    // устанавливает все обработчики
+    _setEventListeners() {
+      const inputList = Array.from(this.formElementToValidate.querySelectorAll(this.inputSelector)); // Находим все поля внутри формы
+      //const buttonElement = this.formElementToValidate.querySelector(this.submitButtonSelector); //кнопка отправки в текущей форме
+  
+      this._toggleButtonState( inputList ); // чтобы не ждать ввода данных в поля
+  
+      inputList.forEach(( inputSelector ) => {
+        inputSelector.addEventListener('input', () => {
+          this._checkInputValidity();
+          console.log();
+          this._toggleButtonState( inputList );
         });
-    });
-};
-
-const enableValidation = (valObj) => {
-    const formList = Array.from(document.querySelectorAll(valObj.formSelector)); 
-    
-    formList.forEach((formElement) => {
-        setEventListeners(formElement, valObj);
-    });
-};
-//enableValidation(enableValidationObj);
-
-//console.log(hasInvalidInput(inputList));
-
-export { showInputError, hideInputError, isValid, toggleButtonState, hasInvalidInput, setEventListeners, enableValidation };
+      });
+    }
+           
+    // Метод включения валидации
+    enableValidation() {
+      const formList = Array.from(document.querySelectorAll(this.formSelector));
+      formList.forEach(() => {
+        this._setEventListeners();
+      });
+    }
+  }

@@ -1,83 +1,113 @@
 import '../pages/index.css';
-import { openPopup, closePopup, submitEditProfileForm, popupEditProfile, formEditElement, popups, submitChangeAvatar, nameInput, jobInput, profileTitle, profileSubtitle } from './utils.js';
-import { popupImage, addCard, submitAddCardForm, formAddCard, popupAddCard, formAvatar } from './card.js';
-import { editPopupButton, addPopupButton, buttonCloseAddCard, buttonCloseEditProfile, changeAvatarButton } from './modal.js';
-import { getCardFromServer, getUserInfo } from './api.js';
-import { enableValidation, enableValidationObj } from './validate.js';
+import { submitEditProfileForm, popupEditProfile, formEditElement, popups, submitChangeAvatar, nameInput, jobInput, profileTitle, profileSubtitle } from './utils.js';
+import { Card, formAddCard, popupAddCard, formAvatar, handleCardClick } from './card.js';
+import { editPopupButton, addPopupButton, buttonCloseEditProfile, changeAvatarButton } from './popup.js';
+import { Api } from './api.js';
+import { Popup, PopupWithImage } from './popup.js';
 
-const popupImageCloseButton = popupImage.querySelector('.popup__image-cross');
+import { UserInfo2 } from './userInfo';
+
+import { FormValidator, enableValidationObj } from './validate.js';
+
+export const popupImageCloseButton = document.querySelector('.popup__image-cross');
 export const popupAvatar = document.querySelector('#popup-avatar');
-const popupAvatarCloseButton = popupAvatar.querySelector('#closeAvatarButton');
+export const popupAvatarCloseButton = popupAvatar.querySelector('#closeAvatarButton');
 export const saveNewAvatarButton = popupAvatar.querySelector('#addAvatarButton');
 export const avatarInput = popupAvatar.querySelector('.popup__text_type_avatar');
 
-export let userId;
+const popupImage = document.querySelector('.popup__image');
 
-enableValidation(enableValidationObj); //активируем лайв валидацию
+//export let userId;
+export const userId = "c6b69b7acd7fe01fee50d11b"; // убрать когда создадим класс пользователя
 
-// логиув отображения массива карточек когорты
+export const api = new Api({
+  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-19',
+  headers: {
+    authorization: '38e35aea-5cfc-4e58-bba6-375b97d69ebd',
+    'Content-Type': 'application/json'
+  }
+});
+
+// валидация формы добавления карточки
+const addCardFormValidation = new FormValidator( enableValidationObj, formAddCard);
+// прикрутить сюда апи
+addCardFormValidation.enableValidation();
+// валидация формы редактированя карточки
+const editAvatarFormValidation = new FormValidator( enableValidationObj, formAvatar);
+editAvatarFormValidation.enableValidation();
+
+const editProfileFormValidation = new FormValidator( enableValidationObj, formEditElement);
+editProfileFormValidation.enableValidation();
+
+
+
+// логика отображения массива карточек когорты
+// Для каждой карточки создадим экземпляр класса Card.
+
 export function renderCohortCards() {
-  getCardFromServer().then((data) => {
-    data.reverse().forEach(function (card) {
-      const cardOwnerId = card.owner._id; // в эту переменную запишем айдишик создателя
-      const likesLength = card.likes.length;
-      const cardId = card._id;
-      const likes = card.likes;
-      addCard(card, cardOwnerId, likesLength, cardId, likes);
+
+  api.getInitialCards().then((data) => {
+    data.reverse().forEach( (el) => {
+
+      const card = new Card(el, ".card-template", handleCardClick);
+      //card.addEventListener('click', )
+      card.render(card.generate());
+
     });
   })
-  .catch((err) => { `Ошибка:${err}` })
+  .catch((err) => { `Ошибка:${err}` });
 };
 
 //отображение инфы юзера
 export function showUserInfo() {
-  getUserInfo().then(data => {
-    profileTitle.textContent = data.name;
-    profileSubtitle.textContent = data.about;
-    changeAvatarButton.src = data.avatar;
-    userId = data._id;
+
+  const kkk = new UserInfo2({ name, about })
+
+    kkk.getUserInfo();
+
+
+    // profileTitle.textContent = data.name;
+    // profileSubtitle.textContent = data.about;
+    // changeAvatarButton.src = data.avatar;
+    //userId = data._id;
+
+
     renderCohortCards(); // отриуем карточки когорты
-  })
-    .catch(err => `Ошибка: ${err}`);
+
+    //.catch(err => `Ошибка: ${err}`);
 };
 showUserInfo(); //отобразим данные обо мне при загрузке страницы
 
-//открытие и закрытие модалок(попапов)
+
+// экземпляры класса ПОПАП
+const openPopupEditProfile = new Popup(popupEditProfile);
+openPopupEditProfile.setEventListeners(); // активируем все слушатели всех попапов
+
+const openPopupAddCard = new Popup(popupAddCard);
+
+const openPopupAvatar = new Popup(popupAvatar);
+
+const openPopupImage = new PopupWithImage(popupImage);
+
+//открытие модалок(попапов)
 editPopupButton.addEventListener('click', function () {
-  openPopup(popupEditProfile);
+  openPopupEditProfile.openPopup(popupEditProfile);
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileSubtitle.textContent;
 });
+
 addPopupButton.addEventListener('click', function () {
-  openPopup(popupAddCard);
+  openPopupAddCard.openPopup(popupAddCard);
 });
-buttonCloseEditProfile.addEventListener('click', function () {
-  closePopup(popupEditProfile)
-});
-buttonCloseAddCard.addEventListener('click', function () {
-  closePopup(popupAddCard);
-});
-popupImageCloseButton.addEventListener('click', function () {
-  closePopup(popupImage);
-});
+
 changeAvatarButton.addEventListener('click', function () {
-  openPopup(popupAvatar);
-});
-popupAvatarCloseButton.addEventListener('click', function () {
-  closePopup(popupAvatar);
+  openPopupAvatar.openPopup(popupAvatar);
 });
 
 formEditElement.addEventListener('submit', submitEditProfileForm);
-formAddCard.addEventListener('submit', submitAddCardForm); // обработчик формы добавления карточки
+//formAddCard.addEventListener('submit', submitAddCardForm); // обработчик формы добавления карточки
 formAvatar.addEventListener('submit', submitChangeAvatar); // бработчик формы добавления авы
 
-//закрытие попапов кликом на оверлей
-popups.forEach((modal) => {
-  modal.addEventListener('click', function (event) {
-    if (event.target === modal)
-      closePopup(modal);
-  });
-});
 
 
 

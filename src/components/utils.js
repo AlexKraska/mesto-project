@@ -1,5 +1,6 @@
-import { handleEscape, changeAvatarButton } from './modal.js';
-import { sendUserDataToServer, sendNewAvatarToServer } from './api.js';
+import { changeAvatarButton } from './popup.js';
+import { Api } from './api.js';
+
 import { avatarInput, popupAvatar } from './index.js';
 
 export const profileTitle = document.querySelector('.profile__title'); //куда вставляем имя
@@ -15,16 +16,6 @@ const submitButtonEditProfileText = document.querySelector('#submit-edit-text');
 const submitButtonChangeAvatar = document.querySelector('#submit-avatar-text');
 //const submitButtonText = document.querySelectorAll('.popup__button-text');
 
-export function openPopup(popupElement) {
-    popupElement.classList.add('popup_opened');
-    document.addEventListener('keydown', handleEscape); //слушатель для закрытия по esc
-};
-
-export function closePopup(popupElementCross) {
-    popupElementCross.classList.remove('popup_opened');
-    document.removeEventListener('keydown', handleEscape); // снимаем слушатель после закрытия
-};
-
 export function renderWhileSaving(el) {
         el.textContent = 'Сохранение...';
 };
@@ -38,7 +29,7 @@ export function submitEditProfileForm(evt) {
     renderWhileSaving(submitButtonEditProfileText); //меняю текст
     evt.preventDefault();
 
-    sendUserDataToServer(nameInput.value, jobInput.value)
+    Api.sendUserDataToServer(nameInput.value, jobInput.value)
         //getUserInfo()
         .then(data => {
             profileTitle.textContent = data.name;
@@ -55,19 +46,11 @@ export function submitChangeAvatar(event) {
     renderWhileSaving(submitButtonChangeAvatar); // поменяем текст на "сохранение"
     event.preventDefault(); // сбрасывваем обновление страницы
 
-    sendNewAvatarToServer(avatarInput.value) // отправляем новую ссвлку в свойство аватар
+    Api.sendNewAvatarToServer(avatarInput.value) // отправляем новую ссвлку в свойство аватар
         .then(data => {
             changeAvatarButton.src = data.avatar;
             closePopup(popupAvatar);
         })
         .catch((err) => console.log(err))
         .finally(() => { renderWhenSaved(submitButtonChangeAvatar) })
-}
-
-export function checkResponse(res) {
-    // тут проверка ответа
-    if (res.ok) {
-        return res.json();
-    }
-    return Promise.reject(`Ошибка ${res.status}`);
 }
