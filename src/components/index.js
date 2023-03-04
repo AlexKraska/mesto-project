@@ -57,24 +57,22 @@ export function renderCohortCards() {
   })
   .catch((err) => { `Ошибка:${err}` });
 };
-
+//renderCohortCards();
 //отображение инфы юзера
 export function showUserInfo() {
 
-  const kkk = new UserInfo2({ name, about })
+   const profile = new UserInfo2( {name: ".profile__title", about:".profile__subtitle"} );
 
-    kkk.getUserInfo();
+   profile.setUserInfo("Петр Липатов", "Исследователь океанов"
+   /*'https://about-planet.ru/images/severnaya_amerika/strany/jamayka/jamayka.jpg'*/
+   );
 
-
-    // profileTitle.textContent = data.name;
-    // profileSubtitle.textContent = data.about;
+  
     // changeAvatarButton.src = data.avatar;
     //userId = data._id;
 
-
     renderCohortCards(); // отриуем карточки когорты
 
-    //.catch(err => `Ошибка: ${err}`);
 };
 showUserInfo(); //отобразим данные обо мне при загрузке страницы
 

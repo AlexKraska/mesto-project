@@ -1,29 +1,32 @@
-import { Api, api } from "./api.js";
+import { api } from "./index.js";
+import { Api } from './api.js';
 
 export class UserInfo2 {
-  constructor({ name, about }) { // имя и иинфа о себе
-    this.nameElement = document.querySelector(name);
-    this.aboutElement = document.querySelector(about);
-  }
+    constructor({ name, about /*, avatar */}) { // имя и иинфа о себе
+        this.name = document.querySelector(name);
+        this.about = document.querySelector(about);
+        //this.avatar = document.querySelector(avatar);
+    }
 
-  getUserInfo() {
-    api.getProfileData().then((userData) => {
-      return(userData);
-    });
-  }
+    getUserInfo() {
+        //const getDataFromProfile = new
+        api.getProfileData().then((data) => {
+            return data;
+        });
+    }
 
-  // принимает новые данные пользователя,
-  // отправляет их на сервер и добавляет их на страницу.
-  setUserInfo(name, about) {
-    api.uploadProfileData(name, about).then((userData) => {
-        this.nameElement.textContent = userData.name;
-        this.aboutElement.textContent = userData.about;
-    })
-  }
+    // принимает новые данные пользователя,
+    // отправляет их на сервер и добавляет их на страницу.
+    setUserInfo(name, about/*, avatar*/) {
+        api.uploadProfileData(name, about).then((userData) => {
+            console.log(userData);
+            this.name.textContent = userData.name;
+            this.about.textContent = userData.about;
+           // this.avatar.src = userData.avatar;
+        })
+    }
 }
 
 // Тест: создаем класс и с помощью его метода обновляем и выводим на странице имя и профессию пользователя
 
-const sels = {name: ".profile__title", about:".profile__subtitle"};
-const profile = new UserInfo2(sels);
-profile.setUserInfo("Петр Липатов", "Исследователь океанов")
+//profile.setUserInfo("Петр Липатов", "Исследователь океанов")
