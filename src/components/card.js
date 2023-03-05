@@ -21,27 +21,19 @@ export const popupAddCard = document.querySelector('.popup__add-card'); //поп
 export const addButton = document.querySelector('#addButton');
 export const submitButtonAddCardText = document.querySelector('#submit-add-text');
 
-export function handleCardClick() {
-
-    //const ppw = new PopupWithImage(popupImage);
-    //console.log(ppw);
-    //evt.target.addEventListener('click', (evt) => {
-        //ppw.openPopup(evt)
-    //})
-    
-}
-handleCardClick();
-
 export class Card {
-    constructor({ _id, name, link, likes, owner }, selector, handleCardClick) {
-        this.name = name;
-        this.link = link;
-        this.likesValue = likes.length;
-        this.likesData = likes;
-        this._id = _id;
-        this._idOwner = owner._id;
+    constructor({ data, handleCardClick }, selector) {
+        this.name = data.name;
+        this.link = data.link;
+        this.likesValue = data.likes.length;
+        this.likesData = data.likes;
+        this._id = data._id;
+        this._idOwner = data.owner._id;
+
+        this.handleCardClick = handleCardClick; // ф, кототрая отвечает за просмотр карточек
+
         this._selector = selector;
-        this.handleCardClick = handleCardClick;
+
     }
     _getElement() {
         const cardElement = document
@@ -100,9 +92,9 @@ export class Card {
         this._element
             .querySelector(".elements__bin")
             .addEventListener("click", this.removeCard);
-        // this._element
-            //.querySelector('.elements__element')
-            //.addEventListener("click", this.handleCardClick);
+        this._element
+            .querySelector(".elements__element")
+            .addEventListener("click", this.handleCardClick);
 
     }
 
@@ -162,19 +154,6 @@ export class Card {
         const sectionCardElements = document.querySelector('.elements'); //выбрали секцию с карточками
         sectionCardElements.prepend(card);
     }
-
-    // this.handleCardClick(evt) {
-    //     console.log(evt);
-    // }
-    // handleCardClick(evt) {
-    //     console.log(evt.target); }
-    // evt.target.addEventListener('click', () => {
-
-    //     // console.log(evt.target);
-    //    // const openPopupImage = new PopupWithImage('.popup__image');
-    //    // openPopupImage.openPopupWithImage(evt);
-    // })
-
 };
 
 

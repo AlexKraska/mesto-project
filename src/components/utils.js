@@ -65,9 +65,15 @@ export function submitAddCardForm(evt) {
     api.uploadNewCard(placeInput.value, linkInput.value) // отправляем данные о карточке на сервер
         .then((data) => {  // после берем эти данные оттуда 
 
-            const card = new Card(data, ".card-template", handleCardClick);
+            const card = new Card({
+                data,
+                handleCardClick: () => {
+                    // логика
+                }
+            },
+                ".card-template");
             card.render(card.generate());
-                console.log(card.render(card.generate()));
+            console.log(card.render(card.generate()));
 
             openPopupAddCard.closePopup(popupAddCard);
 

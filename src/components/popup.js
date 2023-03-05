@@ -56,26 +56,18 @@ export class PopupWithImage extends Popup {
     }
 
     openPopup(evt) {
-        evt.target.classList.add('popup_opened');
-        document.addEventListener('keydown', (e) => this._handleEscClose(e));
+       const targetCard = evt.target.closest('.elements__wrapper');
+       targetCard.classList.add('popup_opened');
+      
+        //document.addEventListener('keydown', (e) => this._handleEscClose(e));
     };
 
 }
 
-// document.querySelector(this.popupSelector) // нашли секцию попапа просмотра картинок
-// .querySelector(('.popup__image-image'))
-// .src = evt.target.src;
-
-//  вставим в попап картинку с src изображения и подписью к картинке.
-
-//p.textContent = this.popupSelector.querySelector('.popup__image-heading').textContent; // заголовок для картинки
-
-
-
 class PopupWithForm extends Popup {
-    constructor() {
+    constructor(popupSelector, submitFormCallback) {
         super(popupSelector);
-        // колбэк сабмита формы.
+        this.submitFormCallback = submitFormCallback;
     }
     _getInputValues() {
         // Перезаписывает родительский метод setEventListeners.

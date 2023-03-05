@@ -29,14 +29,14 @@ export const api = new Api({
 });
 
 // валидация формы добавления карточки
-const addCardFormValidation = new FormValidator( enableValidationObj, formAddCard);
+const addCardFormValidation = new FormValidator(enableValidationObj, formAddCard);
 // прикрутить сюда апи
 addCardFormValidation.enableValidation();
 // валидация формы редактированя карточки
-const editAvatarFormValidation = new FormValidator( enableValidationObj, formAvatar);
+const editAvatarFormValidation = new FormValidator(enableValidationObj, formAvatar);
 editAvatarFormValidation.enableValidation();
 
-const editProfileFormValidation = new FormValidator( enableValidationObj, formEditElement);
+const editProfileFormValidation = new FormValidator(enableValidationObj, formEditElement);
 editProfileFormValidation.enableValidation();
 
 
@@ -47,30 +47,39 @@ editProfileFormValidation.enableValidation();
 export function renderCohortCards() {
 
   api.getInitialCards().then((data) => {
-    data.reverse().forEach( (el) => {
+    data.reverse().forEach((el) => { // отображаю каждую карточку
 
-      const card = new Card(el, ".card-template", handleCardClick);
-      //card.addEventListener('click', )
+      const card = new Card({ // создаем экземпляр класса Card
+        data: el,
+        handleCardClick: () => { // передаем логика открытия попапа просмотра фоток
+          
+          const popupOverview = new PopupWithImage(card._element);
+          //console.log(card._element);
+          // .querySelector('.elements__element')
+          
+        }
+      },
+        ".card-template");
+
       card.render(card.generate());
-
     });
   })
-  .catch((err) => { `Ошибка:${err}` });
+    .catch((err) => { `Ошибка:${err}` });
 };
 
 //отображение инфы юзера
 export function showUserInfo() {
 
-   const profile = new UserInfo2( {name: ".profile__title", about:".profile__subtitle"} );
+  const profile = new UserInfo2({ name: ".profile__title", about: ".profile__subtitle" });
 
-   profile.setUserInfo("Петр Липатов", "Исследователь океанов"
-   /*'https://about-planet.ru/images/severnaya_amerika/strany/jamayka/jamayka.jpg'*/
-   );
+  profile.setUserInfo("Петр Липатов", "Исследователь океанов"
+    /*'https://about-planet.ru/images/severnaya_amerika/strany/jamayka/jamayka.jpg'*/
+  );
 
-    // changeAvatarButton.src = data.avatar;
-    //userId = data._id;
+  // changeAvatarButton.src = data.avatar;
+  //userId = data._id;
 
-    renderCohortCards(); // отриуем карточки когорты
+  renderCohortCards(); // отриуем карточки когорты
 
 };
 showUserInfo(); //отобразим данные обо мне при загрузке страницы
