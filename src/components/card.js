@@ -21,11 +21,16 @@ export const popupAddCard = document.querySelector('.popup__add-card'); //поп
 export const addButton = document.querySelector('#addButton');
 export const submitButtonAddCardText = document.querySelector('#submit-add-text');
 
-export function handleCardClick(evt) {
+export function handleCardClick() {
 
-    const ppw = new PopupWithImage(popupImage);
-    ppw.openPopup(evt.target);
+    //const ppw = new PopupWithImage(popupImage);
+    //console.log(ppw);
+    //evt.target.addEventListener('click', (evt) => {
+        //ppw.openPopup(evt)
+    //})
+    
 }
+handleCardClick();
 
 export class Card {
     constructor({ _id, name, link, likes, owner }, selector, handleCardClick) {
@@ -95,9 +100,9 @@ export class Card {
         this._element
             .querySelector(".elements__bin")
             .addEventListener("click", this.removeCard);
-        this._element
-            .querySelector('.elements__wrapper')
-            .addEventListener("click", handleCardClick);
+        // this._element
+            //.querySelector('.elements__element')
+            //.addEventListener("click", this.handleCardClick);
 
     }
 
