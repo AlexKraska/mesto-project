@@ -9,82 +9,43 @@ const buttonCloseAddCard = document.querySelector('#closeButton'); //кнпок�
 export const changeAvatarButton = document.querySelector('.profile__image');
 
 // отвечает за открытие и закрытие попапов
-export class Popup {
+export default class Popup {
     constructor(popupSelector) {
-        this.popupSelector = popupSelector;
+        this._popupEl = document.querySelector(popupSelector);
+        this._btnCloseEl = this._popupEl.querySelector('.popup__cross');
+       // this._handleEscClose = this._handleEscClose.bind(this);
     }
     // открытие попапа и добавление листенера закрытия при нажатии на Esc
-    openPopup(popupSelector) {
-        popupSelector.classList.add('popup_opened');
-        document.addEventListener('keydown', (e) => this._handleEscClose(e));
+    openPopup() {
+        this._popupEl.classList.add('popup_opened');
+        document.addEventListener('keydown', (ev) => this._handleEscClose(ev));
     };
     // закрытие попапа и удаление листенера закрытия при нажатии на Esc
-    closePopup(popupSelector) {
-        popupSelector.classList.remove('popup_opened');
-        document.removeEventListener('keydown', (e) => this._handleEscClose(e));
+    closePopup() {
+        this._popupEl.classList.remove('popup_opened');
+        document.removeEventListener('keydown', (ev) => this._handleEscClose(ev));
     };
     //закрыть попап нажатием на esc
-    _handleEscClose(e) {
-        if (e.code === "Escape") {
-            popups.forEach((popup) => this.closePopup(popup));
+    _handleEscClose(ev) {
+        if (ev.code === "Escape") {
+            this.closePopup();
         };
+    };
+    //закрыть попап нажатием на оверлей
+    _handleOverlayClose(ev) {
+        if (ev.target.classList.contains('popup_opened')) {
+            this.closePopup();
+      };
     };
     //обрабочтки событий
     setEventListeners() {
-        // закрытиe попапа Добавления карточки
-        buttonCloseAddCard.addEventListener('click', () => this.closePopup(popupAddCard));
-        // закрытиe попапа ПРОфиля
-        buttonCloseEditProfile.addEventListener('click', () => this.closePopup(popupEditProfile));
-        // закрытиe попапа ПРОсмотра фоток карточки
-        popupImageCloseButton.addEventListener('click', () => this.closePopup(popupImage));
-        // закрытиe попапа АВАтарки
-        popupAvatarCloseButton.addEventListener('click', () => this.closePopup(popupAvatar));
-        //закрытие попапов кликом на оверлей
-        popups.forEach((modal) => {
-            modal.addEventListener('click', (event) => {
-                if (event.target === modal)
-                    this.closePopup(modal);
+        this._buttonCloseEl.addEventListener('click', () => {
+            this.closePopup();
+        })
+        this._popupEl.addEventListener('click', (ev) => {
+                this._handleOverlayClose(ev);
             });
-        });
-    }
-}
-
-
-export class PopupWithImage extends Popup {
-    constructor(popupSelector) {
-        super(popupSelector);
-    }
-
-    openPopup(evt) {
-       const targetCard = evt.target.closest('.elements__wrapper');
-       targetCard.classList.add('popup_opened');
-      
-        //document.addEventListener('keydown', (e) => this._handleEscClose(e));
     };
-
 }
-
-class PopupWithForm extends Popup {
-    constructor(popupSelector, submitFormCallback) {
-        super(popupSelector);
-        this.submitFormCallback = submitFormCallback;
-    }
-    _getInputValues() {
-        // Перезаписывает родительский метод setEventListeners.
-
-        // добавлять обработчик клика иконке закрытия,
-
-        //   но и добавлять обработчик сабмита формы.
-    }
-
-
-    // Перезаписывает родительский метод close, так как при закрытии попапа
-    //  форма должна ещё и сбрасываться.
-
-
-    // Для каждого попапа создавайте свой экземпляр класса PopupWithForm.
-
-}
-
 
 export { editPopupButton, addPopupButton, buttonCloseEditProfile, buttonCloseAddCard };

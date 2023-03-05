@@ -1,9 +1,9 @@
 import { changeAvatarButton } from './popup.js';
 import { Card, submitButtonAddCardText } from './card.js';
-import { openPopupAddCard, api, openPopupAvatar, openPopupEditProfile } from './index.js';
+import { openPopupAddCard, api, openPopupEditProfile, openPopupAvatar } from './index.js';
 
 import { avatarInput, popupAvatar } from './index.js';
-import { placeInput, linkInput, addButton, handleCardClick, popupAddCard } from './card.js';
+import { placeInput, linkInput, addButton, popupAddCard } from './card.js';
 
 export const profileTitle = document.querySelector('.profile__title'); //куда вставляем имя
 export const profileSubtitle = document.querySelector('.profile__subtitle'); //куда вставляем профессию

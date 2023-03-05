@@ -3,7 +3,8 @@ import { submitEditProfileForm, popupEditProfile, formEditElement, popups, submi
 import { Card, formAddCard, popupAddCard, formAvatar, handleCardClick } from './card.js';
 import { editPopupButton, addPopupButton, buttonCloseEditProfile, changeAvatarButton } from './popup.js';
 import { Api } from './api.js';
-import { Popup, PopupWithImage } from './popup.js';
+import Popup from './popup.js';
+import PopupWithImage from './popupWithImage';
 
 import { UserInfo2 } from './userInfo';
 
@@ -53,7 +54,7 @@ export function renderCohortCards() {
         data: el,
         handleCardClick: () => { // передаем логика открытия попапа просмотра фоток
           
-          const popupOverview = new PopupWithImage(card._element);
+         // const popupOverview = new PopupWithImage(card._element);
           //console.log(card._element);
           // .querySelector('.elements__element')
           
@@ -92,7 +93,7 @@ openPopupEditProfile.setEventListeners(); // активируем все слу�
 
 export const openPopupAddCard = new Popup(popupAddCard);
 
-export const openPopupAvatar = new Popup(popupAvatar);
+
 
 //const openPopupImage = new PopupWithImage(popupImage);
 
@@ -107,8 +108,9 @@ addPopupButton.addEventListener('click', function () {
   openPopupAddCard.openPopup(popupAddCard);
 });
 
+export const openPopupAvatar = new Popup('.popup__avatar');
 changeAvatarButton.addEventListener('click', function () {
-  openPopupAvatar.openPopup(popupAvatar);
+  openPopupAvatar.openPopup('.popup__avatar');
 });
 
 formEditElement.addEventListener('submit', submitEditProfileForm);
