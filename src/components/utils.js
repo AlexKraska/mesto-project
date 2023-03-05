@@ -1,7 +1,9 @@
 import { changeAvatarButton } from './popup.js';
-import { Api } from './api.js';
+import { Card, submitButtonAddCardText } from './card.js';
+import { openPopupAddCard, api, openPopupAvatar, openPopupEditProfile } from './index.js';
 
 import { avatarInput, popupAvatar } from './index.js';
+import { placeInput, linkInput, addButton, handleCardClick, popupAddCard } from './card.js';
 
 export const profileTitle = document.querySelector('.profile__title'); //куда вставляем имя
 export const profileSubtitle = document.querySelector('.profile__subtitle'); //куда вставляем профессию
@@ -17,11 +19,11 @@ const submitButtonChangeAvatar = document.querySelector('#submit-avatar-text');
 //const submitButtonText = document.querySelectorAll('.popup__button-text');
 
 export function renderWhileSaving(el) {
-        el.textContent = 'Сохранение...';
+    el.textContent = 'Сохранение...';
 };
 
 export function renderWhenSaved(el) {
-        el.textContent = 'Сохранить';
+    el.textContent = 'Сохранить';
 };
 
 //функция отправки формы
@@ -29,12 +31,11 @@ export function submitEditProfileForm(evt) {
     renderWhileSaving(submitButtonEditProfileText); //меняю текст
     evt.preventDefault();
 
-    Api.sendUserDataToServer(nameInput.value, jobInput.value)
-        //getUserInfo()
+    api.uploadProfileData(nameInput.value, jobInput.value)
         .then(data => {
             profileTitle.textContent = data.name;
             profileSubtitle.textContent = data.about;
-            closePopup(popupEditProfile);
+            openPopupEditProfile.closePopup(popupEditProfile);
         })
         .catch(err => `Ошибочка: ${err}`)
         .finally(() => { renderWhenSaved(submitButtonEditProfileText) })
@@ -46,11 +47,33 @@ export function submitChangeAvatar(event) {
     renderWhileSaving(submitButtonChangeAvatar); // поменяем текст на "сохранение"
     event.preventDefault(); // сбрасывваем обновление страницы
 
-    Api.sendNewAvatarToServer(avatarInput.value) // отправляем новую ссвлку в свойство аватар
-        .then(data => {
+    api.updateAvatarOnServer(avatarInput.value) // отправляем новую ссвлку в свойство аватар
+        .then((data) => {
             changeAvatarButton.src = data.avatar;
-            closePopup(popupAvatar);
+
+            openPopupAvatar.closePopup(popupAvatar);
         })
         .catch((err) => console.log(err))
         .finally(() => { renderWhenSaved(submitButtonChangeAvatar) })
 }
+
+// функция сабмита формы добавления карточки
+export function submitAddCardForm(evt) {
+    renderWhileSaving(submitButtonAddCardText); // поменяем текст на "сохранение"
+    evt.preventDefault();
+
+    api.uploadNewCard(placeInput.value, linkInput.value) // отправляем данные о карточке на сервер
+        .then((data) => {  // после берем эти данные оттуда 
+
+            const card = new Card(data, ".card-template", handleCardClick);
+            card.render(card.generate());
+                console.log(card.render(card.generate()));
+
+            openPopupAddCard.closePopup(popupAddCard);
+
+            addButton.disabled = true;
+            evt.target.reset(); // очищаем поля
+        })
+        .catch((err) => { `Ошибка:${err}` })
+        .finally(() => { renderWhenSaved(submitButtonAddCardText) }); // поменяем текст на "сохранение")
+};

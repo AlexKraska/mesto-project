@@ -1,5 +1,5 @@
 import '../pages/index.css';
-import { submitEditProfileForm, popupEditProfile, formEditElement, popups, submitChangeAvatar, nameInput, jobInput, profileTitle, profileSubtitle } from './utils.js';
+import { submitEditProfileForm, popupEditProfile, formEditElement, popups, submitChangeAvatar, nameInput, jobInput, profileTitle, profileSubtitle, submitAddCardForm } from './utils.js';
 import { Card, formAddCard, popupAddCard, formAvatar, handleCardClick } from './card.js';
 import { editPopupButton, addPopupButton, buttonCloseEditProfile, changeAvatarButton } from './popup.js';
 import { Api } from './api.js';
@@ -57,7 +57,7 @@ export function renderCohortCards() {
   })
   .catch((err) => { `Ошибка:${err}` });
 };
-//renderCohortCards();
+
 //отображение инфы юзера
 export function showUserInfo() {
 
@@ -67,7 +67,6 @@ export function showUserInfo() {
    /*'https://about-planet.ru/images/severnaya_amerika/strany/jamayka/jamayka.jpg'*/
    );
 
-  
     // changeAvatarButton.src = data.avatar;
     //userId = data._id;
 
@@ -77,15 +76,16 @@ export function showUserInfo() {
 showUserInfo(); //отобразим данные обо мне при загрузке страницы
 
 
+
 // экземпляры класса ПОПАП
-const openPopupEditProfile = new Popup(popupEditProfile);
+export const openPopupEditProfile = new Popup(popupEditProfile);
 openPopupEditProfile.setEventListeners(); // активируем все слушатели всех попапов
 
-const openPopupAddCard = new Popup(popupAddCard);
+export const openPopupAddCard = new Popup(popupAddCard);
 
-const openPopupAvatar = new Popup(popupAvatar);
+export const openPopupAvatar = new Popup(popupAvatar);
 
-const openPopupImage = new PopupWithImage(popupImage);
+//const openPopupImage = new PopupWithImage(popupImage);
 
 //открытие модалок(попапов)
 editPopupButton.addEventListener('click', function () {
@@ -103,7 +103,7 @@ changeAvatarButton.addEventListener('click', function () {
 });
 
 formEditElement.addEventListener('submit', submitEditProfileForm);
-//formAddCard.addEventListener('submit', submitAddCardForm); // обработчик формы добавления карточки
+formAddCard.addEventListener('submit', submitAddCardForm); // обработчик формы добавления карточки
 formAvatar.addEventListener('submit', submitChangeAvatar); // бработчик формы добавления авы
 
 

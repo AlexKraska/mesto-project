@@ -18,8 +18,8 @@ export const linkInput = formAddCard.querySelector('.popup__text_type_link');
 export const formAvatar = document.querySelector('.popup__form_type_avatar');
 
 export const popupAddCard = document.querySelector('.popup__add-card'); //попап добавленя карточки
-const addButton = document.querySelector('#addButton');
-const submitButtonAddCardText = document.querySelector('#submit-add-text');
+export const addButton = document.querySelector('#addButton');
+export const submitButtonAddCardText = document.querySelector('#submit-add-text');
 
 export function handleCardClick(evt) {
 

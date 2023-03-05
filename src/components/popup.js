@@ -55,8 +55,8 @@ export class PopupWithImage extends Popup {
         super(popupSelector);
     }
 
-    openPopup(popupSelector) {
-        popupSelector.classList.add('popup_opened');
+    openPopup(evt) {
+        evt.target.classList.add('popup_opened');
         document.addEventListener('keydown', (e) => this._handleEscClose(e));
     };
 
