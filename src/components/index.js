@@ -4,6 +4,7 @@ import { Card, formAddCard, popupAddCard, formAvatar, handleCardClick } from './
 import { editPopupButton, addPopupButton, buttonCloseEditProfile, changeAvatarButton } from './popup.js';
 import { Api } from './api.js';
 import Popup from './popup.js';
+import Section from './section.js';
 import PopupWithImage from './popupWithImage.js';
 import PopupWithForm from './popupWithForm.js';
 
@@ -48,34 +49,87 @@ editProfileFormValidation.enableValidation();
          //----------- логика отображения массива карточек когорты -------------
 
 // Для каждой карточки создадим экземпляр класса Card.
+
+// export function renderCohortCards() {
+
+//   api.getInitialCards().then((data) => {
+
+//     data.reverse().forEach((el) => { // отображаю каждую карточку
+
+//       const card = new Card({ // создаем экземпляр класса Card
+//         data: el,
+//         handleCardClick: (evt) => { // передаем логика открытия попапа просмотра фоток
+
+//           const targetCard = evt.target.closest(".elements__wrapper"); 
+//           const targetCardLink = targetCard.querySelector(".elements__element").src
+//           const targetCardTitle = targetCard.querySelector(".elements__text").textContent
+          
+//           const popupImg = document.querySelector('.popup__image-image')
+//           const popupTxt = document.querySelector('.popup__image-heading')
+         
+//           popupImage.classList.add('popup_opened')
+//           popupImg.src = targetCardLink;
+//           popupTxt.textContent = targetCardTitle;
+//         }
+//       },
+//         ".card-template");
+
+//       card.render(card.generate());
+//     });
+//   })
+//     .catch((err) => { `Ошибка:${err}` });
+// };
+
+
 export function renderCohortCards() {
 
   api.getInitialCards().then((data) => {
-    data.reverse().forEach((el) => { // отображаю каждую карточку
-
-      const card = new Card({ // создаем экземпляр класса Card
-        data: el,
-        handleCardClick: (evt) => { // передаем логика открытия попапа просмотра фоток
-
-          const targetCard = evt.target.closest(".elements__wrapper"); 
-          const targetCardLink = targetCard.querySelector(".elements__element").src
-          const targetCardTitle = targetCard.querySelector(".elements__text").textContent
-          
-          const popupImg = document.querySelector('.popup__image-image')
-          const popupTxt = document.querySelector('.popup__image-heading')
-         
-          popupImage.classList.add('popup_opened')
-          popupImg.src = targetCardLink;
-          popupTxt.textContent = targetCardTitle;
-        }
+    const cardList = new Section(
+      {
+        items: data,
+        renderer: (item) => {
+          const cardElement2 = new Card(
+            {
+              data: item,
+              handleCardClick: (evt) => {
+                const targetCard = evt.target.closest(".elements__wrapper"); 
+                const targetCardLink = targetCard.querySelector(".elements__element").src
+                const targetCardTitle = targetCard.querySelector(".elements__text").textContent
+                          
+                const popupImg = document.querySelector('.popup__image-image')
+                const popupTxt = document.querySelector('.popup__image-heading')
+                         
+                popupImage.classList.add('popup_opened')
+                popupImg.src = targetCardLink;
+                popupTxt.textContent = targetCardTitle;
+              }
+            }, ".card-template");
+          cardList.addItem(cardElement2.generate());
+        },
       },
-        ".card-template");
-
-      card.render(card.generate());
-    });
-  })
-    .catch((err) => { `Ошибка:${err}` });
+        ".elements"
+    )
+    cardList.renderItems();
+  });
 };
+
+// api.getInitialCards()
+//     .then((data) => {
+//       const cardList = new Section(
+//         {
+//           items: data,
+//           renderer: (item) => {
+//             const cardElement2 = new Card(item, ".card-template");
+//             cardList.addItem(cardElement2.generate());
+//           },
+//         },
+//         cardListSection
+//       );
+//       cardList.renderItems();
+//     });
+
+
+
 
                       //----------- ОТОБРАЖЕНИЕ ИНФЫ ЮЗЕРА -------------
 
