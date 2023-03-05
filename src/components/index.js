@@ -4,7 +4,8 @@ import { Card, formAddCard, popupAddCard, formAvatar, handleCardClick } from './
 import { editPopupButton, addPopupButton, buttonCloseEditProfile, changeAvatarButton } from './popup.js';
 import { Api } from './api.js';
 import Popup from './popup.js';
-import PopupWithImage from './popupWithImage';
+import PopupWithImage from './popupWithImage.js';
+import PopupWithForm from './popupWithForm.js';
 
 import { UserInfo2 } from './userInfo';
 
@@ -21,6 +22,7 @@ const popupImage = document.querySelector('.popup__image');
 //export let userId;
 export const userId = "c6b69b7acd7fe01fee50d11b"; // убрать когда создадим класс пользователя
 
+//экземпляр класса АПИ
 export const api = new Api({
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-19',
   headers: {
@@ -28,6 +30,8 @@ export const api = new Api({
     'Content-Type': 'application/json'
   }
 });
+
+         //----------- РАБОТА ВАЛИДАЦИИ -------------
 
 // валидация формы добавления карточки
 const addCardFormValidation = new FormValidator(enableValidationObj, formAddCard);
@@ -41,10 +45,9 @@ const editProfileFormValidation = new FormValidator(enableValidationObj, formEdi
 editProfileFormValidation.enableValidation();
 
 
+         //----------- логика отображения массива карточек когорты -------------
 
-// логика отображения массива карточек когорты
 // Для каждой карточки создадим экземпляр класса Card.
-
 export function renderCohortCards() {
 
   api.getInitialCards().then((data) => {
@@ -68,7 +71,8 @@ export function renderCohortCards() {
     .catch((err) => { `Ошибка:${err}` });
 };
 
-//отображение инфы юзера
+                      //----------- ОТОБРАЖЕНИЕ ИНФЫ ЮЗЕРА -------------
+
 export function showUserInfo() {
 
   const profile = new UserInfo2({ name: ".profile__title", about: ".profile__subtitle" });
@@ -86,32 +90,42 @@ export function showUserInfo() {
 showUserInfo(); //отобразим данные обо мне при загрузке страницы
 
 
+         //----------- РАБОТА ПОПАПОВ -------------
 
 // экземпляры класса ПОПАП
+
+// Попап с фотками
+const popupImgOverview = new PopupWithImage(popupImage);
+// Активация слушателей попапа с фотками
+popupImgOverview.setEventListeners();
+
+
+
 export const openPopupEditProfile = new Popup(popupEditProfile);
 openPopupEditProfile.setEventListeners(); // активируем все слушатели всех попапов
 
 export const openPopupAddCard = new Popup(popupAddCard);
 
 
-
-//const openPopupImage = new PopupWithImage(popupImage);
-
-//открытие модалок(попапов)
+//попап редактирования
 editPopupButton.addEventListener('click', function () {
   openPopupEditProfile.openPopup(popupEditProfile);
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileSubtitle.textContent;
 });
 
+//попап добавления карточки
 addPopupButton.addEventListener('click', function () {
   openPopupAddCard.openPopup(popupAddCard);
 });
 
+//попап редактирования авы
 export const openPopupAvatar = new Popup('.popup__avatar');
 changeAvatarButton.addEventListener('click', function () {
   openPopupAvatar.openPopup('.popup__avatar');
 });
+
+//----------- РАБОТА СЛУШАТЕЛЕЙ САБМИТОВ -------------
 
 formEditElement.addEventListener('submit', submitEditProfileForm);
 formAddCard.addEventListener('submit', submitAddCardForm); // обработчик формы добавления карточки
