@@ -50,37 +50,6 @@ editProfileFormValidation.enableValidation();
 
 // Для каждой карточки создадим экземпляр класса Card.
 
-// export function renderCohortCards() {
-
-//   api.getInitialCards().then((data) => {
-
-//     data.reverse().forEach((el) => { // отображаю каждую карточку
-
-//       const card = new Card({ // создаем экземпляр класса Card
-//         data: el,
-//         handleCardClick: (evt) => { // передаем логика открытия попапа просмотра фоток
-
-//           const targetCard = evt.target.closest(".elements__wrapper"); 
-//           const targetCardLink = targetCard.querySelector(".elements__element").src
-//           const targetCardTitle = targetCard.querySelector(".elements__text").textContent
-          
-//           const popupImg = document.querySelector('.popup__image-image')
-//           const popupTxt = document.querySelector('.popup__image-heading')
-         
-//           popupImage.classList.add('popup_opened')
-//           popupImg.src = targetCardLink;
-//           popupTxt.textContent = targetCardTitle;
-//         }
-//       },
-//         ".card-template");
-
-//       card.render(card.generate());
-//     });
-//   })
-//     .catch((err) => { `Ошибка:${err}` });
-// };
-
-
 export function renderCohortCards() {
 
   api.getInitialCards().then((data) => {
@@ -112,21 +81,6 @@ export function renderCohortCards() {
     cardList.renderItems();
   });
 };
-
-// api.getInitialCards()
-//     .then((data) => {
-//       const cardList = new Section(
-//         {
-//           items: data,
-//           renderer: (item) => {
-//             const cardElement2 = new Card(item, ".card-template");
-//             cardList.addItem(cardElement2.generate());
-//           },
-//         },
-//         cardListSection
-//       );
-//       cardList.renderItems();
-//     });
 
 
 
