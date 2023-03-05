@@ -20,7 +20,7 @@ export const avatarInput = popupAvatar.querySelector('.popup__text_type_avatar')
 const popupImage = document.querySelector('.popup__image');
 
 //export let userId;
-export const userId = "c6b69b7acd7fe01fee50d11b"; // убрать когда создадим класс пользователя
+export const userId = "d4cd3c3ae287bd684ff7aa5a"; // убрать когда создадим класс пользователя
 
 //экземпляр класса АПИ
 export const api = new Api({
@@ -55,12 +55,18 @@ export function renderCohortCards() {
 
       const card = new Card({ // создаем экземпляр класса Card
         data: el,
-        handleCardClick: () => { // передаем логика открытия попапа просмотра фоток
+        handleCardClick: (evt) => { // передаем логика открытия попапа просмотра фоток
+
+          const targetCard = evt.target.closest(".elements__wrapper"); 
+          const targetCardLink = targetCard.querySelector(".elements__element").src
+          const targetCardTitle = targetCard.querySelector(".elements__text").textContent
           
-         // const popupOverview = new PopupWithImage(card._element);
-          //console.log(card._element);
-          // .querySelector('.elements__element')
-          
+          const popupImg = document.querySelector('.popup__image-image')
+          const popupTxt = document.querySelector('.popup__image-heading')
+         
+          popupImage.classList.add('popup_opened')
+          popupImg.src = targetCardLink;
+          popupTxt.textContent = targetCardTitle;
         }
       },
         ".card-template");
@@ -77,7 +83,7 @@ export function showUserInfo() {
 
   const profile = new UserInfo2({ name: ".profile__title", about: ".profile__subtitle" });
 
-  profile.setUserInfo("Петр Липатов", "Исследователь океанов"
+  profile.setUserInfo("Joel Miller", "The Last of Us"
     /*'https://about-planet.ru/images/severnaya_amerika/strany/jamayka/jamayka.jpg'*/
   );
 
@@ -130,6 +136,11 @@ changeAvatarButton.addEventListener('click', function () {
 formEditElement.addEventListener('submit', submitEditProfileForm);
 formAddCard.addEventListener('submit', submitAddCardForm); // обработчик формы добавления карточки
 formAvatar.addEventListener('submit', submitChangeAvatar); // бработчик формы добавления авы
+
+
+api.getProfileData().then((data) => {
+  console.log(data)
+});
 
 
 

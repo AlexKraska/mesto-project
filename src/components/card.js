@@ -155,3 +155,4 @@ export class Card {
         sectionCardElements.prepend(card);
     }
 };
+
