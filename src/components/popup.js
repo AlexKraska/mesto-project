@@ -12,8 +12,8 @@ export const changeAvatarButton = document.querySelector('.profile__image');
 export default class Popup {
     constructor(popupSelector) {
         this._popupEl = document.querySelector(popupSelector);
-        this._btnCloseEl = this._popupEl.querySelector('.popup__cross');
-       // this._handleEscClose = this._handleEscClose.bind(this);
+        this._btnCloseEl = this._popupEl.querySelector('.popup__image-cross');
+        this._handleEscClose = this._handleEscClose.bind(this);
     }
     // открытие попапа и добавление листенера закрытия при нажатии на Esc
     openPopup() {
@@ -39,7 +39,7 @@ export default class Popup {
     };
     //обрабочтки событий
     setEventListeners() {
-        this._buttonCloseEl.addEventListener('click', () => {
+        this._btnCloseEl.addEventListener('click', () => {
             this.closePopup();
         })
         this._popupEl.addEventListener('click', (ev) => {

@@ -1,3 +1,4 @@
+import { popupImage } from './card.js';
 import Popup from './popup.js';
 
 export default class PopupWithImage extends Popup {

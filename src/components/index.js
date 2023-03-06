@@ -1,5 +1,5 @@
 import '../pages/index.css';
-import { submitEditProfileForm, popupEditProfile, formEditElement, popups, submitChangeAvatar, nameInput, jobInput, profileTitle, profileSubtitle, submitAddCardForm } from './utils.js';
+import { submitEditProfileForm, formEditElement, popups, submitChangeAvatar, nameInput, jobInput, profileTitle, profileSubtitle, submitAddCardForm } from './utils.js';
 import { Card, formAddCard, popupAddCard, formAvatar, handleCardClick } from './card.js';
 import { editPopupButton, addPopupButton, buttonCloseEditProfile, changeAvatarButton } from './popup.js';
 import { Api } from './api.js';
@@ -12,13 +12,14 @@ import { UserInfo2 } from './userInfo';
 
 import { FormValidator, enableValidationObj } from './validate.js';
 
-export const popupImageCloseButton = document.querySelector('.popup__image-cross');
+
 export const popupAvatar = document.querySelector('#popup-avatar');
 export const popupAvatarCloseButton = popupAvatar.querySelector('#closeAvatarButton');
 export const saveNewAvatarButton = popupAvatar.querySelector('#addAvatarButton');
 export const avatarInput = popupAvatar.querySelector('.popup__text_type_avatar');
 
 const popupImage = document.querySelector('.popup__image');
+export const popupImageCloseButton = popupImage.querySelector('.popup__image-cross');
 
 //export let userId;
 export const userId = "d4cd3c3ae287bd684ff7aa5a"; // убрать когда создадим класс пользователя
@@ -32,7 +33,7 @@ export const api = new Api({
   }
 });
 
-         //----------- РАБОТА ВАЛИДАЦИИ -------------
+//----------- РАБОТА ВАЛИДАЦИИ -------------
 
 // валидация формы добавления карточки
 const addCardFormValidation = new FormValidator(enableValidationObj, formAddCard);
@@ -46,7 +47,7 @@ const editProfileFormValidation = new FormValidator(enableValidationObj, formEdi
 editProfileFormValidation.enableValidation();
 
 
-         //----------- логика отображения массива карточек когорты -------------
+//----------- логика отображения массива карточек когорты -------------
 
 // Для каждой карточки создадим экземпляр класса Card.
 
@@ -60,32 +61,26 @@ export function renderCohortCards() {
           const cardElement2 = new Card(
             {
               data: item,
-              handleCardClick: (evt) => {
-                const targetCard = evt.target.closest(".elements__wrapper"); 
-                const targetCardLink = targetCard.querySelector(".elements__element").src
-                const targetCardTitle = targetCard.querySelector(".elements__text").textContent
-                          
-                const popupImg = document.querySelector('.popup__image-image')
-                const popupTxt = document.querySelector('.popup__image-heading')
-                         
-                popupImage.classList.add('popup_opened')
-                popupImg.src = targetCardLink;
-                popupTxt.textContent = targetCardTitle;
+              handleCardClick: () => {
+                const popupOverview = new PopupWithImage('.popup__image');
+
+                const txt = item.name;
+                const link = item.link;
+
+                popupOverview.openPopup({ txt, link });
               }
             }, ".card-template");
           cardList.addItem(cardElement2.generate());
         },
       },
-        ".elements"
+      ".elements"
     )
     cardList.renderItems();
   });
 };
 
 
-
-
-                      //----------- ОТОБРАЖЕНИЕ ИНФЫ ЮЗЕРА -------------
+//----------- ОТОБРАЖЕНИЕ ИНФЫ ЮЗЕРА -------------
 
 export function showUserInfo() {
 
@@ -104,28 +99,21 @@ export function showUserInfo() {
 showUserInfo(); //отобразим данные обо мне при загрузке страницы
 
 
-         //----------- РАБОТА ПОПАПОВ -------------
+//----------- РАБОТА ПОПАПОВ -------------
 
 // экземпляры класса ПОПАП
 
-// Попап с фотками
-const popupImgOverview = new PopupWithImage(popupImage);
-// Активация слушателей попапа с фотками
-popupImgOverview.setEventListeners();
 
 
-
-export const openPopupEditProfile = new Popup(popupEditProfile);
-openPopupEditProfile.setEventListeners(); // активируем все слушатели всех попапов
+export const openPopupEditProfile = new Popup('.popup__edit-profile');
+//openPopupEditProfile.setEventListeners(); // активируем все слушатели всех попапов
 
 export const openPopupAddCard = new Popup(popupAddCard);
 
 
 //попап редактирования
 editPopupButton.addEventListener('click', function () {
-  openPopupEditProfile.openPopup(popupEditProfile);
-  nameInput.value = profileTitle.textContent;
-  jobInput.value = profileSubtitle.textContent;
+  openPopupEditProfile.openPopup();
 });
 
 //попап добавления карточки
