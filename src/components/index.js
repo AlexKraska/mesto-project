@@ -66,7 +66,7 @@ export function renderCohortCards() {
 
                 const txt = item.name;
                 const link = item.link;
-
+                popupOverview.setEventListeners();
                 popupOverview.openPopup({ txt, link });
               }
             }, ".card-template");
