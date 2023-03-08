@@ -39,6 +39,7 @@ const profile = new UserInfo2({
   about: ".profile__subtitle"
 });
 
+// получим инфу пользователя и отобразим ее
 profile.getUserInfo();
 
 // создадим кастомное событие
@@ -84,12 +85,11 @@ renderCohortCards(); // отрисуем карточки когорты
 
 // экземпляры класса ПОПАП
 
+
 // Попап с формой добавления карточки
 const openPopupAddCard = new PopupWithForm({
   popupSelector: '.popup__add-card',
-
   submitFormCallback: (formData) => {
-
     const {
       name: placeInput,
       link: linkInput,
@@ -97,22 +97,42 @@ const openPopupAddCard = new PopupWithForm({
 
     openPopupAddCard.renderWhileSaving(); // поменяем текст на "сохранение"
 
-    api.uploadNewCard({ name: placeInput, link: linkInput })
-      .then((res) => {
-        if (res.ok) {
-          openPopupAddCard.closePopup();
-          renderCohortCards();
-        }
+    api.uploadNewCard({ name: placeInput.value, link: linkInput.value })
+      .then((data) => {
+        const updatedCardList = new Section({
+          data,
+          renderer: (item) => {
+            const newCardToAdd = new Card({
+              data: item,
+
+              handleCardClick: () => {
+                const popupOverviewNewImg = new PopupWithImage('.popup__image');
+                const txt = item.name;
+                const link = item.link;
+                popupOverviewNewImg.setEventListeners();
+                popupOverviewNewImg.openPopup({ txt, link });
+              }
+              
+            }, ".card-template")
+            updatedCardList.addItem(newCardToAdd.generate());
+          },
+        }, ".elements");
+
+        
       })
+
       .catch((err) => {
         console.log(`${err}такая-то`);
       })
-      .finally(openPopupAddCard.renderWhenSaved()); //вернемм изначальный текст
+      .finally(openPopupAddCard.renderWhenSaved()); //вернем изначальный текст
   }
 });
 
+// Активация слушателей попапа добавления карточки
+openPopupAddCard.setEventListeners();
+
 // валидация формы добавления карточки
-const addCardFormValidation = new FormValidator(enableValidationObj, formAddCard);
+const addCardFormValidation = new FormValidator( enableValidationObj, formAddCard);
 
 addCardFormValidation.enableValidation();
 
@@ -120,37 +140,9 @@ function showPopupAddCard() {
   openPopupAddCard.openPopup({
     event: eventShowForm
   });
-  // Активация слушателей попапа добавления карточки
-  openPopupAddCard.setEventListeners();
 }
 
 addPopupButton.addEventListener('click', showPopupAddCard);
-
-// отправляем данные о карточке на сервер
-// .then((data) => {
-//   const card = new Card({
-//     data,
-//     handleCardClick: () => {
-//         const popupOverviewNewImg = new PopupWithImage('.popup__image');
-
-//         const txt = data.name;
-//         const link = data.link;
-//         popupOverviewNewImg.setEventListeners();
-//         popupOverviewNewImg.openPopup({ txt, link });
-//       }
-
-//   },
-//     ".card-template");
-
-
-//   const cardElement = getCardElement(data, user.getUserInfo())
-//   cards.addItem(cardElement)
-
-
-//card.render(card.generate());
-
-
-// Ф, добавляющая событие, которое произойдёт при открытии 
 
 //--------------------------------------------------------//-------------------------------//
 // Попап с формой редактирования профиля
@@ -183,7 +175,6 @@ function showPopupEditProfile() {
   openPopupEditProfile.openPopup({
     event: eventShowForm
   });
-
 };
 editPopupButton.addEventListener('click', showPopupEditProfile);
 
@@ -222,7 +213,6 @@ function showPopupAva() {
   openPopupAvatar.openPopup({
     event: eventShowForm
   });
-
 };
 changeAvatarButton.addEventListener('click', showPopupAva);
 
