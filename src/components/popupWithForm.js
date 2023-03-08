@@ -1,15 +1,12 @@
 import Popup from './popup.js';
 
-// Перезаписывает родительский метод close, так как при закрытии попапа
-//  форма должна ещё и сбрасываться.
-
 export default class PopupWithForm extends Popup {
     constructor({ popupSelector, submitFormCallback }) {
         super(popupSelector);
         
         this.submitFormCallback = submitFormCallback;
 
-        this._formEl = this._popupEl.querySelector('.popup__form');
+        this._formEl = this._popupEl.querySelector('.popup__container');
         this._inputs = this._popupEl.querySelectorAll('.popup__text');
         this._btnSave = this._popupEl.querySelector('.popup__button');
         this._btnText = this._btnSave.textContent;
@@ -21,7 +18,6 @@ export default class PopupWithForm extends Popup {
         this._inputs.forEach((input) => {
             this._formValues[input.name] = input.value;
         });
-
         return this._formValues;
     }
 

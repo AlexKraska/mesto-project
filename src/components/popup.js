@@ -17,7 +17,7 @@ export default class Popup {
         document.addEventListener('keydown', (ev) => this._handleEscClose(ev));
     };
     // закрытие попапа и удаление листенера закрытия при нажатии на Esc
-    closePopup() {
+    closePopup(ev) {
         this._popupEl.classList.remove('popup_opened');
         document.removeEventListener('keydown', (ev) => this._handleEscClose(ev));
     };
@@ -35,8 +35,8 @@ export default class Popup {
     };
     //обрабочтки событий
     setEventListeners() {
-        this._btnCloseEl.addEventListener('click', () => {
-            this.closePopup();
+        this._btnCloseEl.addEventListener('click', (ev) => {
+            this.closePopup(ev);
         })
         this._popupEl.addEventListener('click', (ev) => {
                 this._handleOverlayClose(ev);

@@ -13,7 +13,7 @@ export class Api {
   }
 
   // получаем изначальныq массив карточек
-  getInitialCards() {
+  getCardsData() {
     return fetch(`${this.url}/cards`, {
       headers: this.headers
     })

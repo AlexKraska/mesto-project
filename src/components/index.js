@@ -8,10 +8,9 @@ import Section from './section.js';
 import PopupWithImage from './popupWithImage.js';
 import PopupWithForm from './popupWithForm.js';
 
-import { UserInfo2 } from './userInfo';
+import { UserInfo } from './userInfo';
 
 import { FormValidator, enableValidationObj } from './validate.js';
-
 
 export const popupAvatar = document.querySelector('#popup-avatar');
 export const popupAvatarCloseButton = popupAvatar.querySelector('#closeAvatarButton');
@@ -24,7 +23,8 @@ export const popupImageCloseButton = popupImage.querySelector('.popup__image-cro
 //export let userId;
 export const userId = "d4cd3c3ae287bd684ff7aa5a"; // убрать когда создадим класс пользователя
 
-//экземпляр класса АПИ
+// Создаем экземпляр класса АПИ с данными для запросов на сервер 
+
 export const api = new Api({
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-19',
   headers: {
@@ -33,43 +33,38 @@ export const api = new Api({
   }
 });
 
-//----------- ОТОБРАЖЕНИЕ ИНФЫ ЮЗЕРА -------------
-const profile = new UserInfo2({
+//----------- ВЫВОД ИЗНАЧАЛЬНОЙ ИНФОРМАЦИИ ПРОФИЛЯ -------------
+
+const profile = new UserInfo({
   name: ".profile__title",
   about: ".profile__subtitle"
 });
 
-// получим инфу пользователя и отобразим ее
-profile.getUserInfo();
+
+profile.loadUserInfo()
 
 // создадим кастомное событие
-const eventShowForm = new CustomEvent('showForm');
+const eventShowForm = new CustomEvent('showForm'); // нужно найти правильное место этой переменной
 
+//----------- ВЫВОД ИЗНАЧАЛЬНОГО МАССИВА КАРТОЧЕК -------------
 
-//----------- логика отображения массива карточек когорты -------------
+export function renderInitialCards() {
 
-// Для каждой карточки создадим экземпляр класса Card.
-
-export function renderCohortCards() {
-
-  api.getInitialCards().then((data) => {
+  api.getCardsData().then((data) => {
     const cardList = new Section(
       {
         items: data,
         renderer: (item) => {
-          const cardElement2 = new Card(
+          const cardElement = new Card(
             {
-              data: item,
+              cardData: item,
               handleCardClick: () => {
                 const popupOverview = new PopupWithImage('.popup__image');
-
-                const txt = item.name;
-                const link = item.link;
                 popupOverview.setEventListeners();
-                popupOverview.openPopup({ txt, link });
+                popupOverview.openPopup({ txt:item.name, link:item.link });
               }
             }, ".card-template");
-          cardList.addItem(cardElement2.generate());
+          cardList.addItem(cardElement.generate());
         },
       },
       ".elements"
@@ -78,8 +73,7 @@ export function renderCohortCards() {
   });
 };
 
-renderCohortCards(); // отрисуем карточки когорты
-
+renderInitialCards(); // отрисуем карточки 
 
 //----------- РАБОТА ПОПАПОВ -------------
 
@@ -147,7 +141,7 @@ addPopupButton.addEventListener('click', showPopupAddCard);
 //--------------------------------------------------------//-------------------------------//
 // Попап с формой редактирования профиля
 
-const openPopupEditProfile = new PopupWithForm({
+const popupEditProfile = new PopupWithForm({
   popupSelector: '.popup__edit-profile',
   submitFormCallback: (formData) => {
     const {
@@ -155,24 +149,20 @@ const openPopupEditProfile = new PopupWithForm({
       about: about
     } = formData;
 
-    popupProfile.renderWhileSaving();
-
     profile.setUserInfo(name, about);
-    popupProfile.renderWhenSaved();
-    popupProfile.closePopup();
-
-    popupProfile.renderWhenSaved();
+    popupEditProfile.closePopup();
   }
 });
 
-openPopupEditProfile.setEventListeners(); // активируем все слушатели
+
+popupEditProfile.setEventListeners(); // активируем все слушатели
 
 const editProfileFormValidation = new FormValidator(enableValidationObj, formEditElement);
 editProfileFormValidation.enableValidation();
 
 // Ф, добавляющая событие, которое произойдёт при открытии 
 function showPopupEditProfile() {
-  openPopupEditProfile.openPopup({
+  popupEditProfile.openPopup({
     event: eventShowForm
   });
 };

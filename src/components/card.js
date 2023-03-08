@@ -1,11 +1,6 @@
-import { Api } from "./api.js";
 import { api } from "./index.js";
-
 import { userId } from "./index.js";
 
-export const cardTemplate = document.querySelector('#card-template').content; //айдишник шаблона для карточки
-
-export const popupImage = document.querySelector('.popup__image'); //popupImage (просмотра)
 
 //ДОБАВЛЕНИЕ КАРТОЧКИ ПОЛЬЗОВАТЕЛЕМ
 export const formAddCard = document.querySelector('.popup__form_type_add'); //форма добавления карточки
@@ -18,16 +13,14 @@ export const addButton = document.querySelector('#addButton');
 export const submitButtonAddCardText = document.querySelector('#submit-add-text');
 
 export class Card {
-    constructor({ data, handleCardClick }, selector) {
-        this.name = data.name;
-        this.link = data.link;
-        this.likesValue = data.likes.length;
-        this.likesData = data.likes;
-        this._id = data._id;
-        this._idOwner = data.owner._id;
-
-        this.handleCardClick = handleCardClick; // ф, кототрая отвечает за просмотр карточек
-
+    constructor({ cardData, handleCardClick }, selector) {
+        this.name = cardData.name;
+        this.link = cardData.link;
+        this.likesValue = cardData.likes.length;
+        this.likesData = cardData.likes;
+        this._id = cardData._id;
+        this._idOwner = cardData.owner._id;
+        this.handleCardClick = handleCardClick; 
         this._selector = selector;
 
     }
@@ -54,7 +47,6 @@ export class Card {
         }
     }
 
-    // логика отображения (скрытия) мусорки
     _setRemoveButtonStatus() {
         if (this._isOwner()) {
             this._element
@@ -68,7 +60,6 @@ export class Card {
         }
     }
 
-    // логика отрисовки лайка
     _setInitialLikeStatus() {
         if (this._isLiked()) {
             this._element
@@ -94,7 +85,6 @@ export class Card {
 
     }
 
-    // удаление карточки с сервера и со страницы
     removeCard(evt) {
         evt.target.closest(".elements__wrapper").remove();
         api.removeCardFromServer(
@@ -121,7 +111,7 @@ export class Card {
             .closest(".elements__wrapper")
             .getAttribute("data-card-id");
 
-        api.getInitialCards().then((cardsData) => {
+        api.getCardsData().then((cardsData) => {
             const targetCardLikesData = cardsData.find(
                 (card) => card._id === targetCardId
             ).likes;
@@ -146,9 +136,5 @@ export class Card {
         });
     }
 
-    render(card) {
-        const sectionCardElements = document.querySelector('.elements'); //выбрали секцию с карточками
-        sectionCardElements.prepend(card);
-    }
 };
 
