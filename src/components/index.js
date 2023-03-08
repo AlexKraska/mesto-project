@@ -37,9 +37,9 @@ export const api = new Api({
 
 const profile = new UserInfo({
   name: ".profile__title",
-  about: ".profile__subtitle"
+  about: ".profile__subtitle",
+  avatar: ".profile__image"
 });
-
 
 profile.loadUserInfo()
 
@@ -67,7 +67,7 @@ export function renderInitialCards() {
           cardList.addItem(cardElement.generate());
         },
       },
-      ".elements"
+      ".elements-container"
     )
     cardList.renderItems();
   });
@@ -98,7 +98,6 @@ const openPopupAddCard = new PopupWithForm({
           renderer: (item) => {
             const newCardToAdd = new Card({
               data: item,
-
               handleCardClick: () => {
                 const popupOverviewNewImg = new PopupWithImage('.popup__image');
                 const txt = item.name;
@@ -153,7 +152,6 @@ const popupEditProfile = new PopupWithForm({
     popupEditProfile.closePopup();
   }
 });
-
 
 popupEditProfile.setEventListeners(); // активируем все слушатели
 
