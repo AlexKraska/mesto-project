@@ -1,15 +1,11 @@
 import { Api } from "./api.js";
-import { api, popupAvatar } from "./index.js";
+import { api } from "./index.js";
 
-import { renderWhileSaving, renderWhenSaved } from "./utils.js";
 import { userId } from "./index.js";
-import { PopupWithImage } from "./popup.js";
 
 export const cardTemplate = document.querySelector('#card-template').content; //айдишник шаблона для карточки
 
 export const popupImage = document.querySelector('.popup__image'); //popupImage (просмотра)
-//export const popupImageImage = popupImage.querySelector('.popup__image-image'); //сама картинка попапа просмотра
-//export const popupImageHeading = popupImage.querySelector('.popup__image-heading'); // заголовок для картинки
 
 //ДОБАВЛЕНИЕ КАРТОЧКИ ПОЛЬЗОВАТЕЛЕМ
 export const formAddCard = document.querySelector('.popup__form_type_add'); //форма добавления карточки

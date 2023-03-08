@@ -1,4 +1,3 @@
-import { popupImage } from './card.js';
 import Popup from './popup.js';
 
 export default class PopupWithImage extends Popup {
@@ -15,4 +14,4 @@ export default class PopupWithImage extends Popup {
         
         super.openPopup();
     }
-}
+};

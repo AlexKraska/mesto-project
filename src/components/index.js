@@ -1,7 +1,7 @@
 import '../pages/index.css';
-import { submitEditProfileForm, formEditElement, popups, submitChangeAvatar, nameInput, jobInput, profileTitle, profileSubtitle, submitAddCardForm } from './utils.js';
-import { Card, formAddCard, popupAddCard, formAvatar, handleCardClick } from './card.js';
-import { editPopupButton, addPopupButton, buttonCloseEditProfile, changeAvatarButton } from './popup.js';
+import { formEditElement } from './utils.js';
+import { Card, formAddCard, formAvatar, placeInput, linkInput } from './card.js';
+import { editPopupButton, addPopupButton, changeAvatarButton } from './popup.js';
 import { Api } from './api.js';
 import Popup from './popup.js';
 import Section from './section.js';
@@ -33,18 +33,16 @@ export const api = new Api({
   }
 });
 
-//----------- РАБОТА ВАЛИДАЦИИ -------------
+//----------- ОТОБРАЖЕНИЕ ИНФЫ ЮЗЕРА -------------
+const profile = new UserInfo2({
+  name: ".profile__title",
+  about: ".profile__subtitle"
+});
 
-// валидация формы добавления карточки
-const addCardFormValidation = new FormValidator(enableValidationObj, formAddCard);
-// прикрутить сюда апи
-addCardFormValidation.enableValidation();
-// валидация формы редактированя карточки
-const editAvatarFormValidation = new FormValidator(enableValidationObj, formAvatar);
-editAvatarFormValidation.enableValidation();
+profile.getUserInfo();
 
-const editProfileFormValidation = new FormValidator(enableValidationObj, formEditElement);
-editProfileFormValidation.enableValidation();
+// создадим кастомное событие
+const eventShowForm = new CustomEvent('showForm');
 
 
 //----------- логика отображения массива карточек когорты -------------
@@ -79,65 +77,154 @@ export function renderCohortCards() {
   });
 };
 
-
-//----------- ОТОБРАЖЕНИЕ ИНФЫ ЮЗЕРА -------------
-
-export function showUserInfo() {
-
-  const profile = new UserInfo2({ name: ".profile__title", about: ".profile__subtitle" });
-
-  profile.setUserInfo("Joel Miller", "The Last of Us"
-    /*'https://about-planet.ru/images/severnaya_amerika/strany/jamayka/jamayka.jpg'*/
-  );
-
-  // changeAvatarButton.src = data.avatar;
-  //userId = data._id;
-
-  renderCohortCards(); // отриуем карточки когорты
-
-};
-showUserInfo(); //отобразим данные обо мне при загрузке страницы
+renderCohortCards(); // отрисуем карточки когорты
 
 
 //----------- РАБОТА ПОПАПОВ -------------
 
 // экземпляры класса ПОПАП
 
+// Попап с формой добавления карточки
+const openPopupAddCard = new PopupWithForm({
+  popupSelector: '.popup__add-card',
 
+  submitFormCallback: (formData) => {
 
-export const openPopupEditProfile = new Popup('.popup__edit-profile');
-//openPopupEditProfile.setEventListeners(); // активируем все слушатели всех попапов
+    const {
+      name: placeInput,
+      link: linkInput,
+    } = formData;
 
-export const openPopupAddCard = new Popup(popupAddCard);
+    openPopupAddCard.renderWhileSaving(); // поменяем текст на "сохранение"
 
-
-//попап редактирования
-editPopupButton.addEventListener('click', function () {
-  openPopupEditProfile.openPopup();
+    api.uploadNewCard({ name: placeInput, link: linkInput })
+      .then((res) => {
+        if (res.ok) {
+          openPopupAddCard.closePopup();
+          renderCohortCards();
+        }
+      })
+      .catch((err) => {
+        console.log(`${err}такая-то`);
+      })
+      .finally(openPopupAddCard.renderWhenSaved()); //вернемм изначальный текст
+  }
 });
 
-//попап добавления карточки
-addPopupButton.addEventListener('click', function () {
-  openPopupAddCard.openPopup(popupAddCard);
+// валидация формы добавления карточки
+const addCardFormValidation = new FormValidator(enableValidationObj, formAddCard);
+
+addCardFormValidation.enableValidation();
+
+function showPopupAddCard() {
+  openPopupAddCard.openPopup({
+    event: eventShowForm
+  });
+  // Активация слушателей попапа добавления карточки
+  openPopupAddCard.setEventListeners();
+}
+
+addPopupButton.addEventListener('click', showPopupAddCard);
+
+// отправляем данные о карточке на сервер
+// .then((data) => {
+//   const card = new Card({
+//     data,
+//     handleCardClick: () => {
+//         const popupOverviewNewImg = new PopupWithImage('.popup__image');
+
+//         const txt = data.name;
+//         const link = data.link;
+//         popupOverviewNewImg.setEventListeners();
+//         popupOverviewNewImg.openPopup({ txt, link });
+//       }
+
+//   },
+//     ".card-template");
+
+
+//   const cardElement = getCardElement(data, user.getUserInfo())
+//   cards.addItem(cardElement)
+
+
+//card.render(card.generate());
+
+
+// Ф, добавляющая событие, которое произойдёт при открытии 
+
+//--------------------------------------------------------//-------------------------------//
+// Попап с формой редактирования профиля
+
+const openPopupEditProfile = new PopupWithForm({
+  popupSelector: '.popup__edit-profile',
+  submitFormCallback: (formData) => {
+    const {
+      name: name,
+      about: about
+    } = formData;
+
+    popupProfile.renderWhileSaving();
+
+    profile.setUserInfo(name, about);
+    popupProfile.renderWhenSaved();
+    popupProfile.closePopup();
+
+    popupProfile.renderWhenSaved();
+  }
 });
 
-//попап редактирования авы
-export const openPopupAvatar = new Popup('.popup__avatar');
-changeAvatarButton.addEventListener('click', function () {
-  openPopupAvatar.openPopup('.popup__avatar');
+openPopupEditProfile.setEventListeners(); // активируем все слушатели
+
+const editProfileFormValidation = new FormValidator(enableValidationObj, formEditElement);
+editProfileFormValidation.enableValidation();
+
+// Ф, добавляющая событие, которое произойдёт при открытии 
+function showPopupEditProfile() {
+  openPopupEditProfile.openPopup({
+    event: eventShowForm
+  });
+
+};
+editPopupButton.addEventListener('click', showPopupEditProfile);
+
+
+//--------------------------------------------------------//-------------------------------//
+//попап с формой редактирования авы
+
+const openPopupAvatar = new PopupWithForm({
+  popupSelector: '.popup__avatar',
+  submitFormCallback: (formData) => {
+    const {
+      link: link
+    } = formData;
+    popupAvatar.renderWhileSaving();
+    api.updateAvatarOnServer({ link: link })
+      .then(() => {
+        profile.setUserInfo({ avatar: link });
+        openPopupAvatar.closePopup();
+      })
+      .catch((err) => {
+        console.log(`${err}такая-то`);
+      })
+      .finally(openPopupAvatar.renderWhenSaved());
+  }
 });
 
-//----------- РАБОТА СЛУШАТЕЛЕЙ САБМИТОВ -------------
+// Активация слушателей попапа добавления карточки
+openPopupAvatar.setEventListeners();
 
-formEditElement.addEventListener('submit', submitEditProfileForm);
-formAddCard.addEventListener('submit', submitAddCardForm); // обработчик формы добавления карточки
-formAvatar.addEventListener('submit', submitChangeAvatar); // бработчик формы добавления авы
+// валидация формы редактированя карточки
+const editAvatarFormValidation = new FormValidator(enableValidationObj, formAvatar);
+editAvatarFormValidation.enableValidation();
 
+// Ф, добавляющая событие, которое произойдёт при открытии 
+function showPopupAva() {
+  openPopupAvatar.openPopup({
+    event: eventShowForm
+  });
 
-api.getProfileData().then((data) => {
-  console.log(data)
-});
-
+};
+changeAvatarButton.addEventListener('click', showPopupAva);
 
 
 

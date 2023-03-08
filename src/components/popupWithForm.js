@@ -6,7 +6,7 @@ import Popup from './popup.js';
 export default class PopupWithForm extends Popup {
     constructor({ popupSelector, submitFormCallback }) {
         super(popupSelector);
-
+        
         this.submitFormCallback = submitFormCallback;
 
         this._formEl = this._popupEl.querySelector('.popup__form');
@@ -39,19 +39,19 @@ export default class PopupWithForm extends Popup {
     setEventListeners() {
         super.setEventListeners();
         this._formEl.addEventListener('submit', (evt) => {
-            evt.preventDefault()
-            this.submitFormCallback(this._getInputValues())
+            evt.preventDefault();
+            this.submitFormCallback(this._getInputValues());
         });
     }
 
     openPopup({ event, data }) {
         if (data) this._setInputValues(data);
         this._formEl.dispatchEvent(event);
-        super.open();
+        super.openPopup();
     }
 
     closePopup() {
-        super.close();
+        super.closePopup();
         this._formEl.reset();
     }
 
@@ -64,6 +64,4 @@ export default class PopupWithForm extends Popup {
         this._btnSave.textContent = this._btnText;
         this._btnSave.disabled = false;
     }
-}
-
-// Для каждого попапа создавайте свой экземпляр класса PopupWithForm.
+};
