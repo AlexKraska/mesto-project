@@ -82,11 +82,11 @@
 
             <form class="popup__container popup__form_type_add" novalidate>
                 <fieldset class="popup__form">
-                    <input type="text" class="popup__text popup__text_type_place" placeholder="Название" value=""
+                    <input name="name" type="text" class="popup__text popup__text_type_place" placeholder="Название" value=""
                         required  minlength="2" maxlength="30" pattern="^[a-zа-яёA-ZА-Я -]+$" id="place-input" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы.">
                         <span class="popup__place-input-error">Необходимо заполнить данное поле</span>
 
-                    <input type="url" class="popup__text popup__text_type_link" placeholder="Ссылка на картинку"
+                    <input name="link" type="url" class="popup__text popup__text_type_link" placeholder="Ссылка на картинку"
                         value="" required id="link-input">
                         <span class="popup__link-input-error">Введите адрес сайта</span>
 

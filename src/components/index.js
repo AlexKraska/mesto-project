@@ -8,6 +8,8 @@ import Section from './section.js';
 import PopupWithImage from './popupWithImage.js';
 import PopupWithForm from './popupWithForm.js';
 
+
+
 import { UserInfo } from './userInfo';
 
 import { FormValidator, enableValidationObj } from './validate.js';
@@ -17,6 +19,7 @@ export const popupAvatarCloseButton = popupAvatar.querySelector('#closeAvatarBut
 export const saveNewAvatarButton = popupAvatar.querySelector('#addAvatarButton');
 export const avatarInput = popupAvatar.querySelector('.popup__text_type_avatar');
 
+const sectionCards = document.querySelector('.elements')
 const popupImage = document.querySelector('.popup__image');
 export const popupImageCloseButton = popupImage.querySelector('.popup__image-cross');
 
@@ -79,47 +82,48 @@ renderInitialCards(); // отрисуем карточки
 
 // экземпляры класса ПОПАП
 
+// api.uploadNewCard("nameValue", "http://t1.gstatic.com/licensed-image?q=tbn:ANd9GcTVlvVxHbjxWj42QT2dPu4M4ReF7Pr2ZRX1892xpbEZwO-XeuJs7Fbphb22jMVjMb6jzxf6DT8Az0cJNCY").then((data) => {console.log(data)})
 
-// Попап с формой добавления карточки
+
+
+
+
+
+
+
+
 const openPopupAddCard = new PopupWithForm({
   popupSelector: '.popup__add-card',
   submitFormCallback: (formData) => {
-    const {
-      name: placeInput,
-      link: linkInput,
-    } = formData;
 
-    openPopupAddCard.renderWhileSaving(); // поменяем текст на "сохранение"
+    api.uploadNewCard(formData.name, formData.link)
+      .then((card) => {
 
-    api.uploadNewCard({ name: placeInput.value, link: linkInput.value })
-      .then((data) => {
-        const updatedCardList = new Section({
-          data,
+      const addedCard = new Section(
+        {
+          data: card,
           renderer: (item) => {
-            const newCardToAdd = new Card({
-              data: item,
-              handleCardClick: () => {
-                const popupOverviewNewImg = new PopupWithImage('.popup__image');
-                const txt = item.name;
-                const link = item.link;
-                popupOverviewNewImg.setEventListeners();
-                popupOverviewNewImg.openPopup({ txt, link });
-              }
-              
-            }, ".card-template")
-            updatedCardList.addItem(newCardToAdd.generate());
-          },
-        }, ".elements");
-
-        
-      })
-
-      .catch((err) => {
-        console.log(`${err}такая-то`);
-      })
-      .finally(openPopupAddCard.renderWhenSaved()); //вернем изначальный текст
+            const cardElement = new Card(
+              {
+                cardData: item,
+                handleCardClick: {}
+              }, 
+              ".card-template"
+            )
+            addedCard.addItem(cardElement.generate());
+          }
+        },
+        ".elements-container"
+      )
+      
+    })
+  //     .catch((err) => {
+  //       console.log(`${err}такая-то`);
+      // })
   }
 });
+
+
 
 // Активация слушателей попапа добавления карточки
 openPopupAddCard.setEventListeners();
@@ -152,6 +156,8 @@ const popupEditProfile = new PopupWithForm({
     
   }
 });
+
+
 
 popupEditProfile.setEventListeners(); // активируем все слушатели
 

@@ -15,7 +15,6 @@ export class UserInfo {
 
     loadUserInfo() {
         api.getProfileData().then((userData) => {
-            console.log(userData)
             this.name.textContent = userData.name;
             this.about.textContent = userData.about;
             this.avatar.src = userData.avatar;
