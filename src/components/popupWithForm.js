@@ -9,7 +9,7 @@ export default class PopupWithForm extends Popup {
         this._formEl = this._popupEl.querySelector('.popup__container');
         this._inputs = this._popupEl.querySelectorAll('.popup__text');
         this._btnSave = this._popupEl.querySelector('.popup__button');
-        this._btnText = this._popupEl.querySelector('.popup__button-text').textContent;
+        this._btnText = this._popupEl.querySelector('.popup__button-text');
     }
 
     // найдем все значения инпутов
@@ -49,15 +49,14 @@ export default class PopupWithForm extends Popup {
     closePopup() {
         super.closePopup();
         this._formEl.reset();
+        this._btnSave.disabled = true;
     }
 
     renderWhileSaving() {
-        this._btnSave.textContent = 'Сохранение...';
-        this._btn.disabled = true;
+        this._btnText.textContent = 'Сохранение...';
     }
 
     renderWhenSaved() {
-        this._btnSave.textContent = this._btnText;
-        this._btnSave.disabled = false;
+        this._btnText.textContent = 'Сохранить';
     }
 };

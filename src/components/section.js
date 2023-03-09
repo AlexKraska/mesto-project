@@ -1,3 +1,6 @@
+// import api from './index.js';
+
+
 export default class Section {
     constructor({ items, renderer }, selector) {
 
@@ -11,11 +14,11 @@ export default class Section {
     }
 
     renderItem() {
-        this._renderer(this._renderedItems);
+        this._renderer();
     }
-
 
     addItem(element) {
-        this._container.append(element);
+        this._container.prepend(element);
     }
 };
+
