@@ -9,7 +9,7 @@ export default class PopupWithForm extends Popup {
         this._formEl = this._popupEl.querySelector('.popup__container');
         this._inputs = this._popupEl.querySelectorAll('.popup__text');
         this._btnSave = this._popupEl.querySelector('.popup__button');
-        this._btnText = this._btnSave.textContent;
+        this._btnText = this._popupEl.querySelector('.popup__button-text').textContent;
     }
 
     // найдем все значения инпутов

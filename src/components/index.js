@@ -147,9 +147,9 @@ const popupEditProfile = new PopupWithForm({
       name: name,
       about: about
     } = formData;
-
     profile.setUserInfo(name, about);
     popupEditProfile.closePopup();
+    
   }
 });
 
