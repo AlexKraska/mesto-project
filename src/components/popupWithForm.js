@@ -9,7 +9,8 @@ export default class PopupWithForm extends Popup {
         this._formEl = this._popupEl.querySelector('.popup__container');
         this._inputs = this._popupEl.querySelectorAll('.popup__text');
         this._btnSave = this._popupEl.querySelector('.popup__button');
-        this._btnText = this._btnSave.textContent;
+        this._btnText = this._btnSave.querySelector('.popup__button-text');
+    console.log(this._btnText.id);
     }
 
     // найдем все значения инпутов
@@ -52,12 +53,16 @@ export default class PopupWithForm extends Popup {
     }
 
     renderWhileSaving() {
-        this._btnSave.textContent = 'Сохранение...';
-        this._btn.disabled = true;
+        this._btnText.textContent = 'Сохранение...';
+        this._btnSave.disabled = true;
     }
 
-    renderWhenSaved() {
-        this._btnSave.textContent = this._btnText;
+    renderWhenSaved() { 
+        if (this._btnText.id === 'submit-add-text') {
+            this._btnText.textContent = 'Создать';
+        }
+        else 
+        {this._btnText.textContent = 'Сохранить'};
         this._btnSave.disabled = false;
     }
 };

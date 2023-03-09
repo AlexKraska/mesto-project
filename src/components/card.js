@@ -1,5 +1,5 @@
 import { api } from "./index.js";
-import { userId } from "./index.js";
+import { profile, userId } from "./index.js";
 
 
 //ДОБАВЛЕНИЕ КАРТОЧКИ ПОЛЬЗОВАТЕЛЕМ
@@ -12,6 +12,16 @@ export const popupAddCard = document.querySelector('.popup__add-card'); //поп
 export const addButton = document.querySelector('#addButton');
 export const submitButtonAddCardText = document.querySelector('#submit-add-text');
 
+// function getUserId() {
+//     api.getProfileData()
+//     .then((data) => {
+//       return userId = data._id;
+//     });
+//     console.log(userId);
+// }
+// getUserId();
+
+
 export class Card {
     constructor({ cardData, handleCardClick }, selector) {
         this.name = cardData.name;
@@ -20,10 +30,11 @@ export class Card {
         this.likesData = cardData.likes;
         this._id = cardData._id;
         this._idOwner = cardData.owner._id;
-        this.handleCardClick = handleCardClick; 
+        this.handleCardClick = handleCardClick;
         this._selector = selector;
 
     }
+
     _getElement() {
         const cardElement = document
             .querySelector(this._selector)
@@ -32,6 +43,7 @@ export class Card {
     }
 
     _isOwner() {
+        //_getUserId();
         if (this._idOwner === userId) {
             return true;
         } else {
@@ -40,6 +52,7 @@ export class Card {
     }
 
     _isLiked() {
+        //_getUserId();
         if (this.likesData.some((like) => like._id === userId)) {
             return true;
         } else {
