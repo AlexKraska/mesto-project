@@ -1,12 +1,4 @@
-export const enableValidationObj = {
-    formSelector: '.popup__form', // сам попап
-    inputSelector: '.popup__text', // поле ввода
-    submitButtonSelector: '.popup__button', //кнопка
-    inputErrorClass: 'popup__text_type_error', // нижняя красная рамка
-    errorClass: 'popup__place-input-error_active', // оформление стиля текста кастомной ошибки
-};
-
-export class FormValidator {
+export default class FormValidator {
 
     constructor({ formSelector, inputSelector, submitButtonSelector, inputErrorClass, errorClass }, formElementToValidate) {
 

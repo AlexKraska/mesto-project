@@ -1,6 +1,6 @@
 import { api } from "./index.js";
 
-export class UserInfo {
+export default class UserInfo {
     constructor({ name, about, avatar }) { // имя и инфа о себе
         this.name = document.querySelector(name);
         this.about = document.querySelector(about);
@@ -16,5 +16,12 @@ export class UserInfo {
                 `${err} вот такая ошибочка вышла`
             })
     }
-
+    
+    setUserInfo(name, about) {
+        api.uploadProfileData(name, about)
+        .then((userData) => {
+            this.name.textContent = userData.name;
+            this.about.textContent = userData.about;
+        })
+    }
 };

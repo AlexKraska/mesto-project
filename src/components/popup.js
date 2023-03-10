@@ -1,10 +1,3 @@
-export const editPopupButton = document.querySelector('.profile__button'); //кнопка открытия попапа редактирования
-export const addPopupButton = document.querySelector('.profile__button-plus'); //кнопка открытия попапа добавления
-export const buttonCloseEditProfile = document.querySelector('.popup__cross'); //кнпока закрытия попапа редактирования
-export const buttonCloseAddCard = document.querySelector('#closeButton'); //кнпока закрытия попапа добавления карточки
-export const changeAvatarButton = document.querySelector('.profile__image');
-
-// отвечает за открытие и закрытие попапов
 export default class Popup {
     constructor(popupSelector) {
         this._popupEl = document.querySelector(popupSelector);
@@ -17,7 +10,7 @@ export default class Popup {
         document.addEventListener('keydown', (ev) => this._handleEscClose(ev));
     };
     // закрытие попапа и удаление листенера закрытия при нажатии на Esc
-    closePopup(ev) {
+    closePopup() {
         this._popupEl.classList.remove('popup_opened');
         document.removeEventListener('keydown', (ev) => this._handleEscClose(ev));
     };
