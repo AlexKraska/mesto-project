@@ -81,12 +81,12 @@ export class Api {
   }
 
   // обновления аватара
-  updateAvatarOnServer(url) {
+  updateAvatarOnServer(link) {
     return fetch(`${this.url}/users/me/avatar`, {
       method: "PATCH",
       headers: this.headers,
       body: JSON.stringify({
-        avatar: url,
+        avatar: link,
       }),
     })
       .then(this._checkResponse);

@@ -1,11 +1,9 @@
 import "../pages/index.css";
-import { formEditElement } from "./utils.js";
+import { formEditElement, nameInput, jobInput } from "./utils.js";
 import {
   Card,
   formAddCard,
   formAvatar,
-  placeInput,
-  linkInput,
 } from "./card.js";
 import {
   editPopupButton,
@@ -31,7 +29,6 @@ export const avatarInput = popupAvatar.querySelector(
   ".popup__text_type_avatar"
 );
 
-const sectionCards = document.querySelector(".elements");
 const popupImage = document.querySelector(".popup__image");
 export const popupImageCloseButton = popupImage.querySelector(
   ".popup__image-cross"
@@ -105,28 +102,28 @@ const openPopupAddCard = new PopupWithForm({
     openPopupAddCard.renderWhileSaving();
     api.uploadNewCard(formData.name, formData.link)
       .then((cardObject) => {
-      const addedCard = new Section(
-        {
-          data: cardObject,
-          renderer: () => {
-            const cardElement = new Card(
-              {
-                cardData: cardObject,
-                handleCardClick: () => {
-                  const popupOverview = new PopupWithImage(".popup__image");
-                  popupOverview.setEventListeners();
-                  popupOverview.openPopup({ txt: cardObject.name, link: cardObject.link });
+        const addedCard = new Section(
+          {
+            data: cardObject,
+            renderer: () => {
+              const cardElement = new Card(
+                {
+                  cardData: cardObject,
+                  handleCardClick: () => {
+                    const popupOverview = new PopupWithImage(".popup__image");
+                    popupOverview.setEventListeners();
+                    popupOverview.openPopup({ txt: cardObject.name, link: cardObject.link });
+                  },
                 },
-              },
-              ".card-template"
-            );
-            addedCard.addItem(cardElement.generate());
+                ".card-template"
+              );
+              addedCard.addItem(cardElement.generate());
+            },
           },
-        },
-        ".elements-container"
-      );
-      addedCard.renderItem();
-    }) 
+          ".elements-container"
+        );
+        addedCard.renderItem();
+      })
       .then(
         openPopupAddCard.closePopup()
       )
@@ -161,9 +158,10 @@ addPopupButton.addEventListener("click", showPopupAddCard);
 const popupEditProfile = new PopupWithForm({
   popupSelector: ".popup__edit-profile",
   submitFormCallback: (formData) => {
-    const { name: name, about: about } = formData;
-    profile.setUserInfo(name, about);
+    popupEditProfile.renderWhileSaving();
+    profile.setUserInfo(formData.name, formData.about);
     popupEditProfile.closePopup();
+    popupEditProfile.renderWhenSaved();
   },
 });
 
@@ -177,6 +175,8 @@ editProfileFormValidation.enableValidation();
 
 // Ф, добавляющая событие, которое произойдёт при открытии
 function showPopupEditProfile() {
+  nameInput.value = profile.name.textContent;
+  jobInput.value = profile.about.textContent;
   popupEditProfile.openPopup({
     event: eventShowForm,
   });
@@ -189,16 +189,18 @@ editPopupButton.addEventListener("click", showPopupEditProfile);
 const openPopupAvatar = new PopupWithForm({
   popupSelector: ".popup__avatar",
   submitFormCallback: (formData) => {
-    const { link: link } = formData;
-    popupAvatar.renderWhileSaving();
-    api
-      .updateAvatarOnServer({ link: link })
-      .then(() => {
-        profile.setUserInfo({ avatar: link });
-        openPopupAvatar.closePopup();
+
+    openPopupAvatar.renderWhileSaving();
+
+    api.updateAvatarOnServer(formData.link)
+      .then((data) => {
+        console.log(data);
+  
+          profile.loadAvatarInfo();
+          openPopupAvatar.closePopup();
       })
       .catch((err) => {
-        console.log(`${err}такая-то`);
+        console.log(`${err} такая-то`);
       })
       .finally(openPopupAvatar.renderWhenSaved());
   },
@@ -217,7 +219,7 @@ editAvatarFormValidation.enableValidation();
 // Ф, добавляющая событие, которое произойдёт при открытии
 function showPopupAva() {
   openPopupAvatar.openPopup({
-    event: eventShowForm,
+    event: eventShowForm
   });
 }
 changeAvatarButton.addEventListener("click", showPopupAva);
