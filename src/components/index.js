@@ -40,7 +40,7 @@ const userProfile = new UserInfo({
   avatar: ".profile__image",
 });
 
-//----------- ЗАГРУЗИМ ИЗНАЧАЛЬНЫЙ КОНТЕНТ: ДАННЫЕ ПРОФИЛЬ И КАРТОЧКИ -------------
+//----------- ЗАГРУЗИМ ИЗНАЧАЛЬНЫЙ КОНТЕНТ: ДАННЫЕ ПРОФИЛЯ И КАРТОЧКИ -------------
 
 export let userId = ""; 
 
@@ -52,6 +52,9 @@ api.getProfileData()
     loadUserInfo(),
     renderInitialCards()
   )
+  .catch((err) => {
+    console.log(`${err} такая-то`);
+  })
 
 //----------- ВЕШАЕМ СЛУШАТЕЛИ НА КНОПКИ СТРАНИЦЫ-------------
 
