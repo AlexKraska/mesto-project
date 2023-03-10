@@ -8,8 +8,7 @@ export const enableValidationObj = {
 
 export class FormValidator {
 
-    constructor({ formSelector, inputSelector, submitButtonSelector,
-        inputErrorClass, errorClass }, formElementToValidate) {
+    constructor({ formSelector, inputSelector, submitButtonSelector, inputErrorClass, errorClass }, formElementToValidate) {
 
         this.formSelector = formSelector;
         this.inputSelector = inputSelector;
@@ -21,50 +20,47 @@ export class FormValidator {
     }
 
     // метод активации ошибки валидации
-    _showError() {
-        const inputToCheck = this.formElementToValidate
-            .querySelector(this.inputSelector);
-
-        // найдем уникальный id элемента валидируемой формы                  
+    _showError(inputToCheck) {
         const errorElement = this.formElementToValidate.querySelector(`.popup__${inputToCheck.id}-error`);
-        inputToCheck.classList.add(this.inputErrorClass); //добавили красный бордер снизу
+
+        inputToCheck.classList.add(this.inputErrorClass); //добавили красный бордер снизу инпута   
+
+         //errorElement.textContent = this.errorClass.textContent;
         errorElement.classList.add(this.errorClass); //стилизаия текста ошибки
+
     };
 
     // метод деактивации ошибки валидации 
-    _hideError() {
-        const inputToCheck = this.formElementToValidate
-            .querySelector(this.inputSelector);
+    _hideError(inputToCheck) {
         const errorElement = this.formElementToValidate.querySelector(`.popup__${inputToCheck.id}-error`);
-        inputToCheck.classList.remove(this.inputErrorClass);
 
-        errorElement.classList.remove(this.errorClass);
-        errorElement.textContent = '';
+        inputToCheck.classList.remove(this.inputErrorClass); //добавили красный бордер снизу инпута   
+
+         //errorElement.textContent = this.errorClass.textContent;
+        errorElement.classList.remove(this.errorClass); //стилизаия текста ошибки;
     };
 
     // проверка вадлидности формы
-    _checkInputValidity() {
-
-        const inputToCheck = this.formElementToValidate
-            .querySelector(this.inputSelector);
+    _checkInputValidity(inputToCheck) {
 
         if (inputToCheck.validity.patternMismatch) {
-            inputToCheck.setCustomValidity(this.inputSelector.dataset.errorMessage);
-        } else {
+            inputToCheck.setCustomValidity(inputToCheck.dataset.errorClass);
+        }
+        else {
             inputToCheck.setCustomValidity("");
         }
 
         if (!inputToCheck.validity.valid) {
-            this._showError();
+            this._showError(inputToCheck);
         } else {
-            this._hideError();
+            this._hideError(inputToCheck);
         }
     };
 
     // метод валидации всех полей формы 
     _hasInvalidInput(inputList) {
-        return inputList.some((inputSelector) => {
-            return !inputSelector.validity.valid;
+        return inputList.some((inputToCheck) => {
+            return !inputToCheck.validity.valid;
         })
     };
 
@@ -76,29 +72,35 @@ export class FormValidator {
             buttonToDisable.disabled = true;
         } else {
             buttonToDisable.disabled = false;
-            // this.submitButtonSelector.classList.remove(this.inactiveButtonClass);
         }
     };
 
     // устанавливает все обработчики
     _setEventListeners() {
         const inputList = Array.from(this.formElementToValidate.querySelectorAll(this.inputSelector)); // Находим все поля внутри формы
-        //const buttonElement = this.formElementToValidate.querySelector(this.submitButtonSelector); //кнопка отправки в текущей форме
 
         this._toggleButtonState(inputList); // чтобы не ждать ввода данных в поля
 
-        inputList.forEach((inputSelector) => {
-            inputSelector.addEventListener('input', () => {
-                this._checkInputValidity();
-                console.log();
+        inputList.forEach((inputToCheck) => {
+            inputToCheck.addEventListener('input', () => {
+                this._checkInputValidity(inputToCheck);
+
                 this._toggleButtonState(inputList);
             });
         });
+
+        // чтобы старые ошибки полей сбрасывались при новом открытии
+        // this.formElementToValidate.addEventListener('showForm', (e) => {
+        //     inputList.forEach((input) => {
+
+        //       this._hideError(inputToCheck)
+        //     })
+        // }) // так же можно попробовать сделать _hideError(inputToCheck) как метод при закрытии попапа в экземплярах классов
     }
 
     // Метод включения валидации
     enableValidation() {
-        const formList = Array.from(document.querySelectorAll(this.formSelector));
+        const formList = Array.from(this.formElementToValidate.querySelectorAll(this.formSelector));
         formList.forEach(() => {
             this._setEventListeners();
         });

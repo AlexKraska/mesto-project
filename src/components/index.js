@@ -55,9 +55,22 @@ const profile = new UserInfo({
   avatar: ".profile__image",
 });
 
-profile.loadUserInfo();
+// загрузим инфу о пользователе на страницу
+function loadUserInfo() {
+  api.getProfileData()
+    .then((userData) => {
+      profile.name.textContent = userData.name;
+      profile.about.textContent = userData.about;
+      profile.avatar.src = userData.avatar;
+    })
+    .catch((err) => {
+      `${err} такая ошибочка в загрузке инфы пользователя`
+    })
+}
+loadUserInfo();
 
-// создадим кастомное событие
+
+// создадим кастомное событие для дальнейших нужд
 const eventShowForm = new CustomEvent("showForm"); // нужно найти правильное место этой переменной
 
 //----------- ВЫВОД ИЗНАЧАЛЬНОГО МАССИВА КАРТОЧЕК -------------
@@ -87,14 +100,10 @@ export function renderInitialCards() {
     cardList.renderItems();
   });
 }
-
-renderInitialCards(); // отрисуем карточки
+// отрисуем 30 изначальных карточек
+renderInitialCards();
 
 //----------- РАБОТА ПОПАПОВ -------------
-
-// экземпляры класса ПОПАП
-
-// api.uploadNewCard("nameValue", "http://t1.gstatic.com/licensed-image?q=tbn:ANd9GcTVlvVxHbjxWj42QT2dPu4M4ReF7Pr2ZRX1892xpbEZwO-XeuJs7Fbphb22jMVjMb6jzxf6DT8Az0cJNCY").then((data) => {console.log(data)})
 
 const openPopupAddCard = new PopupWithForm({
   popupSelector: ".popup__add-card",
@@ -124,13 +133,11 @@ const openPopupAddCard = new PopupWithForm({
         );
         addedCard.renderItem();
       })
-      .then(
-        openPopupAddCard.closePopup()
-      )
-      .finally(
-        openPopupAddCard.renderWhenSaved()
-      )
-  },
+      .then(() => {
+        openPopupAddCard.closePopup();
+        openPopupAddCard.renderWhenSaved();
+      });
+  }
 });
 
 // Активация слушателей попапа добавления карточки
@@ -159,9 +166,17 @@ const popupEditProfile = new PopupWithForm({
   popupSelector: ".popup__edit-profile",
   submitFormCallback: (formData) => {
     popupEditProfile.renderWhileSaving();
-    profile.setUserInfo(formData.name, formData.about);
-    popupEditProfile.closePopup();
-    popupEditProfile.renderWhenSaved();
+    api.uploadProfileData(formData.name, formData.about)
+      .then((userData) => {
+        formData.name.textContent = userData.name;
+        formData.about.textContent = userData.about;
+
+        popupEditProfile.closePopup();
+        popupEditProfile.renderWhenSaved();
+      })
+      .catch((err) => {
+        `${err} такая ошибочка в устновке новой инфы о пользователе`
+      })
   },
 });
 
@@ -194,15 +209,14 @@ const openPopupAvatar = new PopupWithForm({
 
     api.updateAvatarOnServer(formData.link)
       .then((data) => {
-        console.log(data);
-  
-          profile.loadAvatarInfo();
-          openPopupAvatar.closePopup();
+        profile.avatar.src = data.avatar;
+
+        openPopupAvatar.closePopup();
+        openPopupAvatar.renderWhenSaved();
       })
       .catch((err) => {
         console.log(`${err} такая-то`);
       })
-      .finally(openPopupAvatar.renderWhenSaved());
   },
 });
 
