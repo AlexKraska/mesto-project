@@ -1,5 +1,13 @@
 import "../pages/index.css";
 
+import Card from "./card.js";
+import Api from "./api.js";
+import Section from "./section.js";
+import PopupWithImage from "./popupWithImage.js";
+import PopupWithForm from "./popupWithForm.js";
+import UserInfo from "./userInfo";
+import FormValidator from "./validate.js";
+
 import {
   eventShowForm,
   editPopupButton,
@@ -13,13 +21,6 @@ import {
   enableValidationObj
 } from "./constants.js";
 
-import Card from "./card.js";
-import Api from "./api.js";
-import Section from "./section.js";
-import PopupWithImage from "./popupWithImage.js";
-import PopupWithForm from "./popupWithForm.js";
-import UserInfo from "./userInfo";
-import FormValidator from "./validate.js";
 
 
 //----------- СОЗДАДИМ ЭКЗЕМПЛЯР КЛАССА API ДЛЯ УПРАВЛЕНИЯ ЗАПРОСАМИ НА СЕРВЕР -------------
