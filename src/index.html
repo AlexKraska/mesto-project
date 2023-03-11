@@ -61,11 +61,12 @@
                 <fieldset class="popup__form">
                     <input type="text" class="popup__text popup__text_type_name" placeholder="Ваше имя"
                         value="" required minlength="2" maxlength="40" pattern="^[a-zа-яёA-ZА-Я -]+$" id="name-input" name="name" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы.">
-                        <span class="popup__name-input-error">Необходимо заполнить данное поле</span>
+                        <span class="popup__name-input-error">Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы</span>
 
                     <input type="text" class="popup__text popup__text_type_job" placeholder="Ваш род занятий"
                         value="" required minlength="2" maxlength="200" pattern="^[a-zа-яёA-ZА-Я -]+$" id="job-input" name="about"  data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы.">
-                        <span class="popup__job-input-error">Необходимо заполнить данное поле</span>
+                        <span class="popup__job-input-error">Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы</span>
+                        
                     <button class="popup__button" type="submit" id="submitButton">
                         <span class="popup__button-text" id="submit-edit-text">Сохранить</span>
                     </button>
@@ -82,16 +83,16 @@
 
             <form class="popup__container popup__form_type_add" novalidate>
                 <fieldset class="popup__form">
-                    <input type="text" class="popup__text popup__text_type_place" placeholder="Название" value=""
+                    <input name="name" type="text" class="popup__text popup__text_type_place" placeholder="Название" value=""
                         required  minlength="2" maxlength="30" pattern="^[a-zа-яёA-ZА-Я -]+$" id="place-input" data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы.">
                         <span class="popup__place-input-error">Необходимо заполнить данное поле</span>
 
-                    <input type="url" class="popup__text popup__text_type_link" placeholder="Ссылка на картинку"
+                    <input name="link" type="url" class="popup__text popup__text_type_link" placeholder="Ссылка на картинку"
                         value="" required id="link-input">
                         <span class="popup__link-input-error">Введите адрес сайта</span>
 
                     <button class="popup__button" type="submit" id="addButton">
-                        <span class="popup__button-text" id="submit-add-text">Создать</span>
+                        <span class="popup__button-text" id="submit-add-text">Сохранить</span>
                     </button>
                 </fieldset>
             </form>
@@ -115,9 +116,9 @@
             <form class="popup__container popup__form_type_avatar" novalidate>
                 <fieldset class="popup__form">
                     
-                    <input type="url" class="popup__text popup__text_type_avatar" placeholder="Ссылка на аватар"
+                    <input name="link" type="url" class="popup__text popup__text_type_avatar" placeholder="Ссылка на аватар"
                         value="" required id="avatar-input" data-error-message="Введите корректную ссылку для обновления аватара">
-                        <span class="popup__avatar-input-error">Введите cсылку на новый аватар</span>
+                        <span class="popup__avatar-input-error">Введите корректную ссылку</span>
 
                     <button class="popup__button" type="submit" id="addAvatarButton">
                         <span class="popup__button-text" id="submit-avatar-text">Сохранить</span>

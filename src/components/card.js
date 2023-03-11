@@ -1,28 +1,7 @@
 import { api } from "./index.js";
 import { profile, userId } from "./index.js";
 
-
-//ДОБАВЛЕНИЕ КАРТОЧКИ ПОЛЬЗОВАТЕЛЕМ
-export const formAddCard = document.querySelector('.popup__form_type_add'); //форма добавления карточки
-export const placeInput = formAddCard.querySelector('.popup__text_type_place');
-export const linkInput = formAddCard.querySelector('.popup__text_type_link');
-export const formAvatar = document.querySelector('.popup__form_type_avatar');
-
-export const popupAddCard = document.querySelector('.popup__add-card'); //попап добавленя карточки
-export const addButton = document.querySelector('#addButton');
-export const submitButtonAddCardText = document.querySelector('#submit-add-text');
-
-// function getUserId() {
-//     api.getProfileData()
-//     .then((data) => {
-//       return userId = data._id;
-//     });
-//     console.log(userId);
-// }
-// getUserId();
-
-
-export class Card {
+export default class Card {
     constructor({ cardData, handleCardClick }, selector) {
         this.name = cardData.name;
         this.link = cardData.link;
