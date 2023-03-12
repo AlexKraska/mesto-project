@@ -251,3 +251,5 @@ const openPopupAvatar = new PopupWithForm({
 
 openPopupAvatar.setEventListeners();
 
+// ля ял ля ял
+
