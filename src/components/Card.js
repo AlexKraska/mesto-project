@@ -11,7 +11,6 @@ export default class Card {
         this._idOwner = cardData.owner._id;
         this.handleCardClick = handleCardClick;
         this._selector = selector;
-
     }
 
     _getElement() {
@@ -19,6 +18,8 @@ export default class Card {
             .querySelector(this._selector)
             .content.cloneNode(true);
         this._element = cardElement;
+        this.heart = this._element.querySelector(".elements__heart");
+        this.bin = this._element.querySelector(".elements__bin");
     }
 
     _isOwner() {
@@ -41,36 +42,29 @@ export default class Card {
 
     _setRemoveButtonStatus() {
         if (this._isOwner()) {
-            this._element
-                .querySelector(".elements__bin")
+            this.bin
                 .style.display = "block";
 
         } else {
-            this._element
-                .querySelector(".elements__bin")
+            this.bin
                 .style.display = "none";
         }
     }
 
     _setInitialLikeStatus() {
         if (this._isLiked()) {
-            this._element
-                .querySelector(".elements__heart")
+            this.heart
                 .classList.add("elements__heart_active");
         } else {
-            this._element
-                .querySelector(".elements__heart")
+            this.heart
                 .classList.remove("elements__heart_active");
         }
     }
 
     _setEventListeners() {
-        this._element
-            .querySelector(".elements__heart")
-            .addEventListener("click", this.toggleLike);
-        this._element
-            .querySelector(".elements__bin")
-            .addEventListener("click", this.removeCard);
+
+        this.heart.addEventListener("click", this.toggleLike);
+        this.bin.addEventListener("click", this.removeCard);
         this._element
             .querySelector(".elements__element")
             .addEventListener("click", this.handleCardClick);
@@ -119,9 +113,9 @@ export default class Card {
                             updatedCardData.likes.length;
                         evt.target.classList.remove("elements__heart_active");
                     })
-                    .catch((err) => {
-                        console.log(`${err} неприятненько`)
-                    })
+                        .catch((err) => {
+                            console.log(`${err} неприятненько`)
+                        })
                 } else {
                     api.addLikeOnServer(targetCardId).then((updatedCardData) => {
                         evt.target
@@ -130,9 +124,9 @@ export default class Card {
                             updatedCardData.likes.length;
                         evt.target.classList.add("elements__heart_active");
                     })
-                    .catch((err) => {
-                        console.log(`${err} неприятненько`)
-                    })
+                        .catch((err) => {
+                            console.log(`${err} неприятненько`)
+                        })
                 }
             })
             .catch((err) => {
