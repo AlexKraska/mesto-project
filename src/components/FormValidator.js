@@ -9,6 +9,9 @@ export default class FormValidator {
         this.errorClass = errorClass;
 
         this.formElementToValidate = formElementToValidate;
+
+        this.buttonToDisable = this.formElementToValidate
+            .querySelector(this.submitButtonSelector);
     }
 
     // метод активации ошибки валидации
@@ -58,12 +61,10 @@ export default class FormValidator {
 
     // изменяет состояние кнопки сабмита
     _toggleButtonState(inputList) {
-        const buttonToDisable = this.formElementToValidate
-            .querySelector(this.submitButtonSelector);
         if (this._hasInvalidInput(inputList)) {
-            buttonToDisable.disabled = true;
+            this.buttonToDisable.disabled = true;
         } else {
-            buttonToDisable.disabled = false;
+            this.buttonToDisable.disabled = false;
         }
     };
 
@@ -92,9 +93,6 @@ export default class FormValidator {
 
     // Метод включения валидации
     enableValidation() {
-        const formList = Array.from(this.formElementToValidate.querySelectorAll(this.formSelector));
-        formList.forEach(() => {
-            this._setEventListeners();
-        });
+        this._setEventListeners();
     }
 };

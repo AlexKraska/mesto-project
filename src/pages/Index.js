@@ -1,9 +1,9 @@
-import "../pages/index.css";
+import "./index.css";
 
 import {
   eventShowForm,
   editPopupButton,
-  addPopupButton, 
+  addPopupButton,
   changeAvatarButton,
   formEditElement,
   nameInput,
@@ -11,15 +11,15 @@ import {
   formAddCard,
   formAvatar,
   enableValidationObj
-} from "./constants.js";
+} from "../utils/constants.js";
 
-import Card from "./card.js";
-import Api from "./api.js";
-import Section from "./section.js";
-import PopupWithImage from "./popupWithImage.js";
-import PopupWithForm from "./popupWithForm.js";
-import UserInfo from "./userInfo";
-import FormValidator from "./validate.js";
+import Card from "../components/Card.js";
+import Api from "../components/Api.js";
+import Section from "../components/Section.js";
+import PopupWithImage from "../components/PopupWithImage.js";
+import PopupWithForm from "../components/PopupWithForm.js";
+import UserInfo from "../components/UserInfo";
+import FormValidator from "../components/FormValidator.js";
 
 
 //----------- СОЗДАДИМ ЭКЗЕМПЛЯР КЛАССА API ДЛЯ УПРАВЛЕНИЯ ЗАПРОСАМИ НА СЕРВЕР -------------
@@ -44,16 +44,16 @@ const userProfile = new UserInfo({
 
 //----------- ЗАГРУЗИМ ИЗНАЧАЛЬНЫЙ КОНТЕНТ: ДАННЫЕ ПРОФИЛЯ И КАРТОЧКИ -------------
 
-export let userId = ""; 
+export let userId = "";
 
 api.getProfileData()
   .then((data) => {
     userId = data._id
   })
-  .then(
-    loadUserInfo(),
-    renderInitialCards()
-  )
+  .then(() => {
+    loadUserInfo();
+    renderInitialCards();
+  })
   .catch((err) => {
     console.log(`${err} такая-то`);
   })
@@ -159,8 +159,10 @@ const openPopupAddCard = new PopupWithForm({
       })
       .then(() => {
         openPopupAddCard.closePopup();
+      })
+      .finally(() => {
         openPopupAddCard.renderWhenSaved();
-      });
+      })
   }
 });
 
@@ -178,15 +180,17 @@ const popupEditProfile = new PopupWithForm({
         userProfile.name.textContent = userData.name;
         userProfile.about.textContent = userData.about;
         popupEditProfile.closePopup();
-        popupEditProfile.renderWhenSaved();
       })
       .catch((err) => {
         `${err} такая ошибочка в устновке новой инфы о пользователе`
       })
+      .finally(() => {
+        popupEditProfile.renderWhenSaved();
+      })
   },
 });
 
-popupEditProfile.setEventListeners(); 
+popupEditProfile.setEventListeners();
 
 //----------- ПОПАП ИЗМЕНЕНИЯ АВАТАРА -------------
 
@@ -200,10 +204,12 @@ const openPopupAvatar = new PopupWithForm({
       .then((data) => {
         userProfile.avatar.src = data.avatar;
         openPopupAvatar.closePopup();
-        openPopupAvatar.renderWhenSaved();
       })
       .catch((err) => {
         console.log(`${err} такая-то`);
+      })
+      .finally(() => {
+        openPopupAvatar.renderWhenSaved();
       })
   },
 });

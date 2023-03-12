@@ -1,5 +1,5 @@
-import { api } from "./index.js";
-import { profile, userId } from "./index.js";
+import { api } from "./Index.js";
+import { userId } from "./Index.js";
 
 export default class Card {
     constructor({ cardData, handleCardClick }, selector) {
@@ -78,10 +78,15 @@ export default class Card {
     }
 
     removeCard(evt) {
-        evt.target.closest(".elements__wrapper").remove();
-        api.removeCardFromServer(
+        api.removeCardFromServer(() => {
             evt.target.closest(".elements__wrapper").dataset.cardId
-        );
+        })
+            .then(() => {
+                evt.target.closest(".elements__wrapper").remove();
+            })
+            .catch((err) => {
+                console.log(`${err} неприятненько`)
+            })
     }
 
     generate() {
@@ -103,30 +108,39 @@ export default class Card {
             .closest(".elements__wrapper")
             .getAttribute("data-card-id");
 
-        api.getCardsData().then((cardsData) => {
-            const targetCardLikesData = cardsData.find(
-                (card) => card._id === targetCardId
-            ).likes;
+        api.getCardsData()
+            .then((cardsData) => {
+                const targetCardLikesData = cardsData.find(
+                    (card) => card._id === targetCardId
+                ).likes;
 
-            if (targetCardLikesData.some((like) => like._id === userId)) {
-                api.removeLikeOnServer(targetCardId).then((updatedCardData) => {
-                    evt.target
-                        .closest(".elements__wrapper")
-                        .querySelector(".elements__likes-counter").textContent =
-                        updatedCardData.likes.length;
-                    evt.target.classList.remove("elements__heart_active");
-                });
-            } else {
-                api.addLikeOnServer(targetCardId).then((updatedCardData) => {
-                    evt.target
-                        .closest(".elements__wrapper")
-                        .querySelector(".elements__likes-counter").textContent =
-                        updatedCardData.likes.length;
-                    evt.target.classList.add("elements__heart_active");
-                });
-            }
-        });
+                if (targetCardLikesData.some((like) => like._id === userId)) {
+                    api.removeLikeOnServer(targetCardId).then((updatedCardData) => {
+                        evt.target
+                            .closest(".elements__wrapper")
+                            .querySelector(".elements__likes-counter").textContent =
+                            updatedCardData.likes.length;
+                        evt.target.classList.remove("elements__heart_active");
+                    })
+                    .catch((err) => {
+                        console.log(`${err} неприятненько`)
+                    })
+                } else {
+                    api.addLikeOnServer(targetCardId).then((updatedCardData) => {
+                        evt.target
+                            .closest(".elements__wrapper")
+                            .querySelector(".elements__likes-counter").textContent =
+                            updatedCardData.likes.length;
+                        evt.target.classList.add("elements__heart_active");
+                    })
+                    .catch((err) => {
+                        console.log(`${err} неприятненько`)
+                    })
+                }
+            })
+            .catch((err) => {
+                console.log(`${err} неприятненько`)
+            })
     }
-
 };
 
