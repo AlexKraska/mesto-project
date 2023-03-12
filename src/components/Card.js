@@ -72,11 +72,12 @@ export default class Card {
     }
 
     removeCard(evt) {
-        api.removeCardFromServer(() => {
-            evt.target.closest(".elements__wrapper").dataset.cardId
-        })
+        api.removeCardFromServer(evt.target.closest(".elements__wrapper").dataset.cardId)
             .then(() => {
                 evt.target.closest(".elements__wrapper").remove();
+            })
+            .catch((err) => {
+                console.log(`${err} неприятненько`)
             })
     }
 
