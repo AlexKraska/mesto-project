@@ -13,7 +13,7 @@ export default class UserInfo {
                 return data;
             })
             .catch((err) => {
-                `${err} вот такая ошибочка вышла`
+                `${err} ошибочка вышла в получении инфы юзера`
             })
     }
     
@@ -23,12 +23,18 @@ export default class UserInfo {
                 this.name.textContent = userData.name;
                 this.about.textContent = userData.about;
             })
+            .catch((err) => {
+                `${err} ошибочка вышла в установке инфы юзера`
+            })
     }
 
     setAvatarInfo(link) {
         api.updateAvatarOnServer(link)
             .then((userData) => {
                 this.avatar.src = userData.avatar;
+            })
+            .catch((err) => {
+                `${err} ошибочка вышла в обновлении авы`
             })
     }
 };

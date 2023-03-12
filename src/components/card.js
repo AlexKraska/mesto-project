@@ -84,9 +84,6 @@ export default class Card {
             .then(() => {
                 evt.target.closest(".elements__wrapper").remove();
             })
-            .catch((err) => {
-                console.log(`${err} неприятненько`)
-            })
     }
 
     generate() {

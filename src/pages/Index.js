@@ -55,8 +55,30 @@ api.getProfileData()
     renderInitialCards();
   })
   .catch((err) => {
-    console.log(`${err} такая-то`);
+    console.log(`${err} ошибка в получени данных профиля`);
   })
+
+//----------- АКТИВИРУЕМ ВАЛИДАЦИЮ ФОРМ -------------
+
+const editProfileFormValidation = new FormValidator(
+  enableValidationObj,
+  formEditElement
+);
+
+const addCardFormValidation = new FormValidator(
+  enableValidationObj,
+  formAddCard
+);
+
+
+const editAvatarFormValidation = new FormValidator(
+  enableValidationObj,
+  formAvatar
+);
+
+addCardFormValidation.enableValidation();
+editAvatarFormValidation.enableValidation();
+editProfileFormValidation.enableValidation();
 
 //----------- ВЕШАЕМ СЛУШАТЕЛИ НА КНОПКИ СТРАНИЦЫ-------------
 
@@ -69,6 +91,7 @@ function showPopupEditProfile() {
 }
 
 function showPopupAddCard() {
+  addCardFormValidation.resetValidation();
   openPopupAddCard.openPopup({
     event: eventShowForm,
   });
@@ -80,7 +103,12 @@ function showPopupAva() {
   });
 }
 
-addPopupButton.addEventListener("click", showPopupAddCard);
+addPopupButton.addEventListener("click", () => {
+  addCardFormValidation.resetValidation();
+  showPopupAddCard();
+
+}
+);
 changeAvatarButton.addEventListener("click", showPopupAva);
 editPopupButton.addEventListener("click", showPopupEditProfile);
 
@@ -111,6 +139,7 @@ export function renderInitialCards() {
             {
               cardData: item,
               handleCardClick: () => {
+
                 const popupOverview = new PopupWithImage(".popup__image");
                 popupOverview.setEventListeners();
                 popupOverview.openPopup({ txt: item.name, link: item.link });
@@ -124,7 +153,10 @@ export function renderInitialCards() {
       ".elements-container"
     );
     cardList.renderItems();
-  });
+  })
+    .catch((err) => {
+      `${err} упсссс, ошибочка в рендере карточек`
+    })
 }
 
 //----------- ПОПАП ДОБАВЛЕНИЯ НОВОЙ КАРТОЧКИ -------------
@@ -159,6 +191,9 @@ const openPopupAddCard = new PopupWithForm({
       })
       .then(() => {
         openPopupAddCard.closePopup();
+      })
+      .catch((err) => {
+        `${err} упсссс, ошибочка вышла`
       })
       .finally(() => {
         openPopupAddCard.renderWhenSaved();
@@ -215,27 +250,4 @@ const openPopupAvatar = new PopupWithForm({
 });
 
 openPopupAvatar.setEventListeners();
-
-
-//----------- АКТИВИРУЕМ ВАЛИДАЦИЮ ФОРМ -------------
-
-const editProfileFormValidation = new FormValidator(
-  enableValidationObj,
-  formEditElement
-);
-
-const addCardFormValidation = new FormValidator(
-  enableValidationObj,
-  formAddCard
-);
-
-
-const editAvatarFormValidation = new FormValidator(
-  enableValidationObj,
-  formAvatar
-);
-
-addCardFormValidation.enableValidation();
-editAvatarFormValidation.enableValidation();
-editProfileFormValidation.enableValidation();
 

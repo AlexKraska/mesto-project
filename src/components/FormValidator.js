@@ -12,6 +12,8 @@ export default class FormValidator {
 
         this.buttonToDisable = this.formElementToValidate
             .querySelector(this.submitButtonSelector);
+
+        this.inputList = Array.from(this.formElementToValidate.querySelectorAll(this.inputSelector));
     }
 
     // метод активации ошибки валидации
@@ -20,7 +22,6 @@ export default class FormValidator {
 
         inputToCheck.classList.add(this.inputErrorClass); //добавили красный бордер снизу инпута   
 
-         //errorElement.textContent = this.errorClass.textContent;
         errorElement.classList.add(this.errorClass); //стилизаия текста ошибки
 
     };
@@ -30,8 +31,7 @@ export default class FormValidator {
         const errorElement = this.formElementToValidate.querySelector(`.popup__${inputToCheck.id}-error`);
 
         inputToCheck.classList.remove(this.inputErrorClass); //добавили красный бордер снизу инпута   
-
-         //errorElement.textContent = this.errorClass.textContent;
+        
         errorElement.classList.remove(this.errorClass); //стилизаия текста ошибки;
     };
 
@@ -53,15 +53,17 @@ export default class FormValidator {
     };
 
     // метод валидации всех полей формы 
-    _hasInvalidInput(inputList) {
-        return inputList.some((inputToCheck) => {
-            return !inputToCheck.validity.valid;
+    _hasInvalidInput() {
+        return this.inputList.some((inputToCheck) => {
+             return !inputToCheck.validity.valid;
+            // this.resetValidation();
         })
+        //this.resetValidation();
     };
 
     // изменяет состояние кнопки сабмита
-    _toggleButtonState(inputList) {
-        if (this._hasInvalidInput(inputList)) {
+    _toggleButtonState() {
+        if (this._hasInvalidInput(this.inputList)) {
             this.buttonToDisable.disabled = true;
         } else {
             this.buttonToDisable.disabled = false;
@@ -70,29 +72,28 @@ export default class FormValidator {
 
     // устанавливает все обработчики
     _setEventListeners() {
-        const inputList = Array.from(this.formElementToValidate.querySelectorAll(this.inputSelector)); // Находим все поля внутри формы
+        this._toggleButtonState(this.inputList); // чтобы не ждать ввода данных в поля
 
-        this._toggleButtonState(inputList); // чтобы не ждать ввода данных в поля
-
-        inputList.forEach((inputToCheck) => {
+        this.inputList.forEach((inputToCheck) => {
             inputToCheck.addEventListener('input', () => {
                 this._checkInputValidity(inputToCheck);
 
-                this._toggleButtonState(inputList);
+                this._toggleButtonState(this.inputList);
             });
         });
-
-        // чтобы старые ошибки полей сбрасывались при новом открытии
-        // this.formElementToValidate.addEventListener('showForm', (e) => {
-        //     inputList.forEach((input) => {
-
-        //       this._hideError(inputToCheck)
-        //     })
-        // }) // так же можно попробовать сделать _hideError(inputToCheck) как метод при закрытии попапа в экземплярах классов
     }
 
     // Метод включения валидации
     enableValidation() {
         this._setEventListeners();
+    }
+
+    resetValidation() {
+        
+        this._toggleButtonState(this.inputList); // управляем кнопкой ==
+
+        this.inputList.forEach((inputElement) => {
+            this._hideError(inputElement) // очищаем ошибки ==
+        });
     }
 };
