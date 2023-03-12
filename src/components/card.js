@@ -1,5 +1,5 @@
-import { api } from "./Index.js";
-import { userId } from "./Index.js";
+import { api } from "../pages/index.js";
+import { userId } from "../pages/index.js";
 
 export default class Card {
     constructor({ cardData, handleCardClick }, selector) {

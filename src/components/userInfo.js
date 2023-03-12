@@ -1,4 +1,4 @@
-import { api } from "../pages/Index.js";
+import { api } from "../pages/index.js";
 
 export default class UserInfo {
     constructor({ name, about, avatar }) { // имя и инфа о себе
