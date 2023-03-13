@@ -190,24 +190,13 @@ const popupEditProfile = new PopupWithForm({
   popupSelector: ".popup__edit-profile",
   submitFormCallback: (formData) => {
     popupEditProfile.renderWhileSaving();
-
     userProfile.setUserInfo(formData.name, formData.about)
-    // api.uploadProfileData(formData.name, formData.about)
       .then(() => {
-        // userProfile.name.textContent = userData.name;
-        // userProfile.about.textContent = userData.about;
         popupEditProfile.closePopup();
-      })
-      .catch((err) => {
-        `${err} такая ошибочка в устновке новой инфы о пользователе`
-      })
-      .finally(() => {
         popupEditProfile.renderWhenSaved();
       })
-  },
+  }
 });
-
-popupEditProfile.setEventListeners();
 
 
 //----------- ПОПАП ИЗМЕНЕНИЯ АВАТАРА -------------
@@ -217,16 +206,11 @@ const openPopupAvatar = new PopupWithForm({
   submitFormCallback: (formData) => {
 
     openPopupAvatar.renderWhileSaving();
-
     userProfile.setUserAvatar(formData.link)
-      .then(() => {
+      .then(() =>{
         openPopupAvatar.closePopup();
-      })
-      .catch((err) => {
-        console.log(`${err} такая-то`);
-      })
-      .finally(() => {
         openPopupAvatar.renderWhenSaved();
       })
   },
 });
+

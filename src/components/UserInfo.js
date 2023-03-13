@@ -38,7 +38,7 @@ export default class UserInfo {
     }
 
     setUserInfo(name, about) {
-        this._api.uploadProfileData(name, about)
+        return this._api.uploadProfileData(name, about)
         .then((userData) => {
             this.name.textContent = userData.name;
             this.about.textContent = userData.about;
@@ -46,7 +46,7 @@ export default class UserInfo {
     }
 
     setUserAvatar(link){
-        this._api.updateAvatarOnServer(link)
+        return this._api.updateAvatarOnServer(link)
         .then((userData) => {
             this.avatar.src = userData.avatar;
         })
