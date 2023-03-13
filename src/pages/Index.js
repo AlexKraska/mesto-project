@@ -204,10 +204,12 @@ const popupEditProfile = new PopupWithForm({
   popupSelector: ".popup__edit-profile",
   submitFormCallback: (formData) => {
     popupEditProfile.renderWhileSaving();
-    api.uploadProfileData(formData.name, formData.about)
-      .then((userData) => {
-        userProfile.name.textContent = userData.name;
-        userProfile.about.textContent = userData.about;
+
+    userProfile.setUserInfo(formData.name, formData.about)
+    // api.uploadProfileData(formData.name, formData.about)
+      .then(() => {
+        // userProfile.name.textContent = userData.name;
+        // userProfile.about.textContent = userData.about;
         popupEditProfile.closePopup();
       })
       .catch((err) => {
@@ -230,9 +232,8 @@ const openPopupAvatar = new PopupWithForm({
 
     openPopupAvatar.renderWhileSaving();
 
-    api.updateAvatarOnServer(formData.link)
-      .then((data) => {
-        userProfile.avatar.src = data.avatar;
+    userProfile.setUserAvatar(formData.link)
+      .then(() => {
         openPopupAvatar.closePopup();
       })
       .catch((err) => {
