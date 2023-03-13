@@ -1,5 +1,13 @@
 import "./index.css";
 
+import Card from "./card.js";
+import Api from "./api.js";
+import Section from "./section.js";
+import PopupWithImage from "./popupWithImage.js";
+import PopupWithForm from "./popupWithForm.js";
+import UserInfo from "./userInfo";
+import FormValidator from "./validate.js";
+
 import {
   eventShowForm,
   editPopupButton,
@@ -10,8 +18,14 @@ import {
   jobInput,
   formAddCard,
   formAvatar,
+<<<<<<< HEAD:src/pages/Index.js
   enableValidationObj,
 } from "../utils/constants.js";
+=======
+  enableValidationObj
+} from "./constants.js";
+
+>>>>>>> go-killa:src/components/index.js
 
 import Card from "../components/Card.js";
 import Api from "../components/Api.js";
