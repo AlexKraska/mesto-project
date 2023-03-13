@@ -61,6 +61,7 @@ let cardList = {};
 Promise.all([api.getProfileData(), api.getCardsData()])
 
   .then(([profileData, cardsData]) => {
+
     userProfile = new UserInfo(
       {
         name: ".profile__title",
@@ -73,7 +74,7 @@ Promise.all([api.getProfileData(), api.getCardsData()])
 
     cardList = new Section(
       {
-        items: cardsData,
+        items: cardsData.reverse(),
         renderer: function (item) {
           const cardElement = new Card(
             {
