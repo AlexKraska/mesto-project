@@ -102,7 +102,7 @@ export default class Card {
                     (card) => card._id === targetCardId
                 ).likes;
                 if (targetCardLikesData.some((like) => like._id === this.userId)) {
-                    api.removeLikeOnServer(targetCardId).then((updatedCardData) => {
+                    this._api.removeLikeOnServer(targetCardId).then((updatedCardData) => {
                         evt.target
                             .closest(".elements__wrapper")
                             .querySelector(".elements__likes-counter").textContent =
@@ -113,7 +113,7 @@ export default class Card {
                             console.log(`${err} неприятненько`)
                         })
                 } else {
-                    api.addLikeOnServer(targetCardId).then((updatedCardData) => {
+                    this._api.addLikeOnServer(targetCardId).then((updatedCardData) => {
                         evt.target
                             .closest(".elements__wrapper")
                             .querySelector(".elements__likes-counter").textContent =
