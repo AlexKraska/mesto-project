@@ -1,55 +1,57 @@
-
 export default class UserInfo {
-    constructor({ name, about, avatar, id}, apiConfig) { // имя и инфа о себе
-        this.name = document.querySelector(name);
-        this.about = document.querySelector(about);
-        this.avatar = document.querySelector(avatar);
-        this.id = id;
-        this._api = apiConfig;
-        
-    }
+  constructor({ name, about, avatar, id }, apiConfig) {
+    // имя и инфа о себе
+    this.name = document.querySelector(name);
+    this.about = document.querySelector(about);
+    this.avatar = document.querySelector(avatar);
+    this.id = id;
+    this._api = apiConfig;
+  }
 
-    getUserId() {
-        this.
-        this._api.getProfileData()
-            .then((data) => {
-                return data;
-            })
-    }
+  getUserInfo() {
+    return this._api
+      .getProfileData()
+      .then((res) => {
+        return res;
+      })
+      .catch((err) => {
+        `${err} вот такая ошибочка вышла`;
+      });
+  }
 
+  renderUserProfile() {
+    return this._api
+      .getProfileData()
+      .then((userData) => {
+        this.name.textContent = userData.name;
+        this.about.textContent = userData.about;
+        this.avatar.src = userData.avatar;
+      })
+      .catch((err) => {
+        `${err} упсссс, ошибочка вышла`;
+      });
+  }
 
-    getUserInfo() {
-        this._api.getProfileData()
-            .then((data) => {
-                return data;
-            })
-            .catch((err) => {
-                `${err} вот такая ошибочка вышла`
-            })
-    }
+  setUserInfo(name, about) {
+    return this._api
+      .uploadProfileData(name, about)
+      .then((userData) => {
+        this.name.textContent = userData.name;
+        this.about.textContent = userData.about;
+      })
+      .catch((err) => {
+        `${err} упсссс, ошибочка вышла`;
+      });
+  }
 
-    renderUserProfile() {
-        this._api.getProfileData()
-        .then((userData) => {
-            this.name.textContent = userData.name;
-            this.about.textContent = userData.about;
-            this.avatar.src = userData.avatar;
-        })
-    }
-
-    setUserInfo(name, about) {
-        return this._api.uploadProfileData(name, about)
-        .then((userData) => {
-            this.name.textContent = userData.name;
-            this.about.textContent = userData.about;
-        })
-    }
-
-    setUserAvatar(link){
-        return this._api.updateAvatarOnServer(link)
-        .then((userData) => {
-            this.avatar.src = userData.avatar;
-        })
-    }
-};
-
+  setUserAvatar(link) {
+    return this._api
+      .updateAvatarOnServer(link)
+      .then((userData) => {
+        this.avatar.src = userData.avatar;
+      })
+      .catch((err) => {
+        `${err} упсссс, ошибочка вышла`;
+      });
+  }
+}

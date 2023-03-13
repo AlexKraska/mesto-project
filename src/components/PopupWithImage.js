@@ -7,10 +7,14 @@ export default class PopupWithImage extends Popup {
         this._popupTxt = this._popupEl.querySelector('.popup__image-heading');
     }
 
-    openPopup({ txt, link }) {
-        this._popupImg.alt = txt;
-        this._popupTxt.textContent = txt;
-        this._popupImg.src = link;
+    openPopup(evt) {
+        const targetCard = evt.target.closest(".elements__wrapper");
+        const targetCardText = targetCard.querySelector(".elements__text");
+        const targetCardImage = targetCard.querySelector(".elements__element");
+
+        this._popupImg.alt = targetCardText.textContent;
+        this._popupTxt.textContent = targetCardText.textContent;
+        this._popupImg.src = targetCardImage.src;
         
         super.openPopup();
     }

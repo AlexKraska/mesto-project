@@ -34,24 +34,27 @@ export const api = new Api({
 //----------- ПОПАП С ИЗОБРАЖЕНИЕМ  -------------
 
 const popupOverview = new PopupWithImage(".popup__image");
+popupOverview.setEventListeners();
 
 //----------- КОЛБЭК КЛИКА НА КАРТОЧКУ  -------------
 
-
 const cardClickCallback = (evt) => {
-  const targetCard = evt.target.closest(".elements__wrapper");
-  const targetCardText = targetCard.querySelector(".elements__text");
-  const targetCardImage = targetCard.querySelector(".elements__element");
-
-  popupOverview.setEventListeners();
-  popupOverview.openPopup({
-    txt: targetCardText.textContent,
-    link: targetCardImage.src,
-  });
+    popupOverview.openPopup(evt);
 };
 
-//----------- ПОДГОТОВИМ ЭКЗЕМПЛЯРЫ КЛАССОВ USERINFO И SECTION  -------------
 
+function createCard(item) {
+  const cardElement = new Card(
+    {
+      cardData: item,
+      handleCardClick: cardClickCallback,
+    },
+    ".card-template"
+  );
+  return cardElement
+}
+
+//----------- ПОДГОТОВИМ ЭКЗЕМПЛЯРЫ КЛАССОВ USERINFO И SECTION  -------------
 
 let userProfile = {};
 let cardList = {};
@@ -75,30 +78,28 @@ Promise.all([api.getProfileData(), api.getCardsData()])
     cardList = new Section(
       {
         items: cardsData.reverse(),
-        renderer: function (item) {
-          const cardElement = new Card(
-            {
-              cardData: item,
-              userId: userProfile.id,
-              api: api,
-              handleCardClick: cardClickCallback,
-            },
-
-            ".card-template"
-          );
-          this.addItem(cardElement.generate());
+        renderer: (item) => {
+            const cardElement = createCard(item);
+            cardElement.userId = profileData._id;
+            cardElement._api = api;
+            cardList.addItem(cardElement.generate());
         },
       },
       ".elements-container"
     );
   })
   .then(() => {
-    userProfile.renderUserProfile();
-    cardList.renderItems();
+
+    userProfile.renderUserProfile()
+      .catch((err) => {
+        `${err} упсссс, ошибочка вышла`;
+      })
+
+    cardList.renderItems()
+
     openPopupAvatar.setEventListeners();
     popupEditProfile.setEventListeners();
     openPopupAddCard.setEventListeners();
-
   });
 
 //----------- АКТИВИРУЕМ ВАЛИДАЦИЮ ФОРМ -------------
@@ -125,12 +126,21 @@ editProfileFormValidation.enableValidation();
 //----------- ВЕШАЕМ СЛУШАТЕЛИ НА КНОПКИ СТРАНИЦЫ-------------
 
 function showPopupEditProfile() {
-  nameInput.value = userProfile.name.textContent;
-  jobInput.value = userProfile.about.textContent;
+  userProfile.getUserInfo()
+    .then((profileData) => {
+      const {name, about} = profileData;
+      nameInput.value = name;
+      jobInput.value = about;
+    })
+    .catch((err) => {
+      `${err} упсссс, ошибочка вышла`;
+    })
+    
   popupEditProfile.openPopup({
     event: eventShowForm,
   });
 }
+
 
 function showPopupAddCard() {
   addCardFormValidation.resetValidation();
@@ -162,15 +172,9 @@ const openPopupAddCard = new PopupWithForm({
     api
       .uploadNewCard(formData.name, formData.link)
       .then((cardObject) => {
-        const addedCard = new Card(
-          {
-            cardData: cardObject,
-            userId: userProfile.id,
-            api: api,
-            handleCardClick: cardClickCallback,
-          },
-          ".card-template"
-        );
+        const addedCard = createCard(cardObject);
+        addedCard.userId = userProfile.id;
+        addedCard._api = api;
         cardList.addItem(addedCard.generate());
       })
       .then(() => {
@@ -181,7 +185,7 @@ const openPopupAddCard = new PopupWithForm({
       })
       .finally(() => {
         openPopupAddCard.renderWhenSaved();
-      });
+      })
   },
 });
 
@@ -221,4 +225,5 @@ const openPopupAvatar = new PopupWithForm({
       })
   },
 });
+
 

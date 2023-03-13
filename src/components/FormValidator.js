@@ -10,7 +10,7 @@ export default class FormValidator {
 
         this.formElementToValidate = formElementToValidate;
 
-        this.buttonToDisable = this.formElementToValidate
+        this.submitButton = this.formElementToValidate
             .querySelector(this.submitButtonSelector);
 
         this.inputList = Array.from(this.formElementToValidate.querySelectorAll(this.inputSelector));
@@ -64,9 +64,9 @@ export default class FormValidator {
     // изменяет состояние кнопки сабмита
     _toggleButtonState() {
         if (this._hasInvalidInput(this.inputList)) {
-            this.buttonToDisable.disabled = true;
+            this.submitButton.disabled = true;
         } else {
-            this.buttonToDisable.disabled = false;
+            this.submitButton.disabled = false;
         }
     };
 
