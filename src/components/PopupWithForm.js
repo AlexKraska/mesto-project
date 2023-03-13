@@ -1,4 +1,4 @@
-import Popup from './popup.js';
+import Popup from './Popup.js';
 
 export default class PopupWithForm extends Popup {
     constructor({ popupSelector, submitFormCallback }) {
@@ -49,7 +49,7 @@ export default class PopupWithForm extends Popup {
     closePopup() {
         super.closePopup();
         this._formEl.reset();
-        this._btnSave.disabled = true;
+        this.deactivateBtnSave();
     }
 
     renderWhileSaving() {
@@ -58,5 +58,9 @@ export default class PopupWithForm extends Popup {
 
     renderWhenSaved() {
         this._btnText.textContent = 'Сохранить';
+    }
+
+    deactivateBtnSave() {
+        this._btnSave.disabled = true;
     }
 };

@@ -7,12 +7,12 @@ export default class Popup {
     // открытие попапа и добавление листенера закрытия при нажатии на Esc
     openPopup() {
         this._popupEl.classList.add('popup_opened');
-        document.addEventListener('keydown', (ev) => this._handleEscClose(ev));
+        document.addEventListener('keydown', this._handleEscClose);
     };
     // закрытие попапа и удаление листенера закрытия при нажатии на Esc
     closePopup() {
         this._popupEl.classList.remove('popup_opened');
-        document.removeEventListener('keydown', (ev) => this._handleEscClose(ev));
+        document.removeEventListener('keydown', this._handleEscClose);
     };
     //закрыть попап нажатием на esc
     _handleEscClose(ev) {
