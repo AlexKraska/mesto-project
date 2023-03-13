@@ -1,13 +1,5 @@
 import "./index.css";
 
-import Card from "./card.js";
-import Api from "./api.js";
-import Section from "./section.js";
-import PopupWithImage from "./popupWithImage.js";
-import PopupWithForm from "./popupWithForm.js";
-import UserInfo from "./userInfo";
-import FormValidator from "./validate.js";
-
 import {
   eventShowForm,
   editPopupButton,
@@ -18,14 +10,8 @@ import {
   jobInput,
   formAddCard,
   formAvatar,
-<<<<<<< HEAD:src/components/index.js
-  enableValidationObj
-} from "./constants.js";
-
-=======
   enableValidationObj,
 } from "../utils/constants.js";
->>>>>>> fbc133215db6c40de3a2468c4bbdc91123f71865:src/pages/Index.js
 
 import Card from "../components/Card.js";
 import Api from "../components/Api.js";
