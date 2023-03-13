@@ -59,6 +59,7 @@ let cardList = {};
 //----------- ВЫВЕДЕМ ДАННЫЕ ПРОФИЛЯ И ИЗНАЧАЛЬНЫЕ КАРТОЧКИ -------------
 
 Promise.all([api.getProfileData(), api.getCardsData()])
+
   .then(([profileData, cardsData]) => {
     userProfile = new UserInfo(
       {
@@ -195,6 +196,9 @@ const popupEditProfile = new PopupWithForm({
         popupEditProfile.closePopup();
         popupEditProfile.renderWhenSaved();
       })
+      .catch((err) => {
+        `${err} упсссс, ошибочка вышла`;
+      })
   }
 });
 
@@ -210,6 +214,9 @@ const openPopupAvatar = new PopupWithForm({
       .then(() =>{
         openPopupAvatar.closePopup();
         openPopupAvatar.renderWhenSaved();
+      })
+      .catch((err) => {
+        `${err} упсссс, ошибочка вышла`;
       })
   },
 });
