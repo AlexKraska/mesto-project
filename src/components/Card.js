@@ -1,5 +1,3 @@
-import { api } from "../pages/index.js";
-
 export default class Card {
     constructor({ cardData, userId, api, handleCardClick}, selector) {
         this.name = cardData.name;
