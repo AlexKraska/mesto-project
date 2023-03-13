@@ -10,7 +10,7 @@ import {
   jobInput,
   formAddCard,
   formAvatar,
-  enableValidationObj
+  enableValidationObj,
 } from "../utils/constants.js";
 
 import Card from "../components/Card.js";
@@ -21,10 +21,7 @@ import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 import FormValidator from "../components/FormValidator.js";
 
-
 //----------- СОЗДАДИМ ЭКЗЕМПЛЯР КЛАССА API ДЛЯ УПРАВЛЕНИЯ ЗАПРОСАМИ НА СЕРВЕР -------------
-
-//export let userId;
 
 export const api = new Api({
   baseUrl: "https://nomoreparties.co/v1/plus-cohort-19",
@@ -34,29 +31,73 @@ export const api = new Api({
   },
 });
 
-//----------- СОЗДАДИМ ЭКЗЕМПЛЯР КЛАССА USERINFO ДЛЯ УПРАВЛЕНИЯ ЭЛЕМЕНТАМИ ПРОФИЛЯ -------------
+//----------- ПОПАП С ИЗОБРАЖЕНИЕМ  -------------
 
-const userProfile = new UserInfo({
-  name: ".profile__title",
-  about: ".profile__subtitle",
-  avatar: ".profile__image",
-});
+const popupOverview = new PopupWithImage(".popup__image");
 
-//----------- ЗАГРУЗИМ ИЗНАЧАЛЬНЫЙ КОНТЕНТ: ДАННЫЕ ПРОФИЛЯ И КАРТОЧКИ -------------
+//----------- КОЛБЭК КЛИКА НА КАРТОЧКУ  -------------
 
-export let userId = "";
 
-api.getProfileData()
-  .then((data) => {
-    userId = data._id
+const cardClickCallback = (evt) => {
+  const targetCard = evt.target.closest(".elements__wrapper");
+  const targetCardText = targetCard.querySelector(".elements__text");
+  const targetCardImage = targetCard.querySelector(".elements__element");
+
+  popupOverview.setEventListeners();
+  popupOverview.openPopup({
+    txt: targetCardText.textContent,
+    link: targetCardImage.src,
+  });
+};
+
+//----------- ПОДГОТОВИМ ЭКЗЕМПЛЯРЫ КЛАССОВ USERINFO И SECTION  -------------
+
+
+let userProfile = {};
+let cardList = {};
+
+//----------- ВЫВЕДЕМ ДАННЫЕ ПРОФИЛЯ И ИЗНАЧАЛЬНЫЕ КАРТОЧКИ -------------
+
+Promise.all([api.getProfileData(), api.getCardsData()])
+  .then(([profileData, cardsData]) => {
+    userProfile = new UserInfo(
+      {
+        name: ".profile__title",
+        about: ".profile__subtitle",
+        avatar: ".profile__image",
+        id: profileData._id,
+      },
+      api
+    );
+
+    cardList = new Section(
+      {
+        items: cardsData,
+        renderer: function (item) {
+          const cardElement = new Card(
+            {
+              cardData: item,
+              userId: userProfile.id,
+              api: api,
+              handleCardClick: cardClickCallback,
+            },
+
+            ".card-template"
+          );
+          this.addItem(cardElement.generate());
+        },
+      },
+      ".elements-container"
+    );
   })
   .then(() => {
-    loadUserInfo();
-    renderInitialCards();
-  })
-  .catch((err) => {
-    console.log(`${err} ошибка в получени данных профиля`);
-  })
+    userProfile.renderUserProfile();
+    cardList.renderItems();
+    openPopupAvatar.setEventListeners();
+    popupEditProfile.setEventListeners();
+    openPopupAddCard.setEventListeners();
+
+  });
 
 //----------- АКТИВИРУЕМ ВАЛИДАЦИЮ ФОРМ -------------
 
@@ -69,7 +110,6 @@ const addCardFormValidation = new FormValidator(
   enableValidationObj,
   formAddCard
 );
-
 
 const editAvatarFormValidation = new FormValidator(
   enableValidationObj,
@@ -99,65 +139,17 @@ function showPopupAddCard() {
 
 function showPopupAva() {
   openPopupAvatar.openPopup({
-    event: eventShowForm
+    event: eventShowForm,
   });
 }
 
 addPopupButton.addEventListener("click", () => {
   addCardFormValidation.resetValidation();
   showPopupAddCard();
+});
 
-}
-);
 changeAvatarButton.addEventListener("click", showPopupAva);
 editPopupButton.addEventListener("click", showPopupEditProfile);
-
-
-//----------- ФУНКЦИЯ ПОЛУЧЕНИЯ И ВЫВОДА ИЗНАЧАЛЬНОЙ ИНФОРМАЦИИ ПОЛЬЗОВАТЕЛЯ -------------
-
-function loadUserInfo() {
-  api.getProfileData()
-    .then((userData) => {
-      userProfile.name.textContent = userData.name;
-      userProfile.about.textContent = userData.about;
-      userProfile.avatar.src = userData.avatar;
-    })
-    .catch((err) => {
-      `${err} такая ошибочка в загрузке инфы пользователя`
-    })
-}
-
-//----------- ФУНКЦИЯ ПОЛУЧЕНИЯ И ОТОБРАЖЕНИЯ КАРТОЧЕК -------------
-
-export function renderInitialCards() {
-  api.getCardsData().then((data) => {
-    const cardList = new Section(
-      {
-        items: data,
-        renderer: (item) => {
-          const cardElement = new Card(
-            {
-              cardData: item,
-              handleCardClick: () => {
-
-                const popupOverview = new PopupWithImage(".popup__image");
-                popupOverview.setEventListeners();
-                popupOverview.openPopup({ txt: item.name, link: item.link });
-              },
-            },
-            ".card-template"
-          );
-          cardList.addItem(cardElement.generate());
-        }
-      },
-      ".elements-container"
-    );
-    cardList.renderItems();
-  })
-    .catch((err) => {
-      `${err} упсссс, ошибочка в рендере карточек`
-    })
-}
 
 //----------- ПОПАП ДОБАВЛЕНИЯ НОВОЙ КАРТОЧКИ -------------
 
@@ -165,43 +157,31 @@ const openPopupAddCard = new PopupWithForm({
   popupSelector: ".popup__add-card",
   submitFormCallback: (formData) => {
     openPopupAddCard.renderWhileSaving();
-    api.uploadNewCard(formData.name, formData.link)
+    api
+      .uploadNewCard(formData.name, formData.link)
       .then((cardObject) => {
-        const addedCard = new Section(
+        const addedCard = new Card(
           {
-            data: cardObject,
-            renderer: () => {
-              const cardElement = new Card(
-                {
-                  cardData: cardObject,
-                  handleCardClick: () => {
-                    const popupOverview = new PopupWithImage(".popup__image");
-                    popupOverview.setEventListeners();
-                    popupOverview.openPopup({ txt: cardObject.name, link: cardObject.link });
-                  },
-                },
-                ".card-template"
-              );
-              addedCard.addItem(cardElement.generate());
-            },
+            cardData: cardObject,
+            userId: userProfile.id,
+            api: api,
+            handleCardClick: cardClickCallback,
           },
-          ".elements-container"
+          ".card-template"
         );
-        addedCard.renderItem();
+        cardList.addItem(addedCard.generate());
       })
       .then(() => {
         openPopupAddCard.closePopup();
       })
       .catch((err) => {
-        `${err} упсссс, ошибочка вышла`
+        `${err} упсссс, ошибочка вышла`;
       })
       .finally(() => {
         openPopupAddCard.renderWhenSaved();
-      })
-  }
+      });
+  },
 });
-
-openPopupAddCard.setEventListeners();
 
 
 //----------- ПОПАП РЕДАКТИРОВАНИЯ ПРОФИЛЯ -------------
@@ -227,6 +207,7 @@ const popupEditProfile = new PopupWithForm({
 
 popupEditProfile.setEventListeners();
 
+
 //----------- ПОПАП ИЗМЕНЕНИЯ АВАТАРА -------------
 
 const openPopupAvatar = new PopupWithForm({
@@ -248,8 +229,3 @@ const openPopupAvatar = new PopupWithForm({
       })
   },
 });
-
-openPopupAvatar.setEventListeners();
-
-// ля ял ля ял
-

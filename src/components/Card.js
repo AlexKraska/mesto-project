@@ -1,8 +1,7 @@
 import { api } from "../pages/index.js";
-import { userId } from "../pages/index.js";
 
 export default class Card {
-    constructor({ cardData, handleCardClick }, selector) {
+    constructor({ cardData, userId, api, handleCardClick}, selector) {
         this.name = cardData.name;
         this.link = cardData.link;
         this.likesValue = cardData.likes.length;
@@ -10,6 +9,8 @@ export default class Card {
         this._id = cardData._id;
         this._idOwner = cardData.owner._id;
         this.handleCardClick = handleCardClick;
+        this.userId = userId;
+        this._api = api;
         this._selector = selector;
     }
 
@@ -23,8 +24,7 @@ export default class Card {
     }
 
     _isOwner() {
-        //_getUserId();
-        if (this._idOwner === userId) {
+        if (this._idOwner === this.userId) {
             return true;
         } else {
             return false;
@@ -32,8 +32,7 @@ export default class Card {
     }
 
     _isLiked() {
-        //_getUserId();
-        if (this.likesData.some((like) => like._id === userId)) {
+        if (this.likesData.some((like) => like._id === this.userId)) {
             return true;
         } else {
             return false;
@@ -63,8 +62,8 @@ export default class Card {
 
     _setEventListeners() {
 
-        this.heart.addEventListener("click", this.toggleLike);
-        this.bin.addEventListener("click", this.removeCard);
+        this.heart.addEventListener("click", this.toggleLike.bind(this));
+        this.bin.addEventListener("click", this.removeCard.bind(this));
         this._element
             .querySelector(".elements__element")
             .addEventListener("click", this.handleCardClick);
@@ -72,12 +71,11 @@ export default class Card {
     }
 
     removeCard(evt) {
-        api.removeCardFromServer(evt.target.closest(".elements__wrapper").dataset.cardId)
+        this._api.removeCardFromServer(
+            evt.target.closest(".elements__wrapper").dataset.cardId
+        )
             .then(() => {
                 evt.target.closest(".elements__wrapper").remove();
-            })
-            .catch((err) => {
-                console.log(`${err} неприятненько`)
             })
     }
 
@@ -100,13 +98,12 @@ export default class Card {
             .closest(".elements__wrapper")
             .getAttribute("data-card-id");
 
-        api.getCardsData()
+        this._api.getCardsData()
             .then((cardsData) => {
                 const targetCardLikesData = cardsData.find(
                     (card) => card._id === targetCardId
                 ).likes;
-
-                if (targetCardLikesData.some((like) => like._id === userId)) {
+                if (targetCardLikesData.some((like) => like._id === this.userId)) {
                     api.removeLikeOnServer(targetCardId).then((updatedCardData) => {
                         evt.target
                             .closest(".elements__wrapper")
@@ -129,9 +126,6 @@ export default class Card {
                             console.log(`${err} неприятненько`)
                         })
                 }
-            })
-            .catch((err) => {
-                console.log(`${err} неприятненько`)
             })
     }
 };
