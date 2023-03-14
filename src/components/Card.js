@@ -58,7 +58,7 @@ export default class Card {
   }
 
   removeCard() {
-    this._api
+    this.api
       .removeCardFromServer(this._cardBody.dataset.cardId)
       .then(() => {
         this._cardBody.remove();
@@ -89,12 +89,12 @@ export default class Card {
   toggleLike() {
     const targetCardId = this._cardBody.getAttribute("data-card-id");
 
-    this._api.getCardsData().then((cardsData) => {
+    this.api.getCardsData().then((cardsData) => {
       const targetCardLikesData = cardsData.find(
         (card) => card._id === targetCardId
       ).likes;
       if (targetCardLikesData.some((like) => like._id === this.userId)) {
-        this._api
+        this.api
           .removeLikeOnServer(targetCardId)
           .then((updatedCardData) => {
             this._cardBody.querySelector(
@@ -106,7 +106,7 @@ export default class Card {
             console.log(`${err} неприятненько`);
           });
       } else {
-        this._api
+        this.api
           .addLikeOnServer(targetCardId)
           .then((updatedCardData) => {
             this._cardBody.querySelector(
@@ -118,6 +118,9 @@ export default class Card {
             console.log(`${err} неприятненько`);
           });
       }
-    });
+    })
+    .catch((err) => {
+        console.log(`${err} неприятненько`);
+      });
   }
 }

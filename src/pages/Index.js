@@ -39,9 +39,8 @@ popupOverview.setEventListeners();
 //----------- КОЛБЭК КЛИКА НА КАРТОЧКУ  -------------
 
 const cardClickCallback = (evt) => {
-    popupOverview.openPopup(evt);
+  popupOverview.openPopup(evt);
 };
-
 
 function createCard(item) {
   const cardElement = new Card(
@@ -51,26 +50,27 @@ function createCard(item) {
     },
     ".card-template"
   );
-  return cardElement
+  return cardElement;
 }
 
 //----------- ПОДГОТОВИМ ЭКЗЕМПЛЯРЫ КЛАССОВ USERINFO И SECTION  -------------
 
 let userProfile = {};
 let cardList = {};
+let initialProfileData = {};
 
 //----------- ВЫВЕДЕМ ДАННЫЕ ПРОФИЛЯ И ИЗНАЧАЛЬНЫЕ КАРТОЧКИ -------------
 
 Promise.all([api.getProfileData(), api.getCardsData()])
 
   .then(([profileData, cardsData]) => {
-
+    initialProfileData = profileData;
     userProfile = new UserInfo(
       {
         name: ".profile__title",
         about: ".profile__subtitle",
         avatar: ".profile__image",
-        id: profileData._id,
+        id: initialProfileData._id,
       },
       api
     );
@@ -79,27 +79,25 @@ Promise.all([api.getProfileData(), api.getCardsData()])
       {
         items: cardsData.reverse(),
         renderer: (item) => {
-            const cardElement = createCard(item);
-            cardElement.userId = profileData._id;
-            cardElement._api = api;
-            cardList.addItem(cardElement.generate());
+          const cardElement = createCard(item);
+          cardElement.userId = initialProfileData._id;
+          cardElement.api = api;
+          cardList.addItem(cardElement.generate());
         },
       },
       ".elements-container"
     );
   })
   .then(() => {
-
-    userProfile.renderUserProfile()
-      .catch((err) => {
-        `${err} упсссс, ошибочка вышла`;
-      })
-
-    cardList.renderItems()
+    userProfile.renderUserProfile(initialProfileData);
+    cardList.renderItems();
 
     openPopupAvatar.setEventListeners();
     popupEditProfile.setEventListeners();
     openPopupAddCard.setEventListeners();
+  })
+  .catch((err) => {
+    `${err} упсссс, ошибочка вышла`;
   });
 
 //----------- АКТИВИРУЕМ ВАЛИДАЦИЮ ФОРМ -------------
@@ -126,21 +124,21 @@ editProfileFormValidation.enableValidation();
 //----------- ВЕШАЕМ СЛУШАТЕЛИ НА КНОПКИ СТРАНИЦЫ-------------
 
 function showPopupEditProfile() {
-  userProfile.getUserInfo()
+  userProfile
+    .getUserInfo()
     .then((profileData) => {
-      const {name, about} = profileData;
+      const { name, about } = profileData;
       nameInput.value = name;
       jobInput.value = about;
     })
     .catch((err) => {
       `${err} упсссс, ошибочка вышла`;
-    })
-    
+    });
+
   popupEditProfile.openPopup({
     event: eventShowForm,
   });
 }
-
 
 function showPopupAddCard() {
   addCardFormValidation.resetValidation();
@@ -174,7 +172,7 @@ const openPopupAddCard = new PopupWithForm({
       .then((cardObject) => {
         const addedCard = createCard(cardObject);
         addedCard.userId = userProfile.id;
-        addedCard._api = api;
+        addedCard.api = api;
         cardList.addItem(addedCard.generate());
       })
       .then(() => {
@@ -185,10 +183,9 @@ const openPopupAddCard = new PopupWithForm({
       })
       .finally(() => {
         openPopupAddCard.renderWhenSaved();
-      })
+      });
   },
 });
-
 
 //----------- ПОПАП РЕДАКТИРОВАНИЯ ПРОФИЛЯ -------------
 
@@ -196,34 +193,36 @@ const popupEditProfile = new PopupWithForm({
   popupSelector: ".popup__edit-profile",
   submitFormCallback: (formData) => {
     popupEditProfile.renderWhileSaving();
-    userProfile.setUserInfo(formData.name, formData.about)
+    userProfile
+      .setUserInfo(formData.name, formData.about)
       .then(() => {
         popupEditProfile.closePopup();
-        popupEditProfile.renderWhenSaved();
       })
       .catch((err) => {
         `${err} упсссс, ошибочка вышла`;
       })
-  }
+      .finally(() => {
+        popupEditProfile.renderWhenSaved();
+      });
+  },
 });
-
 
 //----------- ПОПАП ИЗМЕНЕНИЯ АВАТАРА -------------
 
 const openPopupAvatar = new PopupWithForm({
   popupSelector: ".popup__avatar",
   submitFormCallback: (formData) => {
-
     openPopupAvatar.renderWhileSaving();
-    userProfile.setUserAvatar(formData.link)
-      .then(() =>{
+    userProfile
+      .setUserAvatar(formData.link)
+      .then(() => {
         openPopupAvatar.closePopup();
-        openPopupAvatar.renderWhenSaved();
       })
       .catch((err) => {
         `${err} упсссс, ошибочка вышла`;
       })
+      .finally(() => {
+        openPopupAvatar.renderWhenSaved();
+      });
   },
 });
-
-
